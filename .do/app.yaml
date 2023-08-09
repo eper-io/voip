@@ -5,9 +5,9 @@ envs:
     value: "SEBIEJTAEFRNWFSJBLJVTREQICBZVLORWZVLJHKSYTCJZZPATQSSHABBKEAGULFRLTVJQTRZRIRLHAMEUOWKROQZIINR"
   - key: SITEURL
     scope: RUN_AND_BUILD_TIME
-    value: "https://moose.eper.io"
+    value: "https://l.eper.io"
 services:
   - name: web
     github:
-      repo: szegedim/moose-assist
+      repo: eper-io/voip
       branch: main

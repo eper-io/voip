@@ -6,7 +6,7 @@ spec:
       value: "SEBIEJTAEFRNWFSJBLJVTREQICBZVLORWZVLJHKSYTCJZZPATQSSHABBKEAGULFRLTVJQTRZRIRLHAMEUOWKROQZIINR"
     - key: SITEURL
       scope: RUN_AND_BUILD_TIME
-      value: "https://moose.eper.io"
+      value: "https://l.eper.io"
   services:
     - name: web
       http_port: 7777
@@ -14,4 +14,4 @@ spec:
       instance_size_slug: professional-m
       git:
         branch: main
-        repo_clone_url: https://github.com/szegedim/moose-assist.git
+        repo_clone_url: https://github.com/eper-io/voip.git

@@ -34,7 +34,7 @@ Attackers compromising client trust certificates can impersonate such sites with
 
 ### Deploy yourself
 
-[![Deploy to DO](https://www.deploytodo.com/do-btn-white-ghost.svg)](https://cloud.digitalocean.com/apps/new?repo=https://github.com/eper.io/tree/main&refcode=48f147bd7dcd)
+[![Deploy to DO](https://www.deploytodo.com/do-btn-white-ghost.svg)](https://cloud.digitalocean.com/apps/new?repo=https://github.com/eper-io/voip/tree/main&refcode=48f147bd7dcd)
 
 Make sure you update the environment settings for a production site.
 1. Go to `App/Settings and App-Level Environment Variables` to set a unique `APIKEY`.
