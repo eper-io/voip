@@ -36,7 +36,7 @@ ln -s /snap/bin/certbot /usr/bin/certbot
 
 if ! [ -d /etc/letsencrypt/live/moose-assist.eper.io/ ]; then
   echo *** SETUP NEEDED *** Replace all occurrences of moose-assist.eper.io in this file to your domain.
-  certbot --nginx -m hq@schmied.us --cert-name moose-assist.eper.io -d moose-assist.eper.io,l.eper.io --https-port 4443 certonly
+  certbot --nginx -m hq@schmied.us --cert-name l.eper.io -d moose-assist.eper.io,l.eper.io --https-port 4443 certonly
   cd /tmp
   git clone https://gitlab.com/eper.io/voip.git
 
