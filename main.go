@@ -2,10 +2,11 @@ package main
 
 import (
 	"crypto/tls"
+	"fmt"
 	"gitlab.com/eper.io/engine/line"
 	"gitlab.com/eper.io/engine/metadata"
 	"net/http"
-	"strings"
+	"net/url"
 )
 
 // main.go - Relay websocket connections for streaming applications. See README.md for usage
@@ -20,7 +21,7 @@ import (
 // This example demonstrates a trivial echo server.
 func main() {
 	line.Setup()
-	if strings.HasPrefix(metadata.SiteUrl, "https://") {
+	if metadata.PrivateKey != "" {
 		err := listenAndServeTLS(":443", metadata.Certificate, metadata.PrivateKey, nil)
 		if err != nil {
 			panic("ListenAndServe: " + err.Error())
@@ -33,6 +34,8 @@ func main() {
 }
 
 func listenAndServeTLS(addr, certFile, keyFile string, handler http.Handler) error {
+	url1, _ := url.Parse(metadata.SiteUrl)
+	fmt.Println(url1.Hostname())
 	config := &tls.Config{
 		MinVersion: tls.VersionTLS13,
 	}

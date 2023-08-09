@@ -148,6 +148,10 @@ func dynamicContentPart(writer http.ResponseWriter, request *http.Request, file 
 }
 
 func relayLine(ws *websocket.Conn) {
+	//TODO TCP is not exposed here. set maxbuffer, timeout
+	//if tcpConn, ok := ws.Request().TLS.(*net.TCPConn); ok {
+	//	err := tcpConn.SetNoDelay(true)
+	//}
 	start := time.Now()
 	var lastMillis float64
 	var amount float64
