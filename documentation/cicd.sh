@@ -34,7 +34,7 @@ sleep 3
 
 # Running docker as root on the network is dangerous so we need to be very lean and careful with the codebase in /eos
 
-docker run -d --rm --name moose -p 7777:443 -v /etc/letsencrypt/live/moose-assist.eper.io/fullchain.pem:/tmp/fullchain.pem:ro -v /etc/letsencrypt/live/moose-assist.eper.io/privkey.pem:/tmp/privkey.pem:ro moose-assist.eper.io/moose-assist
+docker run -d --rm --name moose -e PORT=7777 -p 7777:443 -v /etc/letsencrypt/live/moose-assist.eper.io/fullchain.pem:/tmp/fullchain.pem:ro -v /etc/letsencrypt/live/moose-assist.eper.io/privkey.pem:/tmp/privkey.pem:ro moose-assist.eper.io/moose-assist
 
 # Run the broker if needed.
 
