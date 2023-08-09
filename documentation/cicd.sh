@@ -28,7 +28,7 @@ go build -o /opt/moosebroker ./eos/main/main.go
 
 # Run test container
 
-docker stop moose
+docker stop -t 2 moose
 
 sleep 3
 
