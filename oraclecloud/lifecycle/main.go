@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"gitlab.com/eper.io/engine/cloud/oraclecloud/cloud"
-	"gitlab.com/eper.io/engine/cloud/oraclecloud/ns"
+	"gitlab.com/eper.io/engine/oraclecloud/cloud"
+	"gitlab.com/eper.io/engine/oraclecloud/ns"
 	"time"
 )
 

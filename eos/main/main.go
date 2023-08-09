@@ -7,6 +7,8 @@ import (
 	"strings"
 )
 
+// TODO rename to autoscale
+
 // Licensed under Creative Commons CC0.
 //
 // To the extent possible under law, the author(s) have dedicated all copyright
