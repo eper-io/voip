@@ -32,12 +32,15 @@ docker stop -t 2 voiptest
 
 sleep 3
 
+# Run the broker if needed.
+
+pgrep voipbroker || (DOCKERIMAGE=line.eper.io/line SITEURL=https://l.eper.io APIKEY=JVPSVWUIUTSXGPTWOVEWMHBUFJMVIALPQDMXQZROKZLYPYQGMBRQZMRWSQZIACQDKIFVWYQBWGGHQLGALYBQTAQNLHDR /opt/voipbroker >>/var/log/voipbroker)
+
+sleep 3
+
 # Running docker as root on the network is dangerous so we need to be very lean and careful with the codebase in /eos
 
 docker run -d --rm --name voiptest -e SITEURL=https://l.eper.io -e PORT=7777 -p 7777:443 -v /etc/letsencrypt/live/moose-assist.eper.io/fullchain.pem:/tmp/fullchain.pem:ro -v /etc/letsencrypt/live/moose-assist.eper.io/privkey.pem:/tmp/privkey.pem:ro line.eper.io/line
 
-# Run the broker if needed.
-
-pgrep voipbroker || (DOCKERIMAGE=line.eper.io/line SITEURL=https://l.eper.io APIKEY=JVPSVWUIUTSXGPTWOVEWMHBUFJMVIALPQDMXQZROKZLYPYQGMBRQZMRWSQZIACQDKIFVWYQBWGGHQLGALYBQTAQNLHDR /opt/voipbroker >>/var/log/voipbroker)
 
 # WARNING blocking call. Do not extend here.
