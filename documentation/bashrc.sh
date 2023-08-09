@@ -9,8 +9,8 @@
 # Periodic service script to update the code for staging
 # Setup
 # Add this to 'crontab -e'
-# @reboot sudo /tmp/moose-assist/documentation/bashrc.sh
+# @reboot sudo /tmp/voip/documentation/bashrc.sh
 
-nohup bash -c 'while true; do timeout 600 /tmp/moose-assist/documentation/cicd.sh; done' &
+nohup bash -c 'while true; do timeout 600 /tmp/voip/documentation/cicd.sh; done' &
 
 # Production workloads will want to snapshot the staging once it is proven and replicate it.

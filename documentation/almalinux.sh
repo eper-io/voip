@@ -7,9 +7,9 @@
 # If not, see <https:#creativecommons.org/publicdomain/zero/1.0/legalcode>.
 
 # Installation:
-# while true; do timeout 600 /tmp/moose-assist/documentation/almalinux.sh; done
+# while true; do timeout 600 /tmp/voip/documentation/almalinux.sh; done
 # Once set up a CI/CD from git:
-# nohup bash -c 'while true; do timeout 600 /tmp/moose-assist/documentation/almalinux.sh; done' &
+# nohup bash -c 'while true; do timeout 600 /tmp/voip/documentation/almalinux.sh; done' &
 # tail -f nohup.out
 
 # Install moose-assist on AlmaLinux on Oracle Cloud
@@ -40,7 +40,7 @@ if ! [ -d /etc/letsencrypt/live/moose-assist.eper.io/ ]; then
   cd /tmp
   git clone https://gitlab.com/eper.io/voip.git
 
-cat <<EOF >/tmp/moose-assist/metadata/data.go
+cat <<EOF >/tmp/voip/metadata/data.go
 package metadata
 // TODO Generate some random here
 var ActivationKey = "QTOPZNNEYGPBKUQEKJYLHBIJVHAJEOOXVMFMXWJDDWNOIJVHXFXRLFJXAAOGEBRBUMQJEYYNDHBTWJUYVNEKZJMJTHHR"
@@ -56,7 +56,7 @@ var RandomSalt = "XBGXTNTKIAVWBNHGODJGSSNUFBDIYPRYVKCFLYBFHPEWBRHQHYUWQLHHOPZLDZ
 
 EOF
 
-cat <<EOF >/tmp/moose-assist/Dockerfile
+cat <<EOF >/tmp/voip/Dockerfile
 FROM golang:1.19.3
 ADD . /go/src
 WORKDIR /go/src

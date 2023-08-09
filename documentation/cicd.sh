@@ -8,9 +8,9 @@
 
 # Usage
 # Check out Moose Assist
-# git clone https://gitlab.com/eper.io/voip.git /tmp/moose-assist
-# Run this command from /tmp/moose-assist:
-cd /tmp/moose-assist
+# git clone https://gitlab.com/eper.io/voip.git /tmp/voip
+# Run this command from /tmp/voip:
+cd /tmp/voip
 
 date
 
@@ -18,10 +18,10 @@ git status
 # Short glitch in the service. Acceptable.
 (git pull -r | grep 'up to date') || kill -9 `pgrep moosebroker`
 
-docker build -t moose-assist.eper.io/moose-assist /tmp/moose-assist
+docker build -t moose-assist.eper.io/moose-assist /tmp/voip
 
 # We may want to run a privileged container in the future. It is difficult to mix podman and golang
-cd /tmp/moose-assist
+cd /tmp/voip
 go build -o /opt/moosebroker ./eos/main/main.go
 
 # All the worker containers keep running for their respective customers until they shut down themselves. (~2 hours)

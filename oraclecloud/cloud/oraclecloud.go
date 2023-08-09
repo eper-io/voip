@@ -3,8 +3,8 @@ package cloud
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/eper.io/cloud/oraclecloud/metadata"
-	"github.com/eper.io/cloud/oraclecloud/ns"
+	"gitlab.com/eper.io/engine/oraclecloud/metadata"
+	"gitlab.com/eper.io/engine/oraclecloud/ns"
 	"os/exec"
 	"path/filepath"
 	"strings"

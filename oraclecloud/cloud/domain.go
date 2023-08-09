@@ -2,8 +2,8 @@ package cloud
 
 import (
 	"fmt"
-	"github.com/eper.io/cloud/oraclecloud/metadata"
-	"github.com/eper.io/cloud/oraclecloud/ns"
+	"gitlab.com/eper.io/engine/oraclecloud/metadata"
+	"gitlab.com/eper.io/engine/oraclecloud/ns"
 	"math/rand"
 	"net"
 	"strings"
