@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="moose.png">
+    <link rel="stylesheet" href="./main.css" type="text/css" />
+    <title>Moose Assist</title>
+</head>
+<!--
+Licensed under Creative Commons CC0.
+To the extent possible under law, the author(s) have dedicated all copyright
+neighboring rights to this software to the public domain worldwide.
+This software is distributed without any warranty.
+You should have received a copy of the CC0 Public Domain Dedication along wi
+If not, see <https:#creativecommons.org/publicdomain/zero/1.0/legalcode>.
+-->
+<body>
+<section class="splash centered e2e-site-content">
+    <div class="outer-wrap">
+        <div class="centered-content-wrap js-site-wrap splash-modules">
+            <div class="page-content js-page-content" data-context="pages" data-identity="id:p612c111f36ac11e943c089fd84c4641a1dcd7f9d21f9b3965e75c">
+                <div id="project-canvas" class="js-project-modules modules content">
+                    <div id="project-modules">
+                            <div class="project-module module text project-module-text align- js-project-module e2e-site-project-module-text">
+                                <a href="/documentation.html"><div class="rich-text js-text-editable module-text"><div><span class="texteditor-inline-color" style="color:#693a26;" id="diagnostics">Learn more.</span></div></div></a>
+                            </div>
+                        <div class="js-project-module project-module module button project-module-button" data-id="m612c111f384c81faeff9cdb8e66af3c316f352baa3ecb4630d739"  style="padding-top: 50px; padding-bottom: 50px;">
+                            <div class="button-container" style="width: fit-content" onclick="call()">
+                                <img src="moose.png" alt="moose" style="width:0.6in; height:auto; padding-bottom: 1.00%; background: white">                            </div>
+                                <div class="rich-text js-text-editable module-text"><div><span class="texteditor-inline-color" style="color:#693a26;" id="button">Launch</span></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    function call() {
+        document.getElementById("diagnostics").innerHTML = "Launching..."
+        let action = document.getElementById("button").innerText
+        setTimeout(function () {
+            if (action === "Launch") {
+                document.getElementById("button").innerText = 'Please wait'
+                setTimeout(function () {
+                    if (document.getElementById("diagnostics").innerHTML === "Launching...") {
+                        document.getElementById("diagnostics").innerHTML = "Launch timed out."
+                        document.getElementById("button").innerText = "Launch"
+                        setTimeout(function () {
+                            document.getElementById("diagnostics").innerHTML = "Click on Moose to learn more."
+                        }, 10000)
+                    }
+                }, 700)
+                let xmlHttp = new XMLHttpRequest();
+                xmlHttp.open( "GET", '/idle'+document.location.search, false );
+                xmlHttp.onerror = function () {
+                    document.getElementById("diagnostics").innerHTML = "Connection failed."
+                }
+                xmlHttp.send( null );
+                console.log(xmlHttp.responseText);
+                if (xmlHttp.responseText.startsWith("http")) {
+                    document.getElementById("diagnostics").innerHTML = "Launched."
+
+                    if (window.innerWidth < window.innerHeight) {
+                        // Mobile
+                        window.location.href = xmlHttp.responseText.replace('#generate_leaf', '&mobile=1#generate_leaf')
+                        console.log('switching to mobile bandwidth')
+                    } else {
+                        window.location.href = xmlHttp.responseText
+                    }
+                }
+            }
+        }, 10)
+    }
+</script>
+</body>
+</html>

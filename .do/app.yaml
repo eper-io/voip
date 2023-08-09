@@ -1,0 +1,13 @@
+name: moose-assist
+envs:
+  - key: APIKEY
+    scope: RUN_AND_BUILD_TIME
+    value: "SEBIEJTAEFRNWFSJBLJVTREQICBZVLORWZVLJHKSYTCJZZPATQSSHABBKEAGULFRLTVJQTRZRIRLHAMEUOWKROQZIINR"
+  - key: SITEURL
+    scope: RUN_AND_BUILD_TIME
+    value: "https://moose.eper.io"
+services:
+  - name: web
+    github:
+      repo: szegedim/moose-assist
+      branch: main

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/main.css" type="text/css" />
+    <title>eper.io Moose Assist</title>
+</head>
+<!--
+Licensed under Creative Commons CC0.
+To the extent possible under law, the author(s) have dedicated all copyright
+neighboring rights to this software to the public domain worldwide.
+This software is distributed without any warranty.
+You should have received a copy of the CC0 Public Domain Dedication along wi
+If not, see <https:#creativecommons.org/publicdomain/zero/1.0/legalcode>.
+-->
+<body>
+    <script>
+        // Create a WebSocket instance
+        const socket = new WebSocket('ws://127.0.0.1:7777/ws');
+        socket.protocol = "chat"
+        socket.binaryType = "blob"
+        socket.bufferedAmount = 0
+
+        // Event handler for when the WebSocket connection is open
+        socket.onopen = function() {
+            console.log('WebSocket connection established.');
+
+            const message = 'Hello, server!';
+            socket.send(new Blob([message]));
+
+            // Send a message
+            setInterval(function () {
+                const message = 'Bye, server!';
+                socket.send(new Blob([message]));
+            }, 1000)
+        };
+
+        // Event handler for incoming messages
+        socket.onmessage = function(event) {
+            if (event.data instanceof Blob) {
+                event.data.arrayBuffer().then(async aes => {
+                    var dec = new TextDecoder("utf-8");
+                    console.log('Received message:', dec.decode(aes));
+                })
+            } else {
+                console.log("websocket buffer not supported.", event.data)
+            }
+        };
+
+        // Event handler for WebSocket errors
+        socket.onerror = function(error) {
+            console.error('WebSocket error:', error);
+        };
+
+        // Event handler for WebSocket connection close
+        socket.onclose = function() {
+            console.log('WebSocket connection closed.');
+        };
+    </script>
+</body>
+</html>

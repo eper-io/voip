@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="moose.png">
+    <link rel="stylesheet" href="./main.css" type="text/css" />
+    <title>Moose Assist</title>
+</head>
+<!--
+Licensed under Creative Commons CC0.
+To the extent possible under law, the author(s) have dedicated all copyright
+neighboring rights to this software to the public domain worldwide.
+This software is distributed without any warranty.
+You should have received a copy of the CC0 Public Domain Dedication along wi
+If not, see <https:#creativecommons.org/publicdomain/zero/1.0/legalcode>.
+-->
+<body>
+<section class="splash centered e2e-site-content">
+    <div class="outer-wrap">
+        <div class="centered-content-wrap js-site-wrap splash-modules">
+            <div class="page-content js-page-content" data-context="pages" data-identity="id:p612c111f36ac11e943c089fd84c4641a1dcd7f9d21f9b3965e75c">
+                <div id="project-canvas" class="js-project-modules modules content">
+                    <div id="project-modules">
+                        <div class="project-module module image project-module-image js-js-project-module"  style="padding-top: 0; padding-bottom: 0; width: 25%;">
+                            <div class="js-lightbox" onclick="navigator.clipboard.writeText(document.location.origin + document.location.pathname + document.location.search + document.location.hash)">
+                                <img src="moose.png" alt="moose" style="padding-bottom: 1.00%; background: white; width: 1.1in; height: auto;">
+                            </div>
+                        </div>
+                        <div class="project-module module text project-module-text align- js-project-module e2e-site-project-module-text">
+                            <div class="rich-text js-text-editable module-text"><div><span class="texteditor-inline-color" style="color:#693a26;" id="diagnostics">Click send 📤 in the address bar <br> to share the browser link 🔗 with your peer</span></div></div>
+                        </div>
+                        <div class="project-module module text project-module-text align- js-project-module e2e-site-project-module-text">
+                            <div class="rich-text js-text-editable module-text"><div><span class="texteditor-inline-color" style="color:#693a26;" id="peer">You accept the beta testing <a target="_blank" rel="noopener" href="terms.html">terms</a> by joining<br><br>Private and incognito tabs enhance security</span></div></div>
+                        </div>
+                        <div class="js-project-module project-module module button project-module-button" data-id="m612c111f384c81faeff9cdb8e66af3c316f352baa3ecb4630d739"  style="padding-top: 50px; padding-bottom: 50px;">
+                            <div class="button-container" style="width: fit-content" onclick="call()">
+                                <button id="button" class="button-module preserve-whitespace--nowrap" >Call</button>
+                            </div>
+                        </div>
+                        <div style="text-align: center;">
+                            <embed id='info' type="text/html" src="/news.html" width="1024" height="1024" style="position: relative; max-width: 1024px; max-height: 1024px;">
+                        </div>
+<!--                        <div class="project-module module text project-module-text align- js-project-module e2e-site-project-module-text">-->
+<!--                            <div class="rich-text js-text-editable module-text"><div><span class="texteditor-inline-color" style="color:#693a26;" id="news">-->
+<!--                                <embed id='info' type="text/html" src="/news.html" width="1024" height="1024" style="position: relative; width: 100%; height: 100%; max-width: 1024px; max-height: 1024px;">-->
+<!--                            </span></div></div>-->
+<!--                        </div>-->
+                        <div class="project-module module text project-module-text align- js-project-module e2e-site-project-module-text">
+                            <div class="rich-text js-text-editable module-text">
+                                <p><span class="texteditor-inline-color" style="font-size: medium; color: #693a26; opacity: 50%;"><a href="/terms.html">Terms</a> • <a href="/documentation.html">Documentation</a> • <a href="/contact.html">Support</a></span></p>
+                                <p><span class="texteditor-inline-color" style="padding-top: 10px; font-size: medium; color: #693a26; opacity: 50%;">eper.io Moose Assist</span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    let sampleCountPerSecond = 200000;    // 192 kHz is a typical studio quality frequency We sample 16 bits vs. studio 24.
+    let sampleBufferBytes = 256 * 2;    // A buffer of samples. ~1-2ms 128 tends to fill a delay, longer adds glitches and noise.
+
+    // End-to-end encrypted key to
+    let leafKey = null
+    // End-to-end encrypted key to
+    let key = null;
+    // The counter block value ensures uniqueness derived from the leaf
+    let counter = new Uint8Array(16)
+    // document.location.search contains the api key for the server without the e2e leaf key
+    let wsHost = "wss://" + document.location.host + "/ws" + document.location.search
+    // playback object
+    let audioContext = null
+    // websocket to read from
+    let webSocket = null;
+    // loopback flag for testing only
+    let loopback = false
+
+    setTimeout(function () {
+        document.getElementById('info').src = '/news.html'
+    })
+    if (document.location.protocol === "http:") {
+        wsHost = "ws://" + document.location.host + "/ws" + document.location.search
+    }
+    if (document.location.search.endsWith('loopback')) {
+        sampleBufferBytes = 128 * 2
+        loopback = !loopback
+    }
+    if (loopback) {
+        document.getElementById("peer").innerHTML = "loopback mode"
+    }
+
+    let a = 0
+    setInterval(function () {
+        a = 1
+    }, 10000)
+
+    if (document.location.search.includes("apikey=") && window.top.location.hash.length > 1 && window.top.location.hash.startsWith("#generate_leaf")) {
+        redirectWithLeafName()
+    }
+    //document.getElementById('peerlink').href = 'mailto:example@eper.io?body=' + document.location.origin + document.location.pathname + document.location.search + document.location.hash
+
+    if (document.location.search.includes("apikey=") && window.top.location.hash.length > 1 && window.top.location.hash.startsWith("#leaf_")) {
+        leafKey = window.top.location.hash
+        for (let i = 0; i < 16; i++) {
+            counter[i] = leafKey.slice(-16).charCodeAt(i)
+        }
+        document.getElementById("peer").innerHTML = "You accept the beta testing <a target=\"_blank\" rel=\"noopener\" href=\"terms.html\">terms</a> by joining.<br>Share the browser link with your peer.<br>Private and incognito tabs enhance security."
+        document.getElementById("button").innerText = "Join"
+    }
+
+    async function redirectWithLeafName() {
+        // See create.html for details
+        window.crypto.subtle.generateKey(
+            {
+                name: "AES-CTR",
+                length: 256
+            },
+            true,
+            ["encrypt", "decrypt"]
+        ).then(async (key) => {
+            return await window.crypto.subtle.exportKey("jwk", key)
+        }).then((exp) => '#leaf_' + exp.k
+        ).then(leaf => {
+            window.location.href = document.location.origin + document.location.pathname + document.location.search + leaf
+            if (window.innerWidth < window.innerHeight) {
+                if (document.location.search.indexOf('&mobile=1') === -1) {
+                    // Mobile
+                    window.location.href = document.location.origin + document.location.pathname + document.location.search + '&mobile=1' + document.location.hash
+                    console.log('switching to mobile bandwidth')
+                }
+            }
+            leafKey = leaf
+            for (let i = 0; i < 16; i++) {
+                counter[i] = leafKey.slice(-16).charCodeAt(i)
+            }
+            document.getElementById("button").innerText = "Join"
+        })
+    }
+
+    async function useKey() {
+        import('./e2e.js').then(async _ => {
+            if (await testLeafKey()) {
+                document.getElementById("peer").innerText = "Joining a Moose Assist℠ with leaf key."
+            } else {
+                document.getElementById("peer").innerText = "Invalid leaf key. Copy the leaf key from the peer and Press Join."
+            }
+        })
+    }
+
+    async function testLeafKey() {
+        return await import('./e2e.js').then(async (e2e) => {
+            let inp = new Int16Array(1024)
+            for (let i = 0; i < inp.length; i++) {
+                inp[i] = i
+            }
+            return await e2e.importKey(leafKey)
+                .then(async key1 => { key = key1; return await e2e.encrypt(key, counter, inp) })
+                .then(async channel => { return await e2e.decrypt(key, counter, channel) })
+                .then(async final => {
+                    if (final.toString() === inp.toString()) {
+                        console.log("Encryption OK.")
+                        play()
+                        return true
+                    } else {
+                        console.warn("WARNING Encryption not working: " + inp + "->" + final)
+                        key = null
+                        return false
+                    }
+                })
+        })
+    }
+
+    async function playback(audioBlob) {
+        audioBlob.arrayBuffer().then(async aes => {
+            if (key == null) {
+                console.log('WARNING Unencrypted')
+            }
+            let arr16 = new Int16Array(aes)
+            await window.crypto.subtle.decrypt(
+                {
+                    name: "AES-CTR",
+                    counter,
+                    length: 64
+                },
+                key,
+                arr16)
+                .then(async (decrypted) => {
+                    await audioContext.pcm.port.postMessage({
+                        eventType: 'data',
+                        audioBuffer: new Int16Array(decrypted)
+                    });
+                    return decrypted
+                }).then(async (filtered) => {
+                    if (a > 0) {
+                        a = 0
+                        let a16 = new Int16Array(filtered)
+                        let sum = 0
+                        let min = 32767
+                        let max = -32768
+                        for (let i = 0; i < a16.length; i++) {
+                            sum = sum + a16[i].valueOf()
+                            if (a16[i].valueOf() > min) {
+                                min = a16[i].valueOf()
+                            }
+                            if (a16[i].valueOf() > max) {
+                                max = a16[i].valueOf()
+                            }
+                        }
+                        let avg = sum / a16.length
+                        let variance = 0
+                        for (let i = 0; i < a16.length; i++) {
+                            variance = variance + (a16[i].valueOf() - avg) * (a16[i].valueOf() - avg)
+                        }
+                        let std = Math.sqrt(variance / a16.length)
+                        console.log(min, max, avg, std)
+                    }
+                }).catch(error => {
+                    //console.log("Silence.")
+                });
+        })
+    }
+
+    function call() {
+        let action = document.getElementById("button").innerText
+        if (action === "Call") {
+            document.getElementById("peer").innerHTML = "Connecting..."
+        } else if (action === "Join") {
+            useKey()
+        } else if (action === "Hang Up" && wsHost != null) {
+            if (webSocket != null) {
+                webSocket.close()
+                webSocket = null
+            }
+            document.location.reload()
+        }
+    }
+
+    function play() {
+        if (audioContext == null) {
+            console.log("studio quality sampling:" + sampleCountPerSecond / 1000 + "KHz")
+            console.log("audio buffer size:" + sampleBufferBytes * 5 / 1000 + "ms")
+            audioContext = new AudioContext({sampleRate: sampleCountPerSecond})
+        }
+
+        if (webSocket == null && wsHost != null) {
+            webSocket = new WebSocket(wsHost);
+            webSocket.binaryType = "blob"
+            webSocket.protocol = "chat"
+            webSocket.bufferedAmount = 0
+
+            audioContext.audioWorklet.addModule('pcm.js').then(() => {
+                audioContext.pcm = new AudioWorkletNode(audioContext, 'pcm_recv');
+                audioContext.pcm.connect(audioContext.destination)
+            })
+
+            webSocket.onclose = function (/*ws, evt*/) {
+                webSocket = null
+                if (!document.getElementById("peer").innerHTML.startsWith("Could not connect to websocket.")) {
+                    document.getElementById("peer").innerHTML = "connection closed."
+                    document.getElementById("button").innerText = "Join"
+                }
+            }
+            webSocket.onmessage = function (evt) {
+                if (evt.data instanceof Blob) {
+                    playback(evt.data)
+                } else {
+                    document.getElementById("peer").innerHTML = "websocket buffer not supported.";
+                }
+            }
+            webSocket.onerror = function () {
+                webSocket = null
+                document.getElementById("peer").innerHTML = "Could not connect to websocket.<br/>Refresh the page and try again."
+                document.getElementById("button").innerText = "Join"
+            }
+            webSocket.onopen = function (/*ws, evt*/) {
+                document.getElementById("peer").innerHTML = "In call.<br/>Copy browser url and send it to your peer.<br/>Close the tab to hang up."
+                document.getElementById("button").innerText = "Hang Up"
+
+                console.log("studio quality sampling:" + sampleCountPerSecond / 1000 + "KHz")
+                console.log("audio buffer size:" + sampleBufferBytes * 5 / 1000 + "ms")
+                navigator.mediaDevices.getUserMedia({audio: {sampleRate: sampleCountPerSecond, echoCancellation: true}}).then(audioStream => {
+                    audioContext.audioWorklet.addModule('pcm.js').then(() => {
+                        audioContext.socket = webSocket
+                        const mic = new MediaStreamAudioSourceNode(audioContext, {mediaStream: audioStream})
+                        const pcm = new AudioWorkletNode(audioContext, 'pcm_send');
+                        let buf = []
+                        pcm.port.onmessage = async function (ev) {
+                            let buf0 = ev.data.audioBuffer
+                            const len0 = ev.data.audioBuffer.length
+                            buf.push(buf0)
+                            if (buf.length >= sampleBufferBytes / len0) {
+                                const blobSample =  new Blob(buf)
+                                buf = []
+                                await blobSample.arrayBuffer()
+                                    .then(arrBuf => new Int16Array(arrBuf))
+                                    .then(arrInp => window.crypto.subtle.encrypt(
+                                        {
+                                            name: "AES-CTR",
+                                            counter,
+                                            length: 64
+                                        },
+                                        key,
+                                        arrInp))
+                                    .then(ciphertext => {
+                                        if (webSocket != null && webSocket.readyState === webSocket.OPEN) {
+                                            if (loopback) {
+                                                playback(new Blob([ciphertext]))
+                                            } else {
+                                                webSocket.send(new Blob([ciphertext]))
+                                                //console.log(ciphertext)
+                                            }
+                                        }
+                                    }).catch(_ => {
+                                        // console.log("Silence.")
+                                    });
+                            }
+                        }
+                        mic.connect(pcm)
+                    })
+                }).catch(()=>{
+                    document.getElementById("peer").innerText = "Please connect an audio device and refresh the page."
+                    document.getElementById("button").innerText = "Join"
+                })
+                //bandwidth()
+            }
+        }
+    }
+
+    window.onerror = function (msg, url, line) {
+        console.log(msg, url, line)
+    }
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    setInterval(function () {
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.open( "GET", '/info'+document.location.search, false ); // false for synchronous request
+        xmlHttp.onerror = function (msg, url, line) {
+            console.log(msg, url)
+        }
+        xmlHttp.send( null );
+        console.log(xmlHttp.responseText);
+    }, 5000)
+</script>
+</body>
+</html>

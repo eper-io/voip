@@ -1,0 +1,17 @@
+spec:
+  name: moose-assist
+  envs:
+    - key: APIKEY
+      scope: RUN_AND_BUILD_TIME
+      value: "SEBIEJTAEFRNWFSJBLJVTREQICBZVLORWZVLJHKSYTCJZZPATQSSHABBKEAGULFRLTVJQTRZRIRLHAMEUOWKROQZIINR"
+    - key: SITEURL
+      scope: RUN_AND_BUILD_TIME
+      value: "https://moose.eper.io"
+  services:
+    - name: web
+      http_port: 7777
+      instance_count: 1
+      instance_size_slug: professional-m
+      git:
+        branch: main
+        repo_clone_url: https://github.com/szegedim/moose-assist.git
