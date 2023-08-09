@@ -34,6 +34,10 @@ func Setup() {
 	if siteUrl != "" {
 		metadata.SiteUrl = siteUrl
 	}
+	port := os.Getenv("PORT")
+	if port != "" {
+		metadata.SiteUrl = siteUrl + ":" + port
+	}
 
 	fmt.Printf("Try wired %s\n", metadata.SiteUrl+"/line.html?apikey="+metadata.ActivationKey+"#generate_leaf")
 	fmt.Printf("Try mobile %s\n", metadata.SiteUrl+"/line.html?apikey="+metadata.ActivationKey+"&mobile=1#generate_leaf")
