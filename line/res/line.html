@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" href="moose.png">
     <link rel="stylesheet" href="./main.css" type="text/css" />
-    <title>Soft Phone</title>
+    <title>eper.io℠ Line Soft Phone</title>
 </head>
 <!--
 Licensed under Creative Commons CC0.
@@ -15,49 +15,20 @@ This software is distributed without any warranty.
 You should have received a copy of the CC0 Public Domain Dedication along wi
 If not, see <https:#creativecommons.org/publicdomain/zero/1.0/legalcode>.
 -->
-<body>
-<section class="splash centered e2e-site-content">
-    <div class="outer-wrap">
-        <div class="centered-content-wrap js-site-wrap splash-modules">
-            <div class="page-content js-page-content" data-context="pages" data-identity="id:p612c111f36ac11e943c089fd84c4641a1dcd7f9d21f9b3965e75c">
-                <div id="project-canvas" class="js-project-modules modules content">
-                    <div id="project-modules">
-                        <div class="project-module module image project-module-image js-js-project-module"  style="padding-top: 0; padding-bottom: 0; width: 25%;">
-                            <div class="js-lightbox" onclick="navigator.clipboard.writeText(document.location.origin + document.location.pathname + document.location.search + document.location.hash)">
-                                <img src="moose.png" alt="moose" style="padding-bottom: 1.00%; background: white; width: 1.1in; height: auto;">
-                            </div>
-                        </div>
-                        <div class="project-module module text project-module-text align- js-project-module e2e-site-project-module-text">
-                            <div class="rich-text js-text-editable module-text"><div><span class="texteditor-inline-color" style="color:#693a26;" id="diagnostics"></span></div></div>
-                        </div>
-                        <div class="project-module module text project-module-text align- js-project-module e2e-site-project-module-text">
-                            <div class="rich-text js-text-editable module-text"><div><span class="texteditor-inline-color" style="color:#693a26;" id="peer"><br/>You accept the beta testing <a target="_blank" rel="noopener" href="terms.html">terms</a> by joining<br><br>Private and incognito tabs enhance security</span></div></div>
-                        </div>
-                        <div class="js-project-module project-module module button project-module-button" data-id="m612c111f384c81faeff9cdb8e66af3c316f352baa3ecb4630d739"  style="padding-top: 50px; padding-bottom: 50px;">
-                            <div class="button-container" style="width: fit-content" onclick="call()">
-                                <button id="button" class="button-module preserve-whitespace--nowrap" >Call</button>
-                            </div>
-                        </div>
-                        <div style="text-align: center;">
-                            <embed id='info' type="text/html" src="/news.html" width="1024" height="1024" style="position: relative; max-width: 1024px; max-height: 1024px;">
-                        </div>
-<!--                        <div class="project-module module text project-module-text align- js-project-module e2e-site-project-module-text">-->
-<!--                            <div class="rich-text js-text-editable module-text"><div><span class="texteditor-inline-color" style="color:#693a26;" id="news">-->
-<!--                                <embed id='info' type="text/html" src="/news.html" width="1024" height="1024" style="position: relative; width: 100%; height: 100%; max-width: 1024px; max-height: 1024px;">-->
-<!--                            </span></div></div>-->
-<!--                        </div>-->
-                        <div class="project-module module text project-module-text align- js-project-module e2e-site-project-module-text">
-                            <div class="rich-text js-text-editable module-text">
-                                <p><span class="texteditor-inline-color" style="font-size: medium; color: #693a26; opacity: 50%;"><a href="/terms.html">Terms</a> • <a href="/documentation.html">Documentation</a> • <a href="/contact.html">Support</a></span></p>
-                                <p><span class="texteditor-inline-color" style="padding-top: 10px; font-size: medium; color: #693a26; opacity: 50%;">Soft Phone</span></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<body class="transition-enabled" style="background-color: white; color:#693a26;">
+    <div class="container">
+        <div class="centered-content">
+            <div onclick="navigator.clipboard.writeText(document.location.origin + document.location.pathname + document.location.search + document.location.hash)"><img src="moose.png" alt="moose" style="width: 100px; height: auto;"></div>
+            <span class="texteditor-inline-color" style="color:#693a26;" id="peer"><br/>You accept the beta testing <a target="_blank" rel="noopener" href="terms.html">terms</a> by joining<br><br>Private and incognito tabs enhance security</span>
+            <br>
+            <div onclick="call()"><button id="button" class="moosebutton" style="background-color: #693a26; color: white;">Call</button></div>
+            <br>
+            <embed id='info' type="text/html" src="/news.html" width="1024" height="1024" style="position: relative; max-width: 1024px; max-height: 1024px;">
+            <br>
+            <p><a href="/terms.html">Terms</a> • <a href="/documentation.html">Documentation</a> • <a href="/contact.html">Support</a></p>
+            <p>eper.io℠ Line Soft Phone</p>
         </div>
     </div>
-</section>
 <script>
     let sampleCountPerSecond = 200000;    // 192 kHz is a typical studio quality frequency We sample 16 bits vs. studio 24.
     let sampleBufferBytes = 256 * 2;    // A buffer of samples. ~1-2ms 128 tends to fill a delay, longer adds glitches and noise.
