@@ -35,7 +35,7 @@ func Setup() {
 		metadata.SiteUrl = siteUrl
 	}
 	port := os.Getenv("PORT")
-	if port != "" {
+	if port != "" && !strings.HasSuffix(metadata.SiteUrl, "ondigitalocean.app") {
 		metadata.SiteUrl = metadata.SiteUrl + ":" + port
 	}
 
