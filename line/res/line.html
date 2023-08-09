@@ -28,10 +28,10 @@ If not, see <https:#creativecommons.org/publicdomain/zero/1.0/legalcode>.
                             </div>
                         </div>
                         <div class="project-module module text project-module-text align- js-project-module e2e-site-project-module-text">
-                            <div class="rich-text js-text-editable module-text"><div><span class="texteditor-inline-color" style="color:#693a26;" id="diagnostics">Click send 📤 in the address bar <br> to share the browser link 🔗 with your peer</span></div></div>
+                            <div class="rich-text js-text-editable module-text"><div><span class="texteditor-inline-color" style="color:#693a26;" id="diagnostics"></span></div></div>
                         </div>
                         <div class="project-module module text project-module-text align- js-project-module e2e-site-project-module-text">
-                            <div class="rich-text js-text-editable module-text"><div><span class="texteditor-inline-color" style="color:#693a26;" id="peer">You accept the beta testing <a target="_blank" rel="noopener" href="terms.html">terms</a> by joining<br><br>Private and incognito tabs enhance security</span></div></div>
+                            <div class="rich-text js-text-editable module-text"><div><span class="texteditor-inline-color" style="color:#693a26;" id="peer"><br/>You accept the beta testing <a target="_blank" rel="noopener" href="terms.html">terms</a> by joining<br><br>Private and incognito tabs enhance security</span></div></div>
                         </div>
                         <div class="js-project-module project-module module button project-module-button" data-id="m612c111f384c81faeff9cdb8e66af3c316f352baa3ecb4630d739"  style="padding-top: 50px; padding-bottom: 50px;">
                             <div class="button-container" style="width: fit-content" onclick="call()">
@@ -99,7 +99,6 @@ If not, see <https:#creativecommons.org/publicdomain/zero/1.0/legalcode>.
     if (document.location.search.includes("apikey=") && window.top.location.hash.length > 1 && window.top.location.hash.startsWith("#generate_leaf")) {
         redirectWithLeafName()
     }
-    //document.getElementById('peerlink').href = 'mailto:example@eper.io?body=' + document.location.origin + document.location.pathname + document.location.search + document.location.hash
 
     if (document.location.search.includes("apikey=") && window.top.location.hash.length > 1 && window.top.location.hash.startsWith("#leaf_")) {
         leafKey = window.top.location.hash
@@ -127,7 +126,9 @@ If not, see <https:#creativecommons.org/publicdomain/zero/1.0/legalcode>.
             if (window.innerWidth < window.innerHeight) {
                 if (document.location.search.indexOf('&mobile=1') === -1) {
                     // Mobile
-                    window.location.href = document.location.origin + document.location.pathname + document.location.search + '&mobile=1' + document.location.hash
+                    let mobileLink = document.location.origin + document.location.pathname + document.location.search + '&mobile=1' + document.location.hash
+                    window.location.href = mobileLink
+                        //document.location.origin + document.location.pathname + document.location.search + '&mobile=1' + document.location.hash
                     console.log('switching to mobile bandwidth')
                 }
             }
@@ -143,6 +144,7 @@ If not, see <https:#creativecommons.org/publicdomain/zero/1.0/legalcode>.
         import('./e2e.js').then(async _ => {
             if (await testLeafKey()) {
                 document.getElementById("peer").innerText = "Joining a call with leaf key."
+
             } else {
                 document.getElementById("peer").innerText = "Invalid leaf key. Copy the leaf key from the peer and Press Join."
             }
@@ -275,8 +277,14 @@ If not, see <https:#creativecommons.org/publicdomain/zero/1.0/legalcode>.
                 document.getElementById("button").innerText = "Join"
             }
             webSocket.onopen = function (/*ws, evt*/) {
-                document.getElementById("peer").innerHTML = "In call.<br/>Copy browser url and send it to your peer.<br/>Close the tab to hang up."
+                document.getElementById("peer").innerHTML = "In call.<br/>Click send 📤 in the address bar <br> to share the browser link 🔗 with your peer<br/>Close the tab to hang up.<br/>"
+
                 document.getElementById("button").innerText = "Hang Up"
+
+                if (document.location.search.indexOf('mobile=1') === -1) {
+                    let mobileLink = document.location.origin + document.location.pathname + document.location.search + '&mobile=1' + document.location.hash
+                    document.getElementById("peer").innerHTML = document.getElementById("peer").innerHTML + "<br/>Switch to low bandwidth with <a id=\"mobilelink\" href=\"" + mobileLink + "\">📲</a>"
+                }
 
                 console.log("studio quality sampling:" + sampleCountPerSecond / 1000 + "KHz")
                 console.log("audio buffer size:" + sampleBufferBytes * 5 / 1000 + "ms")

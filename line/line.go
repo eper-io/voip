@@ -225,7 +225,7 @@ func relayLine(ws *websocket.Conn) {
 			const timeout = 3 * time.Minute
 			time.Sleep(timeout + 1*time.Minute)
 			if time.Now().Sub(idleSince) > timeout {
-				fmt.Println("Idle shutdown after ten minutes. Restarting or recycling based on docker rules.")
+				fmt.Printf("Idle shutdown after %d minutes. Restarting or recycling based on docker rules.", int(timeout.Minutes()))
 				os.Exit(0)
 			}
 		}()

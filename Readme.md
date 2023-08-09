@@ -40,6 +40,7 @@ Make sure you update the environment settings for a production site.
 1. Go to `App/Settings and App-Level Environment Variables` to set a unique `APIKEY`.
 2. Set a `CNAME DNS record` to the app name (optional) i.e `voip.example.com`
 3. Go to `App/Settings and App-Level Environment Variables` to set a unique `SITEURL` to either `https://voip.example.com` or the DO assigment like `https://voip-zhx34.ondigitalocean.app`.
+4. Use the link in the logs to the start url. `[web] [2020-02-20 20:20:20] Try mobile https://voip-clzer.ondigitalocean.app/line.html?apikey=SEBIEJTA...`
 
 ## Security
 
