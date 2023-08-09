@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"gitlab.com/eper.io/engine/metadata"
 	"io"
+	"math/rand"
 	"net"
 	"net/http"
 	"net/url"
@@ -95,13 +96,16 @@ func Setup() {
 		y, _ := startCommand.CombinedOutput()
 		fmt.Println(string(y))
 		lock.Unlock()
-		//x := make([]string, 0)
-		//for k := range launches {
-		//	x = append(x, k)
-		//}
-		//pick := x[rand.Intn(len(x))]
-		//launches[pick]++
-		// TODO proxy
+
+		x := make([]string, 0)
+		for k := range launches {
+			x = append(x, k)
+		}
+		if len(x) > 0 {
+			pick := x[rand.Intn(len(x))]
+			launches[pick]++
+		}
+		//TODO proxy
 
 		time.Sleep(DockerDelay)
 		mobile := request.URL.Query().Get("mobile")
