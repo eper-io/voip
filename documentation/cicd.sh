@@ -18,7 +18,7 @@ git status
 # Short glitch in the service. Acceptable.
 (git pull -r | grep 'up to date') || kill -9 `pgrep moosebroker`
 
-docker build -t moose-assist.eper.io/moose-assist /tmp/voip
+docker build -t line.eper.io/line /tmp/voip
 
 # We may want to run a privileged container in the future. It is difficult to mix podman and golang
 cd /tmp/voip
@@ -34,10 +34,10 @@ sleep 3
 
 # Running docker as root on the network is dangerous so we need to be very lean and careful with the codebase in /eos
 
-docker run -d --rm --name moose -e PORT=7777 -p 7777:443 -v /etc/letsencrypt/live/moose-assist.eper.io/fullchain.pem:/tmp/fullchain.pem:ro -v /etc/letsencrypt/live/moose-assist.eper.io/privkey.pem:/tmp/privkey.pem:ro moose-assist.eper.io/moose-assist
+docker run -d --rm --name moose -e SITEURL=https://l.eper.io -e PORT=7777 -p 7777:443 -v /etc/letsencrypt/live/moose-assist.eper.io/fullchain.pem:/tmp/fullchain.pem:ro -v /etc/letsencrypt/live/moose-assist.eper.io/privkey.pem:/tmp/privkey.pem:ro line.eper.io/line
 
 # Run the broker if needed.
 
-pgrep moosebroker || (DOCKERIMAGE=moose-assist.eper.io/moose-assist SITEURL=https://moose-assist.eper.io APIKEY=JVPSVWUIUTSXGPTWOVEWMHBUFJMVIALPQDMXQZROKZLYPYQGMBRQZMRWSQZIACQDKIFVWYQBWGGHQLGALYBQTAQNLHDR /opt/moosebroker >>/var/log/moosebroker)
+pgrep moosebroker || (DOCKERIMAGE=line.eper.io/line SITEURL=https://l.eper.io APIKEY=JVPSVWUIUTSXGPTWOVEWMHBUFJMVIALPQDMXQZROKZLYPYQGMBRQZMRWSQZIACQDKIFVWYQBWGGHQLGALYBQTAQNLHDR /opt/moosebroker >>/var/log/moosebroker)
 
 # WARNING blocking call. Do not extend here.
