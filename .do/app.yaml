@@ -1,4 +1,4 @@
-name: moose-assist
+name: voip
 envs:
   - key: APIKEY
     scope: RUN_AND_BUILD_TIME
