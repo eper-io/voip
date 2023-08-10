@@ -10,6 +10,7 @@
 
 .centered-content {
     text-align: center;
+    font-family: system-ui;
 }
 
 /* unvisited link */
