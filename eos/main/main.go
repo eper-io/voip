@@ -20,6 +20,12 @@ import (
 func main() {
 	eos.Setup()
 	if strings.HasPrefix(metadata.SiteUrl, "https://") {
+		go func() {
+			err := http.ListenAndServe(":80", http.RedirectHandler(metadata.SiteUrl, http.StatusTemporaryRedirect))
+			if err != nil {
+				panic("ListenAndServe: " + err.Error())
+			}
+		}()
 		err := http.ListenAndServeTLS(":443", metadata.Certificate, metadata.PrivateKey, nil)
 		if err != nil {
 			panic("ListenAndServeTLS: " + err.Error())
