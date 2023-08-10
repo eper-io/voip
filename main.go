@@ -26,7 +26,7 @@ func main() {
 		if err != nil {
 			panic("ListenAndServe: " + err.Error())
 		}
-		err = http.ListenAndServe(":80", nil)
+		err = http.ListenAndServe(":80", http.RedirectHandler(metadata.SiteUrl, http.StatusTemporaryRedirect))
 		if err != nil {
 			panic("ListenAndServe: " + err.Error())
 		}
