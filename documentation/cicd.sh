@@ -28,13 +28,13 @@ go build -o /opt/voipbroker ./eos/main/main.go
 
 # Run test container
 
-docker stop -t 2 voiptest
+# docker stop -t 2 voiptest
 
 sleep 6
 
 # Running docker as root on the network is dangerous so we need to be very lean and careful with the codebase in /eos
 
-docker run -d --rm --name voiptest -e SITEURL=https://l.eper.io -e PORT=7777 -p 7777:443 -v /etc/letsencrypt/live/moose-assist.eper.io/fullchain.pem:/tmp/fullchain.pem:ro -v /etc/letsencrypt/live/moose-assist.eper.io/privkey.pem:/tmp/privkey.pem:ro line.eper.io/line
+# docker run -d --rm --name voiptest -e SITEURL=https://l.eper.io -e PORT=7777 -p 7777:443 -v /etc/letsencrypt/live/moose-assist.eper.io/fullchain.pem:/tmp/fullchain.pem:ro -v /etc/letsencrypt/live/moose-assist.eper.io/privkey.pem:/tmp/privkey.pem:ro line.eper.io/line
 
 # Run the broker if needed.
 
