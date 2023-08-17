@@ -91,7 +91,7 @@ func LaunchInstance() (instanceId string, host string, ip string) {
 	if len(ret) == 0 {
 		fmt.Println(strings.Join(c.Args, " "))
 	}
-	fmt.Println(string(cmdx))
+	fmt.Println(string(ret))
 	fmt.Println(string(ret))
 	id := ParseInstanceId(string(ret))
 	if id != "" {
