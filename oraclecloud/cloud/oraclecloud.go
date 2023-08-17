@@ -1,10 +1,12 @@
 package cloud
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"gitlab.com/eper.io/engine/oraclecloud/metadata"
 	"gitlab.com/eper.io/engine/oraclecloud/ns"
+	"os"
 	"os/exec"
 	"path/filepath"
 	"strings"
@@ -128,4 +130,14 @@ func TerminateInstance(id string, host string) {
 	c := OciCommand("oci", strings.Split(cmdx, " ")[1:])
 	_, _ = c.Output()
 	delete(ns.Nodes, host)
+}
+
+func CleanupInstance(id string, host string, duration time.Duration) {
+	cmdx := fmt.Sprintf("nohup sleep %d && oci compute instance terminate --force --instance-id %s &\n", int64(duration.Seconds()), id)
+	old, _ := os.ReadFile("/var/log/oracle")
+	buf := bytes.Buffer{}
+	buf.Write(old)
+	buf.Write([]byte(cmdx))
+	// TODO Acceptable race risk?
+	_ = os.WriteFile("/tmp/cleanup", buf.Bytes(), 0700)
 }

@@ -82,6 +82,7 @@ func LaunchSite() string {
 func Mitosis() {
 	id, host, ip := cloud.LaunchInstance()
 	fmt.Println(id, host, ip)
+	cloud.CleanupInstance(id, host, maxRuntime)
 	if id == "" {
 		fmt.Println("failed mitosis")
 		return
