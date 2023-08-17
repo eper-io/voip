@@ -44,6 +44,9 @@ func Setup() {
 
 	fmt.Printf("Launch %s as %s?apikey=%s\n", metadata.ContainerRuntime, siteUrl, metadata.ActivationKey)
 	fmt.Printf("")
+
+	go Mitosis()
+
 	http.HandleFunc("/", func(writer http.ResponseWriter, request *http.Request) {
 		writer.Header().Set("Cache-Control", "no-cache")
 		http.ServeFile(writer, request, "./eos/res/launch.html")
@@ -77,6 +80,8 @@ func Setup() {
 		if metadata.ActivationKey == "" || apiKey != metadata.ActivationKey {
 			//writer.WriteHeader(http.StatusPaymentRequired)
 		}
+		lock.Unlock()
+		lock.Lock()
 		port := BasePort
 		for ; lastContainer < LastPort; lastContainer++ {
 			x, err := net.Listen("tcp", fmt.Sprintf(":%d", lastContainer))
@@ -97,14 +102,19 @@ func Setup() {
 		fmt.Println(string(y))
 		lock.Unlock()
 
-		x := make([]string, 0)
-		for k := range launches {
-			x = append(x, k)
-		}
-		if len(x) > 0 {
-			pick := x[rand.Intn(len(x))]
-			launches[pick]++
-		}
+		go func() {
+			lock.Lock()
+			x := make([]string, 0)
+			for k := range launches {
+				x = append(x, k)
+			}
+			if len(x) > 0 {
+				pick := x[rand.Intn(len(x))]
+				launches[pick]++
+			}
+			lock.Unlock()
+		}()
+
 		//TODO proxy
 
 		time.Sleep(DockerDelay)

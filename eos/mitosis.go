@@ -77,6 +77,8 @@ func LaunchSite() string {
 // We carry out an outstanding mitosis at 8 hours to a followup node.
 // We forward all local launches to the followup node after 8 hours.
 // We terminate the current instance at 10 hours, since all session reservations expired.
+// We terminate the current instance at max sessions, since the state is statistically dirty/exhausted.
+
 func Mitosis() {
 	id, host, ip := cloud.LaunchInstance()
 	fmt.Println(id, host, ip)
@@ -85,21 +87,41 @@ func Mitosis() {
 		return
 	}
 
+	lock.Lock()
 	launches[id] = 0
+	lock.Unlock()
 	go func() {
-		for i := 1; i <= 4; i++ {
-			time.Sleep(maxRuntime / 4)
-			if launches[id] > maxSessions*i/4 {
-				Mitosis()
-			}
-			if i == 4 {
-				Mitosis()
+		start := time.Now()
+		for {
+			lock.Lock()
+			last := launches[id]
+			singleton := len(launches) == 1
+			lock.Unlock()
+			time.Sleep(3 * time.Minute)
+			lock.Lock()
+			current := launches[id]
+			lock.Unlock()
+
+			for i := int64(1); i <= 4; i++ {
+				if last < maxSessions*i/4 && current >= maxSessions*i/4 {
+					if int64(time.Now().Sub(start).Seconds())*i/4 < int64(maxRuntime.Seconds())*i/4 {
+						// We used the quota too fast: need more
+						go Mitosis()
+					}
+				}
+				if current > maxSessions || time.Now().Sub(start) > maxRuntime {
+					Terminate(id, host)
+					if singleton {
+						go Mitosis()
+					}
+					return
+				}
 			}
 		}
-		Terminate(id, host)
 	}()
 }
 
 func Terminate(id string, host string) {
 	cloud.TerminateInstance(id, host)
+	delete(launches, id)
 }
