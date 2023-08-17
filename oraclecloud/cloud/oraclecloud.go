@@ -23,6 +23,7 @@ import (
 
 // Commands to launch and terminate instances on Oracle cloud.
 // We assume oci api key is installed.
+// oci compute instance launch --compartment-id 'ocid1.tenancy.oc1..aaaaaaaanpc3gu2kzkr6t4spi2ivpwbtg6j24utwp7yhfrvdgidndnpv5ylq' --availability-domain 'lynu:US-SANJOSE-1-AD-1' --shape 'VM.Standard.A1.Flex' --image-id 'ocid1.image.oc1..aaaaaaaa5ddausutw4oilrtuf5esfxto7ko4oopt5crbf3pn5bndl2sis4rq' --subnet-id 'ocid1.subnet.oc1.us-sanjose-1.aaaaaaaa7hqoxlrkzwl2njvvwab743mwdk3ao5u5na4jovmppvgl3gqihp7q' --shape-config '{"ocpus":"4"}'
 
 func ParseInstanceId(jsonData string) string {
 	type Data struct {
@@ -90,6 +91,7 @@ func LaunchInstance() (instanceId string, host string, ip string) {
 	if len(ret) == 0 {
 		fmt.Println(strings.Join(c.Args, " "))
 	}
+	fmt.Println(string(cmdx))
 	fmt.Println(string(ret))
 	id := ParseInstanceId(string(ret))
 	if id != "" {
@@ -133,11 +135,11 @@ func TerminateInstance(id string, host string) {
 }
 
 func CleanupInstance(id string, host string, duration time.Duration) {
-	cmdx := fmt.Sprintf("nohup sleep %d && oci compute instance terminate --force --instance-id %s &\n", int64(duration.Seconds()), id)
+	cmd := fmt.Sprintf("nohup sleep %d && oci compute instance terminate --force --instance-id %s &\n", int64(duration.Seconds()), id)
 	old, _ := os.ReadFile("/var/log/oracle")
 	buf := bytes.Buffer{}
 	buf.Write(old)
-	buf.Write([]byte(cmdx))
+	buf.Write([]byte(cmd))
 	// TODO Acceptable race risk?
 	_ = os.WriteFile("/tmp/cleanup", buf.Bytes(), 0700)
 }
