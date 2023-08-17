@@ -51,6 +51,10 @@ func Setup() {
 		writer.Header().Set("Cache-Control", "no-cache")
 		http.ServeFile(writer, request, "./eos/res/launch.html")
 	})
+	http.HandleFunc("/log", func(writer http.ResponseWriter, request *http.Request) {
+		writer.Header().Set("Cache-Control", "no-cache")
+		http.ServeFile(writer, request, "/var/log/voip")
+	})
 	http.HandleFunc("/main.css", func(writer http.ResponseWriter, request *http.Request) {
 		writer.Header().Set("Cache-Control", "no-cache")
 		writer.Header().Set("Content-Type", "text/css")

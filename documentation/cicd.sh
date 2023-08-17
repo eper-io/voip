@@ -14,7 +14,9 @@ cd /tmp/voip
 
 date
 
-git status
+git status > /var/log/voip
+git log >> /var/log/voip
+
 # Short glitch in the service. Acceptable.
 (git pull -r | grep 'up to date') || kill -9 `pgrep voipbroker`
 
