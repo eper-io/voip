@@ -38,7 +38,7 @@ func Setup() {
 		fmt.Println("docker image not specified")
 	}
 
-	url1, _ := url.Parse(siteUrl)
+	url1, _ := url.Parse(metadata.SiteUrl)
 	metadata.Certificate = fmt.Sprintf("/etc/letsencrypt/live/%s/fullchain.pem", url1.Hostname())
 	metadata.PrivateKey = fmt.Sprintf("/etc/letsencrypt/live/%s/privkey.pem", url1.Hostname())
 
