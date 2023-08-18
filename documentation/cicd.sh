@@ -10,13 +10,13 @@
 # Check out Moose Assist
 # git clone https://gitlab.com/eper.io/voip.git /tmp/voip
 # Run this command from /tmp/voip:
-cd /tmp/voip
 
 # Short glitch in the service. Acceptable.
 # Any update of a repeated cicd.sh must requrire a full reboot.
+cd /tmp/voip
 git pull -r > /var/log/voip
-(cat /var/log/voip | grep 'up to date') || shutdown -r now
-# (git pull -r | grep 'up to date') || kill -9 `pgrep voipbroker`
+(cat /var/log/voip | grep 'up to date') || kill -9 `pgrep voipbroker`
+# (git pull -r | grep 'up to date') || shutdown -r now
 
 # Save some logs
 date >> /var/log/voip
