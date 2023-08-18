@@ -32,12 +32,12 @@ If not, see <https:#creativecommons.org/publicdomain/zero/1.0/legalcode>.
                 document.getElementById("diagnostics").innerHTML = "Launching..."
                 let action = document.getElementById("button").innerText
                 setTimeout(function () {
-                    if (action === "Launch") {
+                    if (action === "Try to call") {
                         document.getElementById("button").innerText = 'Please wait'
                         setTimeout(function () {
                             if (document.getElementById("diagnostics").innerHTML === "Launching...") {
                                 document.getElementById("diagnostics").innerHTML = "Launch timed out."
-                                document.getElementById("button").innerText = "Launch"
+                                document.getElementById("button").innerText = "Try to call"
                                 setTimeout(function () {
                                     document.getElementById("diagnostics").innerHTML = "Click on documentation to learn more."
                                 }, 10000)
