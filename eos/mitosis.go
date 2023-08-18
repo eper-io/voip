@@ -106,6 +106,7 @@ func Mitosis() {
 				if last < maxSessions*i/4 && current >= maxSessions*i/4 {
 					if int64(time.Now().Sub(start).Seconds())*i/4 < int64(maxRuntime.Seconds())*i/4 {
 						// We used the quota too fast: need more
+						fmt.Println("Mitosis from", last, "to", current, "at", int64(time.Now().Sub(start).Seconds())*i/4)
 						go Mitosis()
 					}
 				}
