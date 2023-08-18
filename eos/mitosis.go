@@ -88,20 +88,14 @@ func Mitosis() {
 		return
 	}
 
-	lock.Lock()
 	launches[id] = 0
-	lock.Unlock()
 	go func() {
 		start := time.Now()
 		for {
-			lock.Lock()
 			last := launches[id]
 			singleton := len(launches) == 1
-			lock.Unlock()
 			time.Sleep(3 * time.Minute)
-			lock.Lock()
 			current := launches[id]
-			lock.Unlock()
 
 			for i := int64(1); i <= 4; i++ {
 				if last < maxSessions*i/4 && current >= maxSessions*i/4 {

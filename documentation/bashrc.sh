@@ -11,6 +11,8 @@
 # Add this to 'crontab -e'
 # @reboot sudo /tmp/voip/documentation/bashrc.sh
 
+systemctl disable nginx.service
+systemctl stop nginx.service
 nohup bash -c 'sleep 60; while true; do timeout 600 /tmp/voip/documentation/cicd.sh; done' &
 
 # Production workloads will want to snapshot the staging once it is proven and replicate it.

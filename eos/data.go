@@ -1,7 +1,6 @@
 package eos
 
 import (
-	"sync"
 	"time"
 )
 
@@ -12,8 +11,6 @@ import (
 // This software is distributed without any warranty.
 // You should have received a copy of the CC0 Public Domain Dedication along wi
 // If not, see <https:#creativecommons.org/publicdomain/zero/1.0/legalcode>.
-
-var lock sync.Mutex
 
 var launches = map[string]int64{}
 

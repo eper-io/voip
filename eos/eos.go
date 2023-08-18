@@ -79,13 +79,12 @@ func Setup() {
 
 	http.HandleFunc("/idle", func(writer http.ResponseWriter, request *http.Request) {
 		apiKey := request.URL.Query().Get("apikey")
-		lock.Lock()
+		fmt.Println("line creation")
 		time.Sleep(15 * time.Millisecond)
 		if metadata.ActivationKey == "" || apiKey != metadata.ActivationKey {
 			//writer.WriteHeader(http.StatusPaymentRequired)
 		}
-		lock.Unlock()
-		lock.Lock()
+
 		port := BasePort
 		for ; lastContainer < LastPort; lastContainer++ {
 			x, err := net.Listen("tcp", fmt.Sprintf(":%d", lastContainer))
@@ -98,8 +97,8 @@ func Setup() {
 				_ = x.Close()
 			}
 		}
-		lock.Unlock()
 
+		fmt.Println(port)
 		key := generateUniqueKey()
 		startCommand := exec.Command("podman", "run", "--timeout", fmt.Sprintf("%d", int(MaxContainerTime.Seconds())), "-d", "--rm", "--name", redactPublicKey(key), "-e", fmt.Sprintf("PORT=%d", port), "-e", "APIKEY="+key, "-p", fmt.Sprintf("%d:443", port), "-v", metadata.Certificate+":/tmp/fullchain.pem:ro", "-v", metadata.PrivateKey+":/tmp/privkey.pem:ro", metadata.ContainerRuntime)
 		fmt.Println(startCommand.String())
@@ -107,7 +106,6 @@ func Setup() {
 		fmt.Println(string(y))
 
 		go func() {
-			lock.Lock()
 			x := make([]string, 0)
 			for k := range launches {
 				x = append(x, k)
@@ -116,7 +114,6 @@ func Setup() {
 				pick := x[rand.Intn(len(x))]
 				launches[pick]++
 			}
-			lock.Unlock()
 		}()
 
 		//TODO proxy
