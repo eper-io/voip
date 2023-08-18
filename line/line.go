@@ -221,6 +221,7 @@ func relayLine(ws *websocket.Conn) {
 	if peers == 0 {
 		idleSince = time.Now()
 		fmt.Println("lost all connections")
+		metadata.Info = ""
 		go func() {
 			const timeout = 3 * time.Minute
 			time.Sleep(timeout + 1*time.Minute)
