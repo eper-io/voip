@@ -14,7 +14,8 @@ cd /tmp/voip
 
 date
 
-git status > /var/log/voip
+date > /var/log/voip
+git status >> /var/log/voip
 git log >> /var/log/voip
 
 # Short glitch in the service. Acceptable.
