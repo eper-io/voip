@@ -13,7 +13,9 @@
 cd /tmp/voip
 
 # Short glitch in the service. Acceptable.
-(git pull -r | grep 'up to date') || kill -9 `pgrep voipbroker`
+# Any update of a repeated cicd.sh must requrire a full reboot.
+(git pull -r | grep 'up to date') || shutdown -r now
+# (git pull -r | grep 'up to date') || kill -9 `pgrep voipbroker`
 
 # Save some logs
 date > /var/log/voip
