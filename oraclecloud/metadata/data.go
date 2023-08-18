@@ -14,7 +14,7 @@ var Domain = "oracle.eper.io"
 // DomainNS is the main entrypoint and name service
 var DomainNS = "l.eper.io"
 
-var OracleLaunchCommand = "bash ./metadata/launch.sh"
+var OracleLaunchCommand = "bash ./oraclecloud/metadata/launch.sh"
 
 // HostNames are sample easy to pronounce host names. Cerbot can handle ~70
 var HostNames = `apple
