@@ -14,11 +14,12 @@ cd /tmp/voip
 
 # Short glitch in the service. Acceptable.
 # Any update of a repeated cicd.sh must requrire a full reboot.
-(git pull -r | grep 'up to date') || shutdown -r now
+git pull -r > /var/log/voip
+(cat /var/log/voip | grep 'up to date') || shutdown -r now
 # (git pull -r | grep 'up to date') || kill -9 `pgrep voipbroker`
 
 # Save some logs
-date > /var/log/voip
+date >> /var/log/voip
 echo Next update check in ten minutes >> /var/log/voip
 git status >> /var/log/voip
 git log >> /var/log/voip
