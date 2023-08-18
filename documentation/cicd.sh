@@ -17,6 +17,7 @@ cd /tmp/voip
 
 # Save some logs
 date > /var/log/voip
+echo Next update check in ten minutes >> /var/log/voip
 git status >> /var/log/voip
 git log >> /var/log/voip
 
