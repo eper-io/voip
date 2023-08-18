@@ -12,16 +12,18 @@
 # Run this command from /tmp/voip:
 cd /tmp/voip
 
-date
+# Short glitch in the service. Acceptable.
+(git pull -r | grep 'up to date') || kill -9 `pgrep voipbroker`
 
+# Save some logs
 date > /var/log/voip
 git status >> /var/log/voip
 git log >> /var/log/voip
 
-# Short glitch in the service. Acceptable.
-(git pull -r | grep 'up to date') || kill -9 `pgrep voipbroker`
-
+# Build voip broker
 docker build -t line.eper.io/line /tmp/voip
+echo "build result $?" >> /var/log/voip
+cat /var/log/voip
 
 # We may want to run a privileged container in the future. It is difficult to mix podman and golang
 cd /tmp/voip
