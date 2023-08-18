@@ -86,7 +86,7 @@ func OciCommand(name string, arg []string) *exec.Cmd {
 
 func LaunchInstance() (instanceId string, host string, ip string) {
 	cmdx := metadata.OracleLaunchCommand
-	c := OciCommand("oci", strings.Split(cmdx, " ")[1:])
+	c := OciCommand("sh", strings.Split(cmdx, " ")[1:])
 	ret, _ := c.Output()
 	if len(ret) == 0 {
 		fmt.Println(strings.Join(c.Args, " "))
