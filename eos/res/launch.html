@@ -23,45 +23,47 @@ If not, see <https:#creativecommons.org/publicdomain/zero/1.0/legalcode>.
             <div onclick="call()">
                 <img src="moose.png" alt="moose" style="width:0.6in; height:auto; padding-bottom: 1.00%; background: white">
             </div>
-            <span class="texteditor-inline-color" style="color:#693a26;" id="button">Launch</span>
+            <span class="texteditor-inline-color" style="color:#693a26;" id="button">Try to call</span>
         </div>
     </div>
     <script>
         function call() {
-            document.getElementById("diagnostics").innerHTML = "Launching..."
-            let action = document.getElementById("button").innerText
-            setTimeout(function () {
-                if (action === "Launch") {
-                    document.getElementById("button").innerText = 'Please wait'
-                    setTimeout(function () {
-                        if (document.getElementById("diagnostics").innerHTML === "Launching...") {
-                            document.getElementById("diagnostics").innerHTML = "Launch timed out."
-                            document.getElementById("button").innerText = "Launch"
-                            setTimeout(function () {
-                                document.getElementById("diagnostics").innerHTML = "Click on documentation to learn more."
-                            }, 10000)
+            if (document.getElementById("diagnostics").innerHTML !== "Launching...") {
+                document.getElementById("diagnostics").innerHTML = "Launching..."
+                let action = document.getElementById("button").innerText
+                setTimeout(function () {
+                    if (action === "Launch") {
+                        document.getElementById("button").innerText = 'Please wait'
+                        setTimeout(function () {
+                            if (document.getElementById("diagnostics").innerHTML === "Launching...") {
+                                document.getElementById("diagnostics").innerHTML = "Launch timed out."
+                                document.getElementById("button").innerText = "Launch"
+                                setTimeout(function () {
+                                    document.getElementById("diagnostics").innerHTML = "Click on documentation to learn more."
+                                }, 10000)
+                            }
+                        }, 700)
+                        let xmlHttp = new XMLHttpRequest();
+                        xmlHttp.open("GET", '/idle' + document.location.search, false);
+                        xmlHttp.onerror = function () {
+                            document.getElementById("diagnostics").innerHTML = "Connection failed."
                         }
-                    }, 700)
-                    let xmlHttp = new XMLHttpRequest();
-                    xmlHttp.open( "GET", '/idle'+document.location.search, false );
-                    xmlHttp.onerror = function () {
-                        document.getElementById("diagnostics").innerHTML = "Connection failed."
-                    }
-                    xmlHttp.send( null );
-                    console.log(xmlHttp.responseText);
-                    if (xmlHttp.responseText.startsWith("http")) {
-                        document.getElementById("diagnostics").innerHTML = "Launched."
+                        xmlHttp.send(null);
+                        console.log(xmlHttp.responseText);
+                        if (xmlHttp.responseText.startsWith("http")) {
+                            document.getElementById("diagnostics").innerHTML = "Launched."
 
-                        if (window.innerWidth < window.innerHeight) {
-                            // Mobile
-                            window.location.href = xmlHttp.responseText.replace('#generate_leaf', '&mobile=1#generate_leaf')
-                            console.log('switching to mobile bandwidth')
-                        } else {
-                            window.location.href = xmlHttp.responseText
+                            if (window.innerWidth < window.innerHeight) {
+                                // Mobile
+                                window.location.href = xmlHttp.responseText.replace('#generate_leaf', '&mobile=1#generate_leaf')
+                                console.log('switching to mobile bandwidth')
+                            } else {
+                                window.location.href = xmlHttp.responseText
+                            }
                         }
                     }
-                }
-            }, 10)
+                }, 10)
+            }
         }
     </script>
 </body>
