@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"gitlab.com/eper.io/engine/metadata"
 	"io"
-	"math/rand"
 	"net"
 	"net/http"
 	"net/url"
@@ -45,7 +44,7 @@ func Setup() {
 	fmt.Printf("Launch %s as %s?apikey=%s\n", metadata.ContainerRuntime, metadata.SiteUrl, metadata.ActivationKey)
 	fmt.Printf("")
 
-	//go Mitosis()
+	go Mitosis()
 
 	http.HandleFunc("/", func(writer http.ResponseWriter, request *http.Request) {
 		writer.Header().Set("Cache-Control", "no-cache")
@@ -106,14 +105,8 @@ func Setup() {
 		fmt.Println(string(y))
 
 		go func() {
-			x := make([]string, 0)
-			for k := range launches {
-				x = append(x, k)
-			}
-			if len(x) > 0 {
-				pick := x[rand.Intn(len(x))]
-				launches[pick]++
-			}
+			LaunchSite()
+
 		}()
 
 		//TODO proxy

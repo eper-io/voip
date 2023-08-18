@@ -16,10 +16,10 @@ var launches = map[string]int64{}
 
 // maxSessions is the maximum number of sessions during the lifetime of the node.
 // See Mitosis() for explanation.
-const maxSessions = int64(200)
+const maxSessions = int64(20) // int64(200)
 
 // maxRuntime is the maximum time a node is available for launch requests
-const maxRuntime = 8 * time.Hour
+const maxRuntime = 40 * time.Minute // 8 * time.Hour
 
 const BasePort = 49999
 const LastPort = 60000
