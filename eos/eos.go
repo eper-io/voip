@@ -42,7 +42,7 @@ func Setup() {
 	metadata.Certificate = fmt.Sprintf("/etc/letsencrypt/live/%s/fullchain.pem", url1.Hostname())
 	metadata.PrivateKey = fmt.Sprintf("/etc/letsencrypt/live/%s/privkey.pem", url1.Hostname())
 
-	fmt.Printf("Launch %s as %s?apikey=%s\n", metadata.ContainerRuntime, siteUrl, metadata.ActivationKey)
+	fmt.Printf("Launch %s as %s?apikey=%s\n", metadata.ContainerRuntime, metadata.SiteUrl, metadata.ActivationKey)
 	fmt.Printf("")
 
 	go Mitosis()
