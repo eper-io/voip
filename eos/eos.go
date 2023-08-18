@@ -100,7 +100,7 @@ func Setup() {
 
 		fmt.Println(port)
 		key := generateUniqueKey()
-		startCommand := exec.Command("podman", "run", "--timeout", fmt.Sprintf("%d", int(MaxContainerTime.Seconds())), "-d", "--rm", "--name", redactPublicKey(key), "-e", fmt.Sprintf("PORT=%d", port), "-e", "APIKEY="+key, "-p", fmt.Sprintf("%d:443", port), "-v", metadata.Certificate+":"+metadata.Certificate+":ro", "-v", metadata.PrivateKey+":"+metadata.Certificate+":ro", metadata.ContainerRuntime)
+		startCommand := exec.Command("podman", "run", "--timeout", fmt.Sprintf("%d", int(MaxContainerTime.Seconds())), "-d", "--rm", "--name", redactPublicKey(key), "-e", fmt.Sprintf("PORT=%d", port), "-e", "APIKEY="+key, "-p", fmt.Sprintf("%d:443", port), "-v", metadata.Certificate+":"+metadata.Certificate+":ro", "-v", metadata.PrivateKey+":"+metadata.PrivateKey+":ro", metadata.ContainerRuntime)
 		fmt.Println(startCommand.String())
 		y, _ := startCommand.CombinedOutput()
 		fmt.Println(string(y))

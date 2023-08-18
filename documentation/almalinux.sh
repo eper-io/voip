@@ -60,9 +60,11 @@ EOF
 
 cat <<EOF >/tmp/voip/Dockerfile
 FROM golang:1.19.3
+
 ADD . /go/src
+
 WORKDIR /go/src
-RUN apt update; apt install -y docker-compose;
+
 # This will listen to tcp port metadata.Http11Port externally.
 CMD go run main.go
 EOF
