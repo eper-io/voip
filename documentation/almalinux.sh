@@ -60,8 +60,8 @@ package metadata
 // You can set this as a default or load from os.Getenv("APIKEY")
 var ActivationKey = "QTOPZNNEYGPBKUQEKJYLHBIJVHAJEOOXWMFMXWJDDWNOIJVHXFXRLFJXAAOGEBRBUMQJEYYNDHBTWJUYVNEKZJMJTHHR"
 var SiteUrl = "https://l.eper.io"
-var Certificate = "/tmp/fullchain.pem"
-var PrivateKey = "/tmp/privkey.pem"
+var Certificate = "/etc/letsencrypt/live/l.eper.io/fullchain.pem"
+var PrivateKey = "/etc/letsencrypt/live/l.eper.io/privkey.pem"
 var ContainerRuntime = ""
 
 // This requires a Certificate and PrivateKey in place
@@ -96,3 +96,5 @@ git config --global user.name "eper.io installer"
 
 git add .
 git commit -m local
+
+touch /etc/containers/nodocker
