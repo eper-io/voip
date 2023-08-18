@@ -98,13 +98,13 @@ func Setup() {
 				_ = x.Close()
 			}
 		}
+		lock.Unlock()
 
 		key := generateUniqueKey()
 		startCommand := exec.Command("podman", "run", "--timeout", fmt.Sprintf("%d", int(MaxContainerTime.Seconds())), "-d", "--rm", "--name", redactPublicKey(key), "-e", fmt.Sprintf("PORT=%d", port), "-e", "APIKEY="+key, "-p", fmt.Sprintf("%d:443", port), "-v", metadata.Certificate+":/tmp/fullchain.pem:ro", "-v", metadata.PrivateKey+":/tmp/privkey.pem:ro", metadata.ContainerRuntime)
 		fmt.Println(startCommand.String())
 		y, _ := startCommand.CombinedOutput()
 		fmt.Println(string(y))
-		lock.Unlock()
 
 		go func() {
 			lock.Lock()
