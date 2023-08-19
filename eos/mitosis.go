@@ -86,6 +86,10 @@ func LaunchSite() {
 
 func Mitosis() {
 	id, host, ip := cloud.LaunchInstance()
+	if id == "" {
+		fmt.Println("Failed Launch")
+		return
+	}
 	fmt.Println("Launched", id, host, ip)
 	cloud.CleanupInstance(id, host, maxRuntime)
 	if id == "" {
@@ -103,19 +107,20 @@ func Mitosis() {
 			current := launches[id]
 
 			for i := int64(1); i <= 4; i++ {
-				if last < maxSessions*i/4 && current >= maxSessions*i/4 {
-					if int64(time.Now().Sub(start).Seconds())*i/4 < int64(maxRuntime.Seconds())*i/4 {
-						// We used the quota too fast: need more
-						fmt.Println("Mitosis from", last, "to", current, "at", int64(time.Now().Sub(start).Seconds())*i/4)
-						go Mitosis()
-					}
-				}
 				if current > maxSessions || time.Now().Sub(start) > maxRuntime {
 					Terminate(id, host)
 					if singleton {
 						go Mitosis()
 					}
 					return
+				}
+				if last < maxSessions*i/4 && current >= maxSessions*i/4 {
+					if int64(time.Now().Sub(start).Seconds())*i/4 < int64(maxRuntime.Seconds())*i/4 {
+						// We used the quota too fast: need more
+						fmt.Println("Mitosis from", last, "to", current, "at", int64(time.Now().Sub(start).Seconds())*i/4, "seconds", i, "/4")
+						go Mitosis()
+						break
+					}
 				}
 			}
 		}

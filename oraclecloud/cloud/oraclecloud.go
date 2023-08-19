@@ -135,11 +135,13 @@ func TerminateInstance(id string, host string) {
 }
 
 func CleanupInstance(id string, host string, duration time.Duration) {
-	cmd := fmt.Sprintf("nohup sleep %d && oci compute instance terminate --force --instance-id %s &\n", int64(duration.Seconds()), id)
-	old, _ := os.ReadFile("/var/log/oracle")
+	old, _ := os.ReadFile("/tmp/cleanup")
 	buf := bytes.Buffer{}
 	buf.Write(old)
+
+	cmd := fmt.Sprintf("nohup sleep %d && oci compute instance terminate --force --instance-id %s &\n", int64(duration.Seconds()), id)
 	buf.Write([]byte(cmd))
-	// TODO Acceptable race risk?
+
+	// TODO Acceptable race risk or O_APPEND?
 	_ = os.WriteFile("/tmp/cleanup", buf.Bytes(), 0700)
 }
