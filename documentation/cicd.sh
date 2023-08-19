@@ -19,7 +19,7 @@ git pull -r > /var/log/voip
 # (git pull -r | grep 'up to date') || shutdown -r now
 
 # Save some logs
-date >> /var/log/voip
+TZ='America/Los_Angeles' date >> /var/log/voip
 echo Next update check in ten minutes >> /var/log/voip
 git status >> /var/log/voip
 git log >> /var/log/voip
