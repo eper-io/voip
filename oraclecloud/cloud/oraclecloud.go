@@ -144,4 +144,8 @@ func CleanupInstance(id string, host string, duration time.Duration) {
 
 	// TODO Acceptable race risk or O_APPEND?
 	_ = os.WriteFile("/tmp/cleanup", buf.Bytes(), 0700)
+
+	cmd1 := fmt.Sprintf("sleep %d && oci compute instance terminate --force --instance-id %s", int64(duration.Seconds()), id)
+	_, _ = exec.Command("bash", "-c", cmd1).CombinedOutput()
+
 }
