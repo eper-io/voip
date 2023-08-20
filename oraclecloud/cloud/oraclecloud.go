@@ -123,7 +123,7 @@ func GetInstancePublicIp(instance string) string {
 	if len(ret) == 0 {
 		fmt.Println(strings.Join(c.Args, " "))
 	}
-	fmt.Println(string(ret))
+	fmt.Println("ip", string(ret))
 	return ParsePublicIP(string(ret))
 }
 

@@ -18,104 +18,102 @@ var OracleLaunchCommand = "bash ./oraclecloud/metadata/launch.sh"
 
 // HostNames are sample easy to pronounce host names. Cerbot can handle ~70
 var HostNames = `apple
-	bicycle
-	sunshine
-	whisper
-	ocean
-	lantern
-	rainbow
-	adventure
-	galaxy
-	chocolate
-	dragon
-	elephant
-	moonlight
-	jazz
-	telescope
-	enigma
-	firefly
-	harmony
-	carousel
-	blossom
-	wanderlust
-	serenade
-	mountain
-	symphony`
-
-//
-//velvet
-//bubble
-//stardust
-//flamingo
-//aurora
-//puzzle
-//horizon
-//quasar
-//twilight
-//radiant
-//meadow
-//tornado
-//velvet
-//whisper
-//avalanche
-//carnival
-//rhapsody
-//mirage
-//monsoon
-//universe
-//jubilee
-//sapphire
-//zephyr
-//orchid
-//infinity
-//delight
-//enchanted
-//mirage
-//firework
-//blossom
-//cascade
-//celestial
-//enigma
-//serendipity
-//lullaby
-//harmony
-//galaxy
-//whirlwind
-//enchanted
-//cascade
-//rainbow
-//nebula
-//odyssey
-//velvet
-//butterfly
-//whisper
-//reflection
-//symphony
-//moonbeam
-//kaleidoscope
-//serenade
-//radiance
-//secret
-//elixir
-//aurora
-//wanderlust
-//twilight
-//crystal
-//horizon
-//starlight
-//echo
-//zephyr
-//jubilee
-//breeze
-//luminous
-//solitude
-//ethereal
-//galaxy
-//purity
-//blossom
-//whimsical
-//euphoria
-//ocean
-//serenity
-//illuminate
-//tranquil`
+bicycle
+sunshine
+whisper
+ocean
+lantern
+rainbow
+adventure
+galaxy
+chocolate
+dragon
+elephant
+moonlight
+jazz
+telescope
+enigma
+firefly
+harmony
+carousel
+blossom
+wanderlust
+serenade
+mountain
+symphony
+velvet
+bubble
+stardust
+flamingo
+aurora
+puzzle
+horizon
+quasar
+twilight
+radiant
+meadow
+tornado
+velvet
+whisper
+avalanche
+carnival
+rhapsody
+mirage
+monsoon
+universe
+jubilee
+sapphire
+zephyr
+orchid
+infinity
+delight
+enchanted
+mirage
+firework
+blossom
+cascade
+celestial
+enigma
+serendipity
+lullaby
+harmony
+galaxy
+whirlwind
+enchanted
+cascade
+rainbow
+nebula
+odyssey
+velvet
+butterfly
+whisper
+reflection
+symphony
+moonbeam
+kaleidoscope
+serenade
+radiance
+secret
+elixir
+aurora
+wanderlust
+twilight
+crystal
+horizon
+starlight
+echo
+zephyr
+jubilee
+breeze
+luminous
+solitude
+ethereal
+galaxy
+purity
+blossom
+whimsical
+euphoria
+ocean
+serenity
+illuminate
+tranquil`
