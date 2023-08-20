@@ -1,9 +1,9 @@
 package cloud
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
+	"gitlab.com/eper.io/engine/line"
 	"gitlab.com/eper.io/engine/oraclecloud/metadata"
 	"gitlab.com/eper.io/engine/oraclecloud/ns"
 	"os"
@@ -135,20 +135,14 @@ func TerminateInstance(id string, host string) {
 }
 
 func CleanupInstance(id string, host string, duration time.Duration) {
-	old, _ := os.ReadFile("/tmp/cleanup")
-	buf := bytes.Buffer{}
-	buf.Write(old)
-
 	cmd := fmt.Sprintf("nohup sleep %d && oci compute instance terminate --force --instance-id %s &\n", int64(duration.Seconds()), id)
-	buf.Write([]byte(cmd))
 
 	// TODO Acceptable race risk or O_APPEND?
-	_ = os.WriteFile("/tmp/cleanup", buf.Bytes(), 0700)
+	name := "/tmp/cleanup_" + line.GenerateUniqueKey()
+	_ = os.WriteFile(name, []byte(cmd), 0700)
 
 	go func() {
-		cmd1 := fmt.Sprintf("sleep %d && oci compute instance terminate --force --instance-id %s", int64(duration.Seconds()), id)
-		fmt.Println(cmd1)
-		_, _ = exec.Command("bash", "-c", cmd1).CombinedOutput()
+		fmt.Println(name, host, cmd)
+		_ = exec.Command("bash", name).Start()
 	}()
-
 }
