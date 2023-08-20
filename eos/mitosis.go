@@ -100,15 +100,16 @@ func Mitosis() {
 	launches[id] = 0
 	go func() {
 		start := time.Now()
+		last := int64(0)
 		for {
-			last := launches[id]
-			singleton := len(launches) == 1
+			last = launches[id]
 			time.Sleep(3 * time.Minute)
 			current := launches[id]
 
 			for i := int64(1); i <= 4; i++ {
 				if current > maxSessions || time.Now().Sub(start) > maxRuntime {
 					Terminate(id, host)
+					singleton := len(launches) == 1
 					if singleton {
 						go Mitosis()
 					}
@@ -123,6 +124,8 @@ func Mitosis() {
 					}
 				}
 			}
+
+			last = current
 		}
 	}()
 }

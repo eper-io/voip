@@ -27,4 +27,3 @@ const LastPort = 60000
 var lastContainer = BasePort
 var MaxContainerTime = 2 * time.Hour
 var DockerDelay = 3 * time.Second
-var MaxContainers = 100
