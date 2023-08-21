@@ -41,6 +41,9 @@ import (
 // It checks if the load is big enough to trigger the scale out logic.
 // It also scales down, once the machine runtime has expired.
 func SetupMitosis() {
+	for i := 0; i < InitialNodes; i++ {
+		go Mitosis()
+	}
 }
 
 // LaunchSite gets a site for the current request.
