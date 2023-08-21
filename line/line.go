@@ -90,7 +90,7 @@ func Setup() {
 
 		metadata.Info = fmt.Sprintf("<div class=\"rich-text\" style=\"text-align: center;\">%s %s %s</div>", host, metadata.Bandwidth, participant)
 
-		text := strings.Replace(string(content), "In the News:", metadata.Info+"<br>In the News:", 1)
+		text := strings.Replace(string(content), "No Connection.", metadata.Info+"<br>No Connection.", 1)
 		_, _ = io.WriteString(writer, text)
 	})
 
