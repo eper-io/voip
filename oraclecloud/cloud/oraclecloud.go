@@ -143,7 +143,7 @@ func CleanupInstance(id string, host string, duration time.Duration) {
 
 	// Cleanup if needed before garbage collection
 	name := fmt.Sprintf("/tmp/cleanup_%s_%s", id[0:5], serial)
-	cmd := fmt.Sprintf("oci compute instance terminate --force --instance-id %s\n", id)
+	cmd := fmt.Sprintf("oci compute instance terminate --force --instance-id %s\nnohup rm -f %s\n", id, name)
 
 	_ = os.WriteFile(name, []byte(cmd), 0700)
 
