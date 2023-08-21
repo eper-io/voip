@@ -135,9 +135,21 @@ func TerminateInstance(id string, host string) {
 }
 
 func CleanupInstance(id string, host string, duration time.Duration) {
-	name := fmt.Sprintf("/tmp/cleanup_%s_%s", id, line.GenerateUniqueKey())
-	cmd := fmt.Sprintf("sleep %d && oci compute instance terminate --force --instance-id %s\n", int64(duration.Seconds()), id)
+	if len(id) < 5 {
+		return
+	}
 
+	serial := line.GenerateUniqueKey()
+
+	// Cleanup if needed before garbage collection
+	name := fmt.Sprintf("/tmp/cleanup_%s_%s", id[0:5], serial)
+	cmd := fmt.Sprintf("oci compute instance terminate --force --instance-id %s\n", id)
+
+	_ = os.WriteFile(name, []byte(cmd), 0700)
+
+	// Garbage collect instances
+	name = fmt.Sprintf("/tmp/gc_%s_%s", id[0:5], serial)
+	cmd = "sleep %d && " + cmd
 	_ = os.WriteFile(name, []byte(cmd), 0700)
 
 	go func() {
