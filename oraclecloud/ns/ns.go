@@ -60,7 +60,8 @@ func SetupNameServer() {
 				_, _ = writer.Write([]byte(fmt.Sprintf("%d.%d.%d.%d", ip[0], ip[1], ip[2], ip[3])))
 				return
 			}
-
+			writer.WriteHeader(http.StatusBadRequest)
+			return
 		}
 		if request.Method == http.MethodDelete {
 			if strings.HasPrefix(request.RemoteAddr, "127.0.0.1") {
