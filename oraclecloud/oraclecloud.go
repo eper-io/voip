@@ -84,7 +84,7 @@ func OciCommand(name string, arg []string) *exec.Cmd {
 	return cmd
 }
 
-func LaunchInstance() (instanceId string, host string, ip string) {
+func LaunchInstance(maxRuntime time.Duration) (instanceId string, host string, ip string) {
 	cmdx := metadata.OracleLaunchCommand
 	c := OciCommand("sh", strings.Split(cmdx, " ")[1:])
 	ret, _ := c.Output()
@@ -107,6 +107,11 @@ func LaunchInstance() (instanceId string, host string, ip string) {
 				if !ok || value == ns.EntryPoint {
 					if host != "" && n == 4 {
 						ns.Nodes[host] = ipv4d
+						CleanupInstance(id, host, maxRuntime)
+						if id == "" {
+							fmt.Println("failed mitosis")
+							return
+						}
 						return id, host, ipv4
 					}
 				}

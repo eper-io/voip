@@ -88,17 +88,12 @@ func LaunchSite() {
 // We terminate the current instance at max sessions, since the state is statistically dirty/exhausted.
 
 func Mitosis() {
-	id, host, ip := oraclecloud.LaunchInstance()
+	id, host, ip := oraclecloud.LaunchInstance(maxRuntime)
 	if id == "" {
 		fmt.Println("Failed Launch")
 		return
 	}
 	fmt.Println("Launched", id, host, ip)
-	oraclecloud.CleanupInstance(id, host, maxRuntime)
-	if id == "" {
-		fmt.Println("failed mitosis")
-		return
-	}
 
 	launches[id] = 0
 	go func() {
