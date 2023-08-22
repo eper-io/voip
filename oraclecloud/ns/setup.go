@@ -91,5 +91,8 @@ func SetupComputeCluster() {
 	if err != nil {
 		ret, _ := exec.Command("certbot", strings.Split(list, " ")[1:]...).CombinedOutput()
 		fmt.Println(string(ret))
+		if strings.Contains(string(ret), "too many failed authorizations recently") {
+			_ = os.MkdirAll(fmt.Sprintf("/etc/letsencrypt/live/%s", metadata.Domain), 0700)
+		}
 	}
 }
