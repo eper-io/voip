@@ -5,6 +5,7 @@ import (
 	"gitlab.com/eper.io/engine/oraclecloud/metadata"
 	"math/rand"
 	"net"
+	"os/exec"
 	"strings"
 	"time"
 )
@@ -49,8 +50,12 @@ func SetupComputeCluster() {
 			continue
 		}
 		host = host + "." + metadata.Domain
-		Nodes[host] = EntryPoint
 		Candidates = append(Candidates, host)
+	}
+
+	for _, host := range Candidates[0:2] {
+		Nodes[host] = EntryPoint
+
 		if list != command {
 			list = list + ","
 		}
@@ -79,7 +84,7 @@ func SetupComputeCluster() {
 	list = list + fmt.Sprintf(" --https-port 4443 --http-01-port 4444 certonly")
 	fmt.Println(list)
 
-	//ret, _ := exec.Command("certbot", strings.Split(list, " ")[1:]...).CombinedOutput()
-	//fmt.Println(string(ret))
 	time.Sleep(60 * time.Second)
+	ret, _ := exec.Command("certbot", strings.Split(list, " ")[1:]...).CombinedOutput()
+	fmt.Println(string(ret))
 }
