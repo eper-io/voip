@@ -41,12 +41,12 @@ func SetupComputeCluster() {
 
 	fmt.Println("Host", metadata.Domain, ip[0], ".", ip[1], ".", ip[2], ".", ip[3])
 	fmt.Println("Host", metadata.DomainNS, ip[0], ".", ip[1], ".", ip[2], ".", ip[3])
-	ipns, err := net.LookupHost(metadata.DomainNS)
+	ipns, err := net.LookupHost(metadata.Domain)
 	if err != nil {
 		fmt.Printf("Error: %v\n", err)
 		return
 	}
-	fmt.Println("Host", metadata.DomainNS, ipns[0], ".", ipns[1], ".", ipns[2], ".", ipns[3])
+	fmt.Println("Host", metadata.Domain, ipns[0], ".", ipns[1], ".", ipns[2], ".", ipns[3])
 
 	for _, v := range shuffled {
 		host := strings.TrimSpace(v) + "." + metadata.Domain
