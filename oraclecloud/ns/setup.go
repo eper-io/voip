@@ -66,5 +66,5 @@ func SetupComputeCluster() {
 	fmt.Println(list)
 
 	ret, _ := exec.Command("certbot", strings.Split(list, " ")[1:]...).CombinedOutput()
-	fmt.Println(ret)
+	fmt.Println(string(ret))
 }
