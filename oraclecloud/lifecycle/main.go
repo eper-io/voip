@@ -21,7 +21,7 @@ func main() {
 	ns.SetupComputeCluster()
 	time.Sleep(10 * time.Second)
 	id, host, ip := oraclecloud.LaunchInstance(3 * time.Minute)
-	fmt.Println(id, host, ip)
+	fmt.Println("Launched", id, host, ip)
 	time.Sleep(4 * time.Minute)
 	fmt.Println("Terminating.")
 	ip1 := oraclecloud.GetInstancePublicIp(id)

@@ -19,8 +19,8 @@ var launches = map[string]int64{}
 const maxSessions = int64(200)
 
 // maxRuntime is the maximum time a node is available for launch requests
-const maxRuntime = 8 * time.Hour
-const InitialNodes = 0
+const maxRuntime = 1 * time.Hour //TODO 8
+const InitialNodes = 2
 
 const BasePort = 49999
 const LastPort = 60000
