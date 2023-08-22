@@ -20,7 +20,7 @@ const maxSessions = int64(200)
 
 // maxRuntime is the maximum time a node is available for launch requests
 const maxRuntime = 8 * time.Hour
-const InitialNodes = 3
+const InitialNodes = 2
 
 const BasePort = 49999
 const LastPort = 60000
