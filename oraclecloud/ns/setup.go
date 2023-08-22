@@ -5,6 +5,7 @@ import (
 	"gitlab.com/eper.io/engine/oraclecloud/metadata"
 	"math/rand"
 	"net"
+	"os/exec"
 	"strings"
 	"time"
 )
@@ -63,4 +64,7 @@ func SetupComputeCluster() {
 	// Just print the cert command. See documentation/almalinux.sh
 	list = list + fmt.Sprintf(" --https-port 4443 --http-01-port 4444 certonly")
 	fmt.Println(list)
+
+	ret, _ := exec.Command("certbot", strings.Split(list, " ")[1:]...).CombinedOutput()
+	fmt.Println(ret)
 }
