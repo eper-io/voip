@@ -35,10 +35,10 @@ func SetupNameServer() {
 				n, _ := fmt.Sscanf(ipv4, "%d.%d.%d.%d", &ipv4d[0], &ipv4d[1], &ipv4d[2], &ipv4d[3])
 				if host != "" && n == 4 {
 					// Only once
-					_, ok := Nodes[host]
-					if !ok {
-						Nodes[host] = ipv4d
-					}
+					//_, ok := Nodes[host]
+					//if !ok {
+					Nodes[host] = ipv4d
+					//}
 					return
 				}
 			}
