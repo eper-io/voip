@@ -102,8 +102,7 @@ func TestNameService(t *testing.T) {
 		t.Error(id)
 	}
 
-	jsonData = `
-ip{
+	jsonData = `ip {
   "data": [
     {
       "availability-domain": "lynu:US-SANJOSE-1-AD-1",
@@ -111,32 +110,30 @@ ip{
       "defined-tags": {
         "Oracle-Tags": {
           "CreatedBy": "hq@schmied.us",
-          "CreatedOn": "2023-08-20T02:20:34.369Z"
+          "CreatedOn": "2023-08-22T03:19:38.242Z"
         }
       },
-      "display-name": "instance20230820022035",
+      "display-name": "instance20230822031939",
       "freeform-tags": {},
-      "hostname-label": "instance20230820022035",
-      "id": "ocid1.vnic.oc1.us-sanjose-1.abzwuljr5jg7eoyy2lmm5vikv5edjft5wmsz7dvi4ughfcyazvkjho2nbmqa",
+      "hostname-label": "instance20230822031939-670401",
+      "id": "ocid1.vnic.oc1.us-sanjose-1.abzwuljruukaxjm5nqw75ogg4ve4rmgn5cahue5n5no2ihgoyslkd2s35k6q",
       "is-primary": true,
       "lifecycle-state": "AVAILABLE",
-      "mac-address": "02:00:17:00:D8:AD",
+      "mac-address": "02:00:17:00:83:2F",
       "nsg-ids": [],
-      "private-ip": "10.0.0.161",
-      "public-ip": "138.2.237.100",
+      "private-ip": "10.0.0.236",
+      "public-ip": "146.235.211.85",
       "skip-source-dest-check": false,
       "subnet-id": "ocid1.subnet.oc1.us-sanjose-1.aaaaaaaa7hqoxlrkzwl2njvvwab743mwdk3ao5u5na4jovmppvgl3gqihp7q",
-      "time-created": "2023-08-20T02:20:41.078000+00:00",
+      "time-created": "2023-08-22T03:19:42.809000+00:00",
       "vlan-id": null
     }
   ]
-}
-
-	`
+}`
 
 	ip := ParsePublicIP(jsonData)
 
-	if ip != "138.2.237.100" {
+	if ip != "146.235.211.85" {
 		t.Error(ip)
 	}
 

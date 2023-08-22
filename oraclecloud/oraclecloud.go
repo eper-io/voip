@@ -152,6 +152,7 @@ func LaunchInstance(maxRuntime time.Duration) (instanceId string, host string, i
 			time.Sleep(10 * time.Second)
 			ipv4d := [4]byte{0, 0, 0, 0}
 			ipv4 := GetInstancePublicIp(id)
+			fmt.Println("Found IP", ipv4)
 			n, _ := fmt.Sscanf(ipv4, "%d.%d.%d.%d", &ipv4d[0], &ipv4d[1], &ipv4d[2], &ipv4d[3])
 			x := ns.Candidates
 			for _, host := range x {
