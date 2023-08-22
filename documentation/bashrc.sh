@@ -13,7 +13,7 @@
 
 systemctl disable nginx.service
 systemctl stop nginx.service
-# rm -f /tmp/voip_*
+# rm -f /var/lib/voip_*
 
 nohup bash -c 'while true; do sleep 30; timeout 600 /tmp/voip/documentation/cicd.sh; done' &
 
