@@ -2,11 +2,11 @@
 
 # The output can be grabbed at /var/log/cloud-init-output.log
 
-echo "Hello World.  The time is now $(date -R)!" | tee /var/log/output.txt
+sudo echo "Hello World.  The time is now $(date -R)!" | tee /var/log/output.txt
 
 sudo yum install -y golang
 
-cat <<EOF >/tmp/main.go
+sudo cat <<EOF >/tmp/main.go
 package main
 
 import (
@@ -29,4 +29,4 @@ func main() {
 }
 EOF
 
-nohup go run /tmp/main.go &
+sudo nohup go run /tmp/main.go &
