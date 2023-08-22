@@ -43,7 +43,7 @@ sleep 6
 
 # Running docker as root on the network is dangerous so we need to be very lean and careful with the codebase in /eos
 
-# docker run -d --rm --name voiptest -e SITEURL=https://l.eper.io -e PORT=7777 -p 7777:443 -v /etc/letsencrypt/live/moose-assist.eper.io/fullchain.pem:/tmp/fullchain.pem:ro -v /etc/letsencrypt/live/moose-assist.eper.io/privkey.pem:/tmp/privkey.pem:ro line.eper.io/line
+# docker run -d --rm --name voiptest -e SITEURL=https://l.eper.io -e PORT=7777 -p 7777:443 -v /etc/letsencrypt/live/l.eper.io/fullchain.pem:/tmp/fullchain.pem:ro -v /etc/letsencrypt/live/l.eper.io/privkey.pem:/tmp/privkey.pem:ro line.eper.io/line
 
 # Just to make sure
 
