@@ -19,7 +19,7 @@ TZ='America/Los_Angeles' date >> /var/log/voip
 sleep 30;
 echo Next update check is in thirty seconds >> /var/log/voip
 git status >> /var/log/voip
-git log >> /var/log/voip
+git log --format=oneline >> /var/log/voip
 
 # Build voip broker
 docker build -t line.eper.io/line /tmp/voip
