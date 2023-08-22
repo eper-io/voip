@@ -38,10 +38,12 @@ func SetupComputeCluster() {
 	})
 
 	Nodes[metadata.Domain] = ip
+	Nodes["example."+metadata.Domain] = ip
 
 	fmt.Println("Host", metadata.Domain, ip[0], ".", ip[1], ".", ip[2], ".", ip[3])
 	fmt.Println("Host", metadata.DomainNS, ip[0], ".", ip[1], ".", ip[2], ".", ip[3])
-	ipns, err := net.LookupHost(metadata.Domain)
+	time.Sleep(10 * time.Second)
+	ipns, err := net.LookupHost("example." + metadata.Domain)
 	if err != nil {
 		fmt.Printf("Error: %v\n", err)
 		return
