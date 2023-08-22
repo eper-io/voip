@@ -52,7 +52,11 @@ func SetupComputeCluster() {
 	fmt.Println("Host", metadata.Domain, ipns[0])
 
 	for _, v := range shuffled {
-		host := strings.TrimSpace(v) + "." + metadata.Domain
+		host := strings.TrimSpace(v)
+		if host == "" {
+			continue
+		}
+		host = host + "." + metadata.Domain
 		Nodes[host] = EntryPoint
 		Candidates = append(Candidates, host)
 		if list != command {
