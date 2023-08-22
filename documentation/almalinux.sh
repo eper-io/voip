@@ -74,8 +74,8 @@ var Bandwidth = ""
 
 EOF
 
-echo var RandomSalt = \""$(go run eos/montecarlo/main.go)"\" >>/tmp/voip/metadata/data.go
-echo var ActivationKey = \""$(go run eos/montecarlo/main.go)"\" >>/tmp/voip/metadata/data.go
+echo var RandomSalt = \""$(go run /tmp/voip/eos/montecarlo/main.go)"\" >>/tmp/voip/metadata/data.go
+echo var ActivationKey = \""$(go run /tmp/voip/eos/montecarlo/main.go)"\" >>/tmp/voip/metadata/data.go
 
 cat <<EOF >/tmp/voip/Dockerfile
 FROM golang:1.19.3
