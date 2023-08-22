@@ -153,8 +153,6 @@ func LaunchInstance(maxRuntime time.Duration) (instanceId string, host string, i
 			ipv4d := [4]byte{0, 0, 0, 0}
 			ipv4 := GetInstancePublicIp(id)
 			n, _ := fmt.Sscanf(ipv4, "%d.%d.%d.%d", &ipv4d[0], &ipv4d[1], &ipv4d[2], &ipv4d[3])
-			ipx, _ := exec.Command("curl", "-X", "GET", fmt.Sprintf("http://127.0.0.1:5377/dns?a=%s", host)).Output()
-			fmt.Println("Found NS host", string(ipx))
 			fmt.Println("Found IP", ipv4)
 			if n == 4 {
 				fmt.Println("Found IP", ipv4d)
@@ -163,7 +161,12 @@ func LaunchInstance(maxRuntime time.Duration) (instanceId string, host string, i
 					if host != "" {
 						value, ok := ns.Nodes[host]
 						if !ok || value == ns.EntryPoint {
+							ipx, _ := exec.Command("curl", "-X", "GET", fmt.Sprintf("http://127.0.0.1:5377/dns?a=%s", host)).Output()
+							fmt.Println("Found NS host", string(ipx))
 							_ = exec.Command("curl", "-X", "PUT", fmt.Sprintf("http://127.0.0.1:5377/dns?a=%s&ipv4=%s", host, ipv4)).Start()
+							fmt.Println("Updated NS host", string(ipx))
+							ipx, _ = exec.Command("curl", "-X", "GET", fmt.Sprintf("http://127.0.0.1:5377/dns?a=%s", host)).Output()
+							fmt.Println("Found NS host", string(ipx))
 							//ns.Nodes[host] = ipv4d
 							CleanupInstance(id, host, maxRuntime)
 							if id == "" {
