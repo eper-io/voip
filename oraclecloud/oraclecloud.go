@@ -113,6 +113,7 @@ func LaunchInstance() (instanceId string, host string, ip string) {
 			}
 		}
 	}
+	CleanupInstance(instanceId, host, 2*time.Second)
 	return id, "", ""
 }
 
