@@ -63,19 +63,20 @@ fi
 cat <<EOF >/tmp/voip/metadata/data.go
 package metadata
 
-//var ActivationKey = "QTOPZNNEYGPBKUQEKJYLHBIJVHAJEOOXWMFMXWJDDWNOIJVHXFXRLFJXAAOGEBRBUMQJEYYNDHBTWJUYVNEKZJMJTHHR"
+var ActivationKey = "QTOPZNNEYGPBKUQEKJYLHBIJVHAJEOOXWMFMXWJDDWNOIJVHXFXRLFJXAAOGEBRBUMQJEYYNDHBTWJUYVNEKZJMJTHHR"
 var SiteUrl = "https://l.eper.io"
 var Certificate = "/etc/letsencrypt/live/l.eper.io/fullchain.pem"
 var PrivateKey = "/etc/letsencrypt/live/l.eper.io/privkey.pem"
 var ContainerRuntime = "line.eper.io/line"
 var Info = ""
 var Bandwidth = ""
-//var RandomSalt = "XBGXTNTKIAVWBNHGODJGSSNUFBDISPRYVKCFLYBFHPEWBRHQHYUWQLHHOPZLDZREJIAVPGEQMHOJFICSXNWADFHIHFRR"
+var RandomSalt = "XBGXTNTKIAVWBNHGODJGSSNUFBDISPRYVKCFLYBFHPEWBRHQHYUWQLHHOPZLDZREJIAVPGEQMHOJFICSXNWADFHIHFRR"
 
 EOF
 
-echo var RandomSalt = \""$(go run /tmp/voip/eos/montecarlo/main.go)"\" >>/tmp/voip/metadata/data.go
-echo var ActivationKey = \""$(go run /tmp/voip/eos/montecarlo/main.go)"\" >>/tmp/voip/metadata/data.go
+cd /tmp/voip
+echo //var RandomSalt = \""$(go run ./eos/montecarlo/main.go)"\" >>/tmp/voip/metadata/data.go
+echo //var ActivationKey = \""$(go run ./eos/montecarlo/main.go)"\" >>/tmp/voip/metadata/data.go
 
 cat <<EOF >/tmp/voip/Dockerfile
 FROM golang:1.19.3
