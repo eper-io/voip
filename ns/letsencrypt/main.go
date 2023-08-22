@@ -1,7 +1,7 @@
 package main
 
 import (
-	"gitlab.com/eper.io/engine/oraclecloud/ns"
+	"gitlab.com/eper.io/engine/ns"
 )
 
 // Licensed under Creative Commons CC0.

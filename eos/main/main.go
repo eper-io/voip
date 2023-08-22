@@ -3,7 +3,7 @@ package main
 import (
 	"gitlab.com/eper.io/engine/eos"
 	"gitlab.com/eper.io/engine/metadata"
-	"gitlab.com/eper.io/engine/oraclecloud/ns"
+	"gitlab.com/eper.io/engine/ns"
 	"net/http"
 	"strings"
 )

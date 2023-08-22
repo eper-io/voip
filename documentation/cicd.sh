@@ -9,6 +9,10 @@
 # Usage
 # See almalinux.sh for Almalinux
 
+# Example: Find if a changelist is included:
+# https://l.eper.io/englang#:~:text=security
+# 26881f8f71cf2e7e1ec37c1552cfeb9142be86fa security hardening
+
 # Short glitch in the service only when updated. Acceptable.
 cd /tmp/voip
 git pull -r > /var/log/voip
