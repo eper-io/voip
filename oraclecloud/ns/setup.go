@@ -5,6 +5,7 @@ import (
 	"gitlab.com/eper.io/engine/oraclecloud/metadata"
 	"math/rand"
 	"net"
+	"os"
 	"os/exec"
 	"strings"
 	"time"
@@ -86,6 +87,9 @@ func SetupComputeCluster() {
 	fmt.Println(list)
 
 	time.Sleep(3 * time.Second)
-	ret, _ := exec.Command("certbot", strings.Split(list, " ")[1:]...).CombinedOutput()
-	fmt.Println(string(ret))
+	_, err = os.Stat(fmt.Sprintf("/etc/letsencrypt/live/%s", metadata.Domain))
+	if err != nil {
+		ret, _ := exec.Command("certbot", strings.Split(list, " ")[1:]...).CombinedOutput()
+		fmt.Println(string(ret))
+	}
 }
