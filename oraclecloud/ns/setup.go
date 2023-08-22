@@ -43,13 +43,6 @@ func SetupComputeCluster() {
 
 	fmt.Println("Host", metadata.Domain, ip[0], ".", ip[1], ".", ip[2], ".", ip[3])
 	fmt.Println("Host", metadata.DomainNS, ip[0], ".", ip[1], ".", ip[2], ".", ip[3])
-	time.Sleep(10 * time.Second)
-	ipns, err := net.LookupHost("example." + metadata.Domain)
-	if err != nil {
-		fmt.Printf("Error: %v\n", err)
-		return
-	}
-	fmt.Println("Host", metadata.Domain, ipns[0])
 
 	for _, v := range shuffled {
 		host := strings.TrimSpace(v)
@@ -63,6 +56,24 @@ func SetupComputeCluster() {
 			list = list + ","
 		}
 		list = list + host
+	}
+
+	time.Sleep(10 * time.Second)
+
+	ipns, err := net.LookupHost("example." + metadata.Domain)
+	if err != nil {
+		fmt.Printf("Error: %v\n", err)
+		return
+	}
+	fmt.Println("Host", metadata.Domain, ipns[0])
+
+	for _, nodeFQDN := range Candidates {
+		ipns, err := net.LookupHost(nodeFQDN)
+		if err != nil {
+			fmt.Printf("Error: %v\n", err)
+			return
+		}
+		fmt.Println("Host", nodeFQDN, ipns[0])
 	}
 
 	// Just print the cert command. See documentation/almalinux.sh
