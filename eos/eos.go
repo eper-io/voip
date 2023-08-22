@@ -81,6 +81,7 @@ func Setup() {
 		fmt.Println("line creation")
 		time.Sleep(15 * time.Millisecond)
 		if metadata.ActivationKey == "" || apiKey != metadata.ActivationKey {
+			// TODO
 			//writer.WriteHeader(http.StatusPaymentRequired)
 		}
 
@@ -101,8 +102,8 @@ func Setup() {
 		key := generateUniqueKey()
 		startCommand := exec.Command("podman", "run", "--timeout", fmt.Sprintf("%d", int(MaxContainerTime.Seconds())), "-d", "--rm", "--name", redactPublicKey(key), "-e", fmt.Sprintf("PORT=%d", port), "-e", "APIKEY="+key, "-p", fmt.Sprintf("%d:443", port), "-v", metadata.Certificate+":"+metadata.Certificate+":ro", "-v", metadata.PrivateKey+":"+metadata.PrivateKey+":ro", metadata.ContainerRuntime)
 		fmt.Println(startCommand.String())
-		y, _ := startCommand.CombinedOutput()
-		fmt.Println(string(y))
+		returned, _ := startCommand.CombinedOutput()
+		fmt.Println(string(returned))
 
 		go func() {
 			LaunchSite()
@@ -113,6 +114,7 @@ func Setup() {
 		time.Sleep(DockerDelay)
 		mobile := request.URL.Query().Get("mobile")
 		if mobile != "" {
+			// This one is forced to low bandwith, but it is not studio quality
 			mobile = "&mobile=1"
 		}
 		redirect := request.URL.Query().Get("redirect")

@@ -7,35 +7,45 @@ import (
 	"time"
 )
 
+// Licensed under Creative Commons CC0.
+//
 // To the extent possible under law, the author(s) have dedicated all copyright
 // neighboring rights to this software to the public domain worldwide.
 // This software is distributed without any warranty.
 // You should have received a copy of the CC0 Public Domain Dedication along wi
 // If not, see <https:#creativecommons.org/publicdomain/zero/1.0/legalcode>.
 
+// The industry-leading Mitosis Algorithm of eper.io
+
 // Problem. We need a distributed scaling logic that is
 // fail proof for quantum grade security.
 // i.e. no single point or hot spot of failure in the age of quantum computers
 // Solution.
-// Each machine has an expected runtime, after which it terminates normally.
-// Do a mitosis check at 25%, 50%, and 75% of expected runtime.
-// If load is at least 25%, 50% and 75% at these points, we create a new node.
-// We terminate the node at 100% not issuing new sessions after 75%.
-// We do not terminate on the system that is marked as root, as a long haul test.
+// Each machine has an expected runtime and an expected number of sessions,
+// after which it terminates normally.
+
+// Do a mitosis check at 25%, 50%, and 75% of expected sessions.
+// If the runtime that elapsed is less than 25%, 50% and 75% respectively, we create a new node (mitosis).
+// We terminate the node at 100%+session runtime (25%) not starting new sessions after 100%.
+// We do not terminate on the system that is marked as root, but recreate expired nodes.
 
 // Discussion.
 // An automated termination logic helps to resolve sporadic issues and data leaking.
 // Mitosis checks can help to address quick demand increases.
 // An automated termination also handles automated scaling down.
-// The logic is nice as it needs only local demand knowledge to scale the cluster up and down.
-// We need a random load balancer to achieve this for the session starts.
+// The logic is nice as it needs only knowledge of local demand (sessions) to scale the cluster up and down.
+
+// We need a random load balancer to help with this of the session launches.
+
 // Problem. Kubernetes already does this.
-// Solution. Yes, but it uses millions of lines of code. This is easier to learn as a starter before moving on.
+// Solution. Yes, but it uses millions of lines of code.
+// This is easier to learn as a starter before moving on.
 // It is easier to security review, if it is shorter.
 // Trick: it saves time and money for security reviewers who work for a fixed fee vs. feature count based fee.
 
-//TODO
-//oci compute instance launch --compartment-id 'ocid1.tenancy.oc1..aaaaaaaanpc3gu2kzkr6t4spi2ivpwbtg6j24utwp7yhfrvdgidndnpv5ylq' --availability-domain 'lynu:US-SANJOSE-1-AD-1' --shape 'VM.Standard.A1.Flex' --image-id 'ocid1.image.oc1..aaaaaaaa5ddausutw4oilrtuf5esfxto7ko4oopt5crbf3pn5bndl2sis4rq' --subnet-id 'ocid1.subnet.oc1.us-sanjose-1.aaaaaaaa7hqoxlrkzwl2njvvwab743mwdk3ao5u5na4jovmppvgl3gqihp7q' --shape-config '{"ocpus":"4"}'
+// Where does the name come from?
+// Bacteria do mitosis and grow in numbers if they find enough food, e.g. sugar.
+// This algorithm is similar relying only on local information that is easy to measure.
 
 // SetupMitosis is an algorithm that sets up the Mitosis algorithm.
 // It checks if the load is big enough to trigger the scale out logic.
@@ -53,6 +63,8 @@ func SetupMitosis() {
 // This will be debugged easily assuming any node can be targeted next.
 // This helps architects to assume any node can be directed next.
 // This reduces costs keeping the algorithm proven and low cost to maintain.
+// Example
+// oci compute instance launch --compartment-id 'ocid1.tenancy.oc1..aaaaaaaanpc3gu2kzkr6t4spi2ivpwbtg6j24utwp7yhfrvdgidndnpv5ylq' --availability-domain 'lynu:US-SANJOSE-1-AD-1' --shape 'VM.Standard.A1.Flex' --image-id 'ocid1.image.oc1..aaaaaaaa5ddausutw4oilrtuf5esfxto7ko4oopt5crbf3pn5bndl2sis4rq' --subnet-id 'ocid1.subnet.oc1.us-sanjose-1.aaaaaaaa7hqoxlrkzwl2njvvwab743mwdk3ao5u5na4jovmppvgl3gqihp7q' --shape-config '{"ocpus":"4"}'
 func LaunchSite() {
 	x := make([]string, 0)
 	for k := range launches {
@@ -127,6 +139,7 @@ func Mitosis() {
 	}()
 }
 
+// Terminate the instance.
 func Terminate(id string, host string) {
 	oraclecloud.TerminateInstance(id, host)
 	delete(launches, id)

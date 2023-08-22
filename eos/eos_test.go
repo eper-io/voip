@@ -19,7 +19,7 @@ import (
 // Some may say to run the launcher in a non-privileged container and have a separate container that handles docker.
 // Our approach is to make the :443 listener get bundled with privileged docker runners.
 // Running the docker stuff separately would also require opening a socket or pipe that may be tampered with by other containers.
-// However, we must ensure that it remains simple, and it is easy to review.
+// However, we must ensure that it remains simple, and it is easy to security review.
 // This is what this test does.
 
 func TestProductManager(t *testing.T) {
