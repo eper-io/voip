@@ -24,7 +24,6 @@ func SetupComputeCluster() {
 		}
 	}
 	EntryPoint = ip
-	fmt.Println("Host", metadata.DomainNS, ip[0], ".", ip[1], ".", ip[2], ".", ip[3])
 
 	split := strings.Split(HostNames, "\n")
 	command := fmt.Sprintf("certbot --standalone -m hq@schmied.us --cert-name %s -d %s,", metadata.Domain, metadata.Domain)
@@ -38,7 +37,11 @@ func SetupComputeCluster() {
 		shuffled[j%length] = t
 	})
 
-	Nodes[metadata.Domain] = EntryPoint
+	Nodes[metadata.Domain] = ip
+
+	fmt.Println("Host", metadata.Domain, ip[0], ".", ip[1], ".", ip[2], ".", ip[3])
+	fmt.Println("Host", metadata.DomainNS, ip[0], ".", ip[1], ".", ip[2], ".", ip[3])
+
 	for _, v := range shuffled {
 		host := strings.TrimSpace(v) + "." + metadata.Domain
 		Nodes[host] = EntryPoint
