@@ -33,15 +33,16 @@ func TestNameService(t *testing.T) {
     "defined-tags": {
       "Oracle-Tags": {
         "CreatedBy": "hq@schmied.us",
-        "CreatedOn": "2023-08-18T17:18:09.115Z"
+        "CreatedOn": "2023-08-22T02:54:36.054Z"
       }
     },
-    "display-name": "instance20230818171810",
+    "display-name": "instance20230822025436",
     "extended-metadata": {},
-    "fault-domain": "FAULT-DOMAIN-1",
+    "fault-domain": "FAULT-DOMAIN-2",
     "freeform-tags": {},
-    "id": "ocid1.instance.oc1.us-sanjose-1.anzwuljra36or2qc7kijp2tnx42qaj6kgvyjyjvwp2wgdwjddf3u456t5qoq",
+    "id": "ocid1.instance.oc1.us-sanjose-1.anzwuljra36or2qcxhja7dkkuqfg5lfdzl45mb4bath4ac7yzdj4vcl5e2gq",
     "image-id": "ocid1.image.oc1..aaaaaaaa5ddausutw4oilrtuf5esfxto7ko4oopt5crbf3pn5bndl2sis4rq",
+    "instance-configuration-id": null,
     "instance-options": {
       "are-legacy-imds-endpoints-disabled": false
     },
@@ -58,7 +59,7 @@ func TestNameService(t *testing.T) {
     },
     "lifecycle-state": "PROVISIONING",
     "metadata": {
-      "user_data": "IyEvYmluL3NoCgplY2hvICJIZWxsbyBXb3JsZC4gIFRoZSB0aW1lIGlzIG5vdyAkKGRhdGUgLVIpISIgfCB0ZWUgL3Jvb3Qvb3V0cHV0LnR4dAo="
+      "user_data": "IyEvYmluL3NoCgplY2hvICJIZWxsbyBXb3JsZC4gIFRoZSB0aW1lIGlzIG5vdyAkKGRhdGUgLVIpISIgfCB0ZWUgL3Jvb3Qvb3V0cHV0LnR4dAoKeXVtIGluc3RhbGwgLXkgZ29sYW5nCgpjYXQgPDxFT0YgPi90bXAvbWFpbi5nbwpwYWNrYWdlIG1haW4KCmltcG9ydCAoCiAgICAiZm10IgogICAgIm5ldC9odHRwIgopCgpmdW5jIGhhbmRsZXIodyBodHRwLlJlc3BvbnNlV3JpdGVyLCByICpodHRwLlJlcXVlc3QpIHsKICAgIGZtdC5GcHJpbnRmKHcsICJIZWxsbywgV29ybGQhIikKfQoKZnVuYyBtYWluKCkgewogICAgaHR0cC5IYW5kbGVGdW5jKCIvIiwgaGFuZGxlcikKICAgIHBvcnQgOj0gIjo3Nzc3IgoKICAgIGVyciA6PSBodHRwLkxpc3RlbkFuZFNlcnZlKHBvcnQsIG5pbCkKICAgIGlmIGVyciAhPSBuaWwgewogICAgICAgIGZtdC5QcmludGxuKGVycikKICAgIH0KfQpFT0YKCmdvIHJ1biAvdG1wL21haW4uZ28K"
     },
     "platform-config": null,
     "preemptible-instance-config": null,
@@ -71,27 +72,28 @@ func TestNameService(t *testing.T) {
       "local-disk-description": null,
       "local-disks": 0,
       "local-disks-total-size-in-gbs": null,
-      "max-vnic-attachments": 4,
-      "memory-in-gbs": 24.0,
-      "networking-bandwidth-in-gbps": 4.0,
-      "ocpus": 4.0,
-      "processor-description": "3.0 GHz Ampere\u00ae Altra\u2122"
+      "max-vnic-attachments": 2,
+      "memory-in-gbs": 6.0,
+      "networking-bandwidth-in-gbps": 1.0,
+      "ocpus": 1.0,
+      "processor-description": "3.0 GHz Ampere\u00ae Altra\u2122",
+      "vcpus": 1
     },
     "source-details": {
       "boot-volume-size-in-gbs": null,
       "boot-volume-vpus-per-gb": null,
       "image-id": "ocid1.image.oc1..aaaaaaaa5ddausutw4oilrtuf5esfxto7ko4oopt5crbf3pn5bndl2sis4rq",
+      "instance-source-image-filter-details": null,
       "kms-key-id": null,
       "source-type": "image"
     },
     "system-tags": {},
-    "time-created": "2023-08-18T17:18:10.101000+00:00",
+    "time-created": "2023-08-22T02:54:36.813000+00:00",
     "time-maintenance-reboot-due": null
   },
-  "etag": "deafd0c7107399ab7e855d9c9347b9897411edc5a86c27d803cd5413e6444dff",
-  "opc-work-request-id": "ocid1.coreservicesworkrequest.oc1.us-sanjose-1.abzwuljromhqgbuz2vw4rrx6gogayvpcdudm3lsjo4bxx3t54n2xnmomyrba"
+  "etag": "679b0d39c271ef84698624d9c9a8e3489d4dd085317ec08bca3b2d8b77ac3ee4",
+  "opc-work-request-id": "ocid1.coreservicesworkrequest.oc1.us-sanjose-1.abzwuljrfmf5mroubbpdtpd53mrx6dxedypc2fhs7zbik5zz37csqrhnvjta"
 }
-
 	`
 
 	id := ParseInstanceId(jsonData)

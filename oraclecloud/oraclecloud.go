@@ -110,7 +110,6 @@ func LaunchInstance(maxRuntime time.Duration) (instanceId string, host string, i
 						CleanupInstance(id, host, maxRuntime)
 						if id == "" {
 							fmt.Println("failed mitosis")
-							return
 						}
 						return id, host, ipv4
 					}
@@ -118,6 +117,7 @@ func LaunchInstance(maxRuntime time.Duration) (instanceId string, host string, i
 			}
 		}
 	}
+	fmt.Println("failed mitosis")
 	CleanupInstance(instanceId, host, 2*time.Second)
 	return id, "", ""
 }
