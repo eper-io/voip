@@ -58,10 +58,10 @@ func SetupMitosis() {
 
 // LaunchSite gets a site for the current request.
 // We generally choose a random method to discourage malware and regular hotspots.
-// This will avoid sudden loads on single nodes.
+// This will avoid a sudden load a single node.
 // This will make it hard to predict the next node for malware.
 // This will be debugged easily assuming any node can be targeted next.
-// This helps architects to assume any node can be directed next.
+// This helps architects to assume any node can be loaded next.
 // This reduces costs keeping the algorithm proven and low cost to maintain.
 // Example
 // oci compute instance launch --compartment-id 'ocid1.tenancy.oc1..aaaaaaaanpc3gu2kzkr6t4spi2ivpwbtg6j24utwp7yhfrvdgidndnpv5ylq' --availability-domain 'lynu:US-SANJOSE-1-AD-1' --shape 'VM.Standard.A1.Flex' --image-id 'ocid1.image.oc1..aaaaaaaa5ddausutw4oilrtuf5esfxto7ko4oopt5crbf3pn5bndl2sis4rq' --subnet-id 'ocid1.subnet.oc1.us-sanjose-1.aaaaaaaa7hqoxlrkzwl2njvvwab743mwdk3ao5u5na4jovmppvgl3gqihp7q' --shape-config '{"ocpus":"4"}'
@@ -77,16 +77,18 @@ func LaunchSite() {
 }
 
 // Mitosis checks and executes a scaling logic inspired by millions of years of evolution.
-// It is similar to how amoebas and bacteria are splitting getting enough nutrients.
+//
+// It is similar to how amoebas and bacteria are splitting, if they are getting enough nutrients.
 // Setup. Here is the basic calculation to set the two parameters.
-// A single 1 VCPU node is capable of handling 1000 MBps.
+// A single 1 cpu node is capable of handling 1000 MBps.
 // Assume we handle sessions that require 10 MBps dedicated lines.
 // We also assume that sessions last max 2 hours on the line,
 // and we have to reserve for the entire session.
 // We limit launches for at most eight hours to avoid any garbage piling up.
-// We assume a utility ratio of 50%.
+// We assume a safety utility ratio of 50%, that is we actually keep the containers half unused.
+// This is especially good for very low latency communication like Audio or User Interface.
 // Such a container can handle a load of
-// 8 hrs / 2 hrs * 1000 MBps / 10 MBps * 50% = 200 sessions of the entire 8+2 hrs lifetime.
+// (8 hrs / 2 hrs * 1000 MBps / 10 MBps) * 50% = 200 sessions of the entire 8+2 hrs lifetime.
 // That allows 1000 MBps / 10 MBps * 50% = 50 concurrent sessions.
 //
 // The final logic then is the following.
@@ -98,7 +100,11 @@ func LaunchSite() {
 // We forward all local launches to the followup node after 8 hours.
 // We terminate the current instance at 10 hours, since all session reservations expired.
 // We terminate the current instance at max sessions, since the state is statistically dirty/exhausted.
-
+//
+// One benefit is a logic simple to understand, teach and debug.
+// Another benefit is a quick scale up, if it is needed i.e. we trigger a check on the session count not the time.
+// If we get a thousand sudden requests we scale up quickly.
+// TODO Ideally the nodes should terminate themselves and remove from the cloud in the future to be super reliable.
 func Mitosis() {
 	id, host, ip := oraclecloud.LaunchInstance(maxRuntime)
 	if id == "" {
@@ -139,7 +145,7 @@ func Mitosis() {
 	}()
 }
 
-// Terminate the instance.
+// Terminate terminates the instance.
 func Terminate(id string, host string) {
 	oraclecloud.TerminateInstance(id, host)
 	delete(launches, id)
