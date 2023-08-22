@@ -30,7 +30,7 @@ a:active {
     color: #693a26;
 }
 
-.moosebutton {
+.callbutton {
     border-radius: 20px; /* Adjust the value to control the roundness */
     padding: 10px 20px; /* Adjust padding for spacing */
     border: none;

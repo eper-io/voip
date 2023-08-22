@@ -155,4 +155,5 @@ git config --global user.name "voip installer"
 git add .
 git commit -m local
 
+# Oracle cloud workaround
 touch /etc/containers/nodocker
