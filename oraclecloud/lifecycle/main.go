@@ -30,4 +30,8 @@ func main() {
 		oraclecloud.TerminateInstance(id, host)
 	}
 	time.Sleep(1 * time.Minute)
+	ip1 = oraclecloud.GetInstancePublicIp(id)
+	if ip1 != "" {
+		fmt.Println("Failed Auto Termination")
+	}
 }
