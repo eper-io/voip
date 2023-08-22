@@ -85,8 +85,8 @@ func SetupNameServer() {
 	})
 
 	go func() {
-		fmt.Println("Try\ncurl -X PUT 'http://127.0.0.1:7777/dns?a=www.hello.com&ipv4=127.127.127.127' && curl -X GET 'http://127.0.0.1:7777/dns?a=www.hello.com' && dig @127.0.0.1 www.hello.com")
-		_ = http.ListenAndServe(":7777", nil)
+		fmt.Println("Try\ncurl -X PUT 'http://127.0.0.1:5377/dns?a=www.hello.com&ipv4=127.127.127.127' && curl -X GET 'http://127.0.0.1:5377/dns?a=www.hello.com' && dig @127.0.0.1 www.hello.com")
+		_ = http.ListenAndServe(":5377", nil)
 	}()
 
 	go func() {
