@@ -40,4 +40,5 @@ go build -o /opt/voipbroker ./eos/main/main.go
 # Running as root on the network is dangerous so we need to be very lean with the codebase in /eos
 
 # Run the broker if needed. It launches containers that do the call lines
-pgrep voipbroker || (SITEURL=https://l.eper.io APIKEY=JVPSVWUIUTSXGPTWOVEWMHBUFJMVIALPQDMXQZROKZLYPYQGMBRQZMRWSQZIACQDKIFVWYQBWGGHQLGALYBQTAQNLHDR nohup /opt/voipbroker >>/var/log/voipbroker &)
+#pgrep voipbroker || (DOCKERIMAGE=line.eper.io/line SITEURL=https://l.eper.io APIKEY=JVPSVWUIUTSXGPTWOVEWMHBUFJMVIALPQDMXQZROKZLYPYQGMBRQZMRWSQZIACQDKIFVWYQBWGGHQLGALYBQTAQNLHDR nohup /opt/voipbroker >>/var/log/voipbroker &)
+pgrep voipbroker || (nohup /opt/voipbroker >>/var/log/voipbroker &)
