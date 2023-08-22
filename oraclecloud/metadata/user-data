@@ -4,7 +4,7 @@
 
 echo "Hello World.  The time is now $(date -R)!" | tee /root/output.txt
 
-yum install -y golang
+sudo yum install -y golang
 
 cat <<EOF >/tmp/main.go
 package main
