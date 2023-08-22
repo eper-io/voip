@@ -20,10 +20,14 @@ func main() {
 	ns.SetupNameServer()
 	ns.SetupComputeCluster()
 	time.Sleep(10 * time.Second)
-	id, host, ip := oraclecloud.LaunchInstance(10 * time.Minute)
+	id, host, ip := oraclecloud.LaunchInstance(3 * time.Minute)
 	fmt.Println(id, host, ip)
-	time.Sleep(3 * time.Minute)
+	time.Sleep(6 * time.Minute)
 	fmt.Println("Terminating.")
-	oraclecloud.TerminateInstance(id, host)
+	ip1 := oraclecloud.GetInstancePublicIp(id)
+	if ip1 != "" {
+		fmt.Println("Failed Auto Termination")
+		oraclecloud.TerminateInstance(id, host)
+	}
 	time.Sleep(1 * time.Minute)
 }
