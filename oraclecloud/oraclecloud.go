@@ -154,7 +154,7 @@ func LaunchInstance(maxRuntime time.Duration) (instanceId string, host string, i
 			ipv4 := GetInstancePublicIp(id)
 			n, _ := fmt.Sscanf(ipv4, "%d.%d.%d.%d", &ipv4d[0], &ipv4d[1], &ipv4d[2], &ipv4d[3])
 			ipx, _ := exec.Command("curl", "-X", "GET", fmt.Sprintf("http://127.0.0.1:7777?a=%s", host, ipv4)).Output()
-			fmt.Println("Found NS host", ipx)
+			fmt.Println("Found NS host", string(ipx))
 			fmt.Println("Found IP", ipv4)
 			if n == 4 {
 				fmt.Println("Found IP", ipv4d)
