@@ -58,7 +58,9 @@ func ParsePublicIP(jsonData string) string {
 	var instance InstanceVNIC
 	err := json.Unmarshal([]byte(jsonData), &instance)
 	if err != nil {
-		fmt.Println("Error:", err)
+		if err.Error() != "unexpected end of JSON input" {
+			fmt.Println("Error:", err)
+		}
 		return ""
 	}
 
