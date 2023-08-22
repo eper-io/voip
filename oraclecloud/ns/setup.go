@@ -27,7 +27,7 @@ func SetupComputeCluster() {
 	EntryPoint = ip
 
 	split := strings.Split(HostNames, "\n")
-	command := fmt.Sprintf("certbot --standalone -m hq@schmied.us --cert-name %s -d %s,", metadata.Domain, metadata.Domain)
+	command := fmt.Sprintf("certbot --nginx -m hq@schmied.us --cert-name %s -d %s,", metadata.Domain, metadata.Domain)
 	list := command
 	shuffled := split
 	rand.Seed(time.Now().UnixNano())
