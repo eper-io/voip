@@ -98,12 +98,12 @@ func TestNameService(t *testing.T) {
 
 	id := ParseInstanceId(jsonData)
 
-	if id != "ocid1.instance.oc1.us-sanjose-1.anzwuljra36or2qc7kijp2tnx42qaj6kgvyjyjvwp2wgdwjddf3u456t5qoq" {
+	if id != "ocid1.instance.oc1.us-sanjose-1.anzwuljra36or2qcxhja7dkkuqfg5lfdzl45mb4bath4ac7yzdj4vcl5e2gq" {
 		t.Error(id)
 	}
 
 	jsonData = `
-{
+ip{
   "data": [
     {
       "availability-domain": "lynu:US-SANJOSE-1-AD-1",

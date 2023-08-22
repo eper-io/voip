@@ -51,7 +51,59 @@ type InstanceVNIC struct {
 }
 
 func ParsePublicIP(jsonData string) string {
+	x := strings.Index(jsonData, "{")
+	if x != -1 {
+		jsonData = jsonData[x:]
+	}
 	var instance InstanceVNIC
+	err := json.Unmarshal([]byte(jsonData), &instance)
+	if err != nil {
+		fmt.Println("Error:", err)
+		return ""
+	}
+
+	if len(instance.Data) > 0 {
+		publicIP := instance.Data[0].PublicIP
+		return publicIP
+	} else {
+		fmt.Println("No data found")
+	}
+	return ""
+}
+
+type IPData struct {
+	Data []IPInfo `json:"data"`
+}
+
+type IPInfo struct {
+	AvailabilityDomain  string   `json:"availability-domain"`
+	CompartmentID       string   `json:"compartment-id"`
+	DefinedTags         Tags     `json:"defined-tags"`
+	DisplayName         string   `json:"display-name"`
+	FreeformTags        Tags     `json:"freeform-tags"`
+	HostnameLabel       string   `json:"hostname-label"`
+	ID                  string   `json:"id"`
+	IsPrimary           bool     `json:"is-primary"`
+	LifecycleState      string   `json:"lifecycle-state"`
+	MACAddress          string   `json:"mac-address"`
+	NSGIDs              []string `json:"nsg-ids"`
+	PrivateIP           string   `json:"private-ip"`
+	PublicIP            string   `json:"public-ip"`
+	SkipSourceDestCheck bool     `json:"skip-source-dest-check"`
+	SubnetID            string   `json:"subnet-id"`
+	TimeCreated         string   `json:"time-created"`
+	VlanID              *string  `json:"vlan-id"`
+}
+
+type Tags struct {
+	OracleTags struct {
+		CreatedBy string `json:"CreatedBy"`
+		CreatedOn string `json:"CreatedOn"`
+	} `json:"Oracle-Tags"`
+}
+
+func ParseIp(jsonData string) string {
+	var instance IPData
 	err := json.Unmarshal([]byte(jsonData), &instance)
 	if err != nil {
 		fmt.Println("Error:", err)
@@ -117,7 +169,7 @@ func LaunchInstance(maxRuntime time.Duration) (instanceId string, host string, i
 			}
 		}
 	}
-	fmt.Println("failed mitosis")
+
 	CleanupInstance(instanceId, host, 2*time.Second)
 	return id, "", ""
 }
