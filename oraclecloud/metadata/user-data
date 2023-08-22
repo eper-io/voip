@@ -4,6 +4,8 @@
 
 sudo echo "Hello World.  The time is now $(date -R)!" | tee /var/log/output.txt
 
+systemctl disable firewalld
+systemctl stop firewalld
 sudo yum install -y golang
 
 sudo cat <<EOF >/tmp/main.go
