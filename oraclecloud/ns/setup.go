@@ -53,7 +53,8 @@ func SetupComputeCluster() {
 		Candidates = append(Candidates, host)
 	}
 
-	for _, host := range Candidates[0:2] {
+	Candidates = Candidates[0:2]
+	for _, host := range Candidates {
 		Nodes[host] = EntryPoint
 
 		if list != command {
