@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# The output can be grabbed at /var/log/cloud-init-output.log
+
 echo "Hello World.  The time is now $(date -R)!" | tee /root/output.txt
 
 yum install -y golang
@@ -27,4 +29,4 @@ func main() {
 }
 EOF
 
-go run /tmp/main.go
+nohup go run /tmp/main.go &
