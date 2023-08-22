@@ -22,7 +22,7 @@ func main() {
 	time.Sleep(10 * time.Second)
 	id, host, ip := oraclecloud.LaunchInstance(3 * time.Minute)
 	fmt.Println(id, host, ip)
-	time.Sleep(10 * time.Minute)
+	time.Sleep(4 * time.Minute)
 	fmt.Println("Terminating.")
 	ip1 := oraclecloud.GetInstancePublicIp(id)
 	if ip1 != "" {
