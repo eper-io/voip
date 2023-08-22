@@ -1,4 +1,8 @@
-package metadata
+package main
+
+import (
+	"gitlab.com/eper.io/engine/oraclecloud/ns"
+)
 
 // Licensed under Creative Commons CC0.
 //
@@ -8,10 +12,8 @@ package metadata
 // You should have received a copy of the CC0 Public Domain Dedication along wi
 // If not, see <https:#creativecommons.org/publicdomain/zero/1.0/legalcode>.
 
-// Domain of the cluster.
-var Domain = "oracle.eper.io"
-
-// DomainNS is the main entrypoint and name service
-var DomainNS = "l.eper.io"
-
-var OracleLaunchCommand = "bash ./oraclecloud/metadata/launch.sh"
+// This is useful to run a single instance track its lifetime and shut it down.
+func main() {
+	ns.SetupNameServer()
+	ns.SetupComputeCluster()
+}

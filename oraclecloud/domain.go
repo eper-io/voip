@@ -1,4 +1,4 @@
-package metadata
+package oraclecloud
 
 // Licensed under Creative Commons CC0.
 //
@@ -7,11 +7,3 @@ package metadata
 // This software is distributed without any warranty.
 // You should have received a copy of the CC0 Public Domain Dedication along wi
 // If not, see <https:#creativecommons.org/publicdomain/zero/1.0/legalcode>.
-
-// Domain of the cluster.
-var Domain = "oracle.eper.io"
-
-// DomainNS is the main entrypoint and name service
-var DomainNS = "l.eper.io"
-
-var OracleLaunchCommand = "bash ./oraclecloud/metadata/launch.sh"

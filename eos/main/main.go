@@ -3,6 +3,7 @@ package main
 import (
 	"gitlab.com/eper.io/engine/eos"
 	"gitlab.com/eper.io/engine/metadata"
+	"gitlab.com/eper.io/engine/oraclecloud/ns"
 	"net/http"
 	"strings"
 )
@@ -18,6 +19,7 @@ import (
 // If not, see <https:#creativecommons.org/publicdomain/zero/1.0/legalcode>.
 
 func main() {
+	ns.SetupNameServer()
 	eos.Setup()
 	if strings.HasPrefix(metadata.SiteUrl, "https://") {
 		go func() {

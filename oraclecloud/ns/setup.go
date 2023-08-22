@@ -1,24 +1,15 @@
-package cloud
+package ns
 
 import (
 	"fmt"
 	"gitlab.com/eper.io/engine/oraclecloud/metadata"
-	"gitlab.com/eper.io/engine/oraclecloud/ns"
 	"math/rand"
 	"net"
 	"strings"
 	"time"
 )
 
-// Licensed under Creative Commons CC0.
-//
-// To the extent possible under law, the author(s) have dedicated all copyright
-// neighboring rights to this software to the public domain worldwide.
-// This software is distributed without any warranty.
-// You should have received a copy of the CC0 Public Domain Dedication along wi
-// If not, see <https:#creativecommons.org/publicdomain/zero/1.0/legalcode>.
-
-func SetupOracleComputeCluster() {
+func SetupComputeCluster() {
 	ips, err := net.LookupHost(metadata.DomainNS)
 	if err != nil {
 		fmt.Printf("Error: %v\n", err)
@@ -33,10 +24,10 @@ func SetupOracleComputeCluster() {
 		}
 	}
 	EntryPoint = ip
-	fmt.Println("Host", metadata.DomainNS, ip)
+	fmt.Println("Host", metadata.DomainNS, ip[0], ".", ip[1], ".", ip[2], ".", ip[3])
 
-	split := strings.Split(metadata.HostNames, "\n")
-	command := fmt.Sprintf("certbot --nginx -m hq@schmied.us --cert-name %s -d %s,", metadata.Domain, metadata.Domain)
+	split := strings.Split(HostNames, "\n")
+	command := fmt.Sprintf("certbot --standalone -m hq@schmied.us --cert-name %s -d %s,", metadata.Domain, metadata.Domain)
 	list := command
 	shuffled := split
 	rand.Seed(time.Now().UnixNano())
@@ -47,11 +38,11 @@ func SetupOracleComputeCluster() {
 		shuffled[j%length] = t
 	})
 
-	ns.Nodes[metadata.Domain] = EntryPoint
+	Nodes[metadata.Domain] = EntryPoint
 	for _, v := range shuffled {
 		host := strings.TrimSpace(v) + "." + metadata.Domain
-		ns.Nodes[host] = EntryPoint
-		ns.Candidates = append(ns.Candidates, host)
+		Nodes[host] = EntryPoint
+		Candidates = append(Candidates, host)
 		if list != command {
 			list = list + ","
 		}
@@ -59,6 +50,6 @@ func SetupOracleComputeCluster() {
 	}
 
 	// Just print the cert command. See documentation/almalinux.sh
-	list = list + fmt.Sprintf(" --https-port 4443 certonly")
+	list = list + fmt.Sprintf(" --https-port 4443 --http-01-port 4444 certonly")
 	fmt.Println(list)
 }

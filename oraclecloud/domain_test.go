@@ -1,4 +1,4 @@
-package cloud
+package oraclecloud
 
 import (
 	"testing"
@@ -12,7 +12,7 @@ import (
 // You should have received a copy of the CC0 Public Domain Dedication along wi
 // If not, see <https:#creativecommons.org/publicdomain/zero/1.0/legalcode>.
 
-func TestOracle(t *testing.T) {
+func TestNameService(t *testing.T) {
 	jsonData := `
 {
   "data": {

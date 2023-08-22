@@ -1,4 +1,4 @@
-package cloud
+package oraclecloud
 
 import (
 	"encoding/json"
@@ -104,7 +104,7 @@ func LaunchInstance() (instanceId string, host string, ip string) {
 			x := ns.Candidates
 			for _, host := range x {
 				value, ok := ns.Nodes[host]
-				if !ok || value == EntryPoint {
+				if !ok || value == ns.EntryPoint {
 					if host != "" && n == 4 {
 						ns.Nodes[host] = ipv4d
 						return id, host, ipv4

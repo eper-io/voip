@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"gitlab.com/eper.io/engine/oraclecloud/cloud"
+	"gitlab.com/eper.io/engine/oraclecloud"
 	"gitlab.com/eper.io/engine/oraclecloud/ns"
 	"time"
 )
@@ -15,14 +15,15 @@ import (
 // You should have received a copy of the CC0 Public Domain Dedication along wi
 // If not, see <https:#creativecommons.org/publicdomain/zero/1.0/legalcode>.
 
+// This is useful to run a single instance track its lifetime and shut it down.
 func main() {
 	ns.SetupNameServer()
-	cloud.SetupOracleComputeCluster()
+	ns.SetupComputeCluster()
 	time.Sleep(10 * time.Second)
-	id, host, ip := cloud.LaunchInstance()
+	id, host, ip := oraclecloud.LaunchInstance()
 	fmt.Println(id, host, ip)
 	time.Sleep(3 * time.Minute)
 	fmt.Println("Terminating.")
-	cloud.TerminateInstance(id, host)
+	oraclecloud.TerminateInstance(id, host)
 	time.Sleep(1 * time.Minute)
 }

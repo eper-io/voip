@@ -2,7 +2,7 @@ package eos
 
 import (
 	"fmt"
-	"gitlab.com/eper.io/engine/oraclecloud/cloud"
+	"gitlab.com/eper.io/engine/oraclecloud"
 	"math/rand"
 	"time"
 )
@@ -88,13 +88,13 @@ func LaunchSite() {
 // We terminate the current instance at max sessions, since the state is statistically dirty/exhausted.
 
 func Mitosis() {
-	id, host, ip := cloud.LaunchInstance()
+	id, host, ip := oraclecloud.LaunchInstance()
 	if id == "" {
 		fmt.Println("Failed Launch")
 		return
 	}
 	fmt.Println("Launched", id, host, ip)
-	cloud.CleanupInstance(id, host, maxRuntime)
+	oraclecloud.CleanupInstance(id, host, maxRuntime)
 	if id == "" {
 		fmt.Println("failed mitosis")
 		return
@@ -133,6 +133,6 @@ func Mitosis() {
 }
 
 func Terminate(id string, host string) {
-	cloud.TerminateInstance(id, host)
+	oraclecloud.TerminateInstance(id, host)
 	delete(launches, id)
 }
