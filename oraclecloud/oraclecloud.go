@@ -158,6 +158,7 @@ func LaunchInstance(maxRuntime time.Duration) (instanceId string, host string, i
 			//fmt.Println("Found IP", ipv4)
 			if n == 4 {
 				fmt.Println("Found IP", ipv4d)
+				// TODO use this to limit the cluster size
 				x := ns.Candidates
 				for _, host := range x {
 					if host != "" {
