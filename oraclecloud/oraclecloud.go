@@ -220,7 +220,7 @@ func CleanupInstance(id string, host string, duration time.Duration) {
 
 	_ = os.WriteFile(name, []byte(cmd), 0700)
 
-	cmd = "sleep %d && " + cmd
+	cmd = fmt.Sprintf("sleep %d && ", duration) + cmd
 	_ = os.WriteFile(gc, []byte(cmd), 0700)
 
 	go func() {
