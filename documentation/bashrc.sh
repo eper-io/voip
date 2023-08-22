@@ -13,6 +13,8 @@
 
 systemctl disable nginx.service
 systemctl stop nginx.service
+rm -f /tmp/voip_*
+
 nohup bash -c 'while true; do sleep 30; timeout 600 /tmp/voip/documentation/cicd.sh; done' &
 
 # Production workloads will want to snapshot the staging once it is proven and replicate it.
