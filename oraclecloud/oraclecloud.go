@@ -152,19 +152,22 @@ func LaunchInstance(maxRuntime time.Duration) (instanceId string, host string, i
 			time.Sleep(10 * time.Second)
 			ipv4d := [4]byte{0, 0, 0, 0}
 			ipv4 := GetInstancePublicIp(id)
-			fmt.Println("Found IP", ipv4)
 			n, _ := fmt.Sscanf(ipv4, "%d.%d.%d.%d", &ipv4d[0], &ipv4d[1], &ipv4d[2], &ipv4d[3])
-			x := ns.Candidates
-			for _, host := range x {
-				value, ok := ns.Nodes[host]
-				if !ok || value == ns.EntryPoint {
-					if host != "" && n == 4 {
-						ns.Nodes[host] = ipv4d
-						CleanupInstance(id, host, maxRuntime)
-						if id == "" {
-							fmt.Println("failed mitosis")
+			fmt.Println("Found IP", ipv4)
+			if n == 4 {
+				fmt.Println("Found IP", ipv4d)
+				x := ns.Candidates
+				for _, host := range x {
+					if host != "" {
+						value, ok := ns.Nodes[host]
+						if !ok || value == ns.EntryPoint {
+							ns.Nodes[host] = ipv4d
+							CleanupInstance(id, host, maxRuntime)
+							if id == "" {
+								fmt.Println("failed mitosis")
+							}
+							return id, host, ipv4
 						}
-						return id, host, ipv4
 					}
 				}
 			}
