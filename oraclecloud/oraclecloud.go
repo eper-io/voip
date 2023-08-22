@@ -153,6 +153,8 @@ func LaunchInstance(maxRuntime time.Duration) (instanceId string, host string, i
 			ipv4d := [4]byte{0, 0, 0, 0}
 			ipv4 := GetInstancePublicIp(id)
 			n, _ := fmt.Sscanf(ipv4, "%d.%d.%d.%d", &ipv4d[0], &ipv4d[1], &ipv4d[2], &ipv4d[3])
+			ipx, _ := exec.Command("curl", "-X", "GET", fmt.Sprintf("http://127.0.0.1:7777?a=%s", host, ipv4)).Output()
+			fmt.Println("Found NS host", ipx)
 			fmt.Println("Found IP", ipv4)
 			if n == 4 {
 				fmt.Println("Found IP", ipv4d)
@@ -161,7 +163,8 @@ func LaunchInstance(maxRuntime time.Duration) (instanceId string, host string, i
 					if host != "" {
 						value, ok := ns.Nodes[host]
 						if !ok || value == ns.EntryPoint {
-							ns.Nodes[host] = ipv4d
+							_ = exec.Command("curl", "-X", "PUT", fmt.Sprintf("http://127.0.0.1:7777?a=%s&ipv4=%s", host, ipv4)).Start()
+							//ns.Nodes[host] = ipv4d
 							CleanupInstance(id, host, maxRuntime)
 							if id == "" {
 								fmt.Println("failed mitosis")
@@ -193,7 +196,9 @@ func TerminateInstance(id string, host string) {
 	cmdx := fmt.Sprintf("oci compute instance terminate --force --instance-id %s", id)
 	c := OciCommand("oci", strings.Split(cmdx, " ")[1:])
 	_, _ = c.Output()
-	delete(ns.Nodes, host)
+	fmt.Println("Deleting host", host)
+	//delete(ns.Nodes, host)
+	_ = exec.Command("curl", "-X", "DELETE", fmt.Sprintf("http://127.0.0.1:7777?a=%s&ipv4=%s", host)).Start()
 }
 
 func CleanupInstance(id string, host string, duration time.Duration) {
@@ -206,17 +211,17 @@ func CleanupInstance(id string, host string, duration time.Duration) {
 
 	// Cleanup if needed before garbage collection
 	name := fmt.Sprintf("/var/lib/voip_cleanup_%s_%s", shortened, serial)
-	cmd := fmt.Sprintf("oci compute instance terminate --force --instance-id %s\nnohup rm -f %s\n", id, name)
-
-	_ = os.WriteFile(name, []byte(cmd), 0700)
-
 	// Garbage collect instances
-	name = fmt.Sprintf("/var/lib/voip_gc_%s_%s", shortened, serial)
-	cmd = "sleep %d && " + cmd
+	gc := fmt.Sprintf("/var/lib/voip_gc_%s_%s", shortened, serial)
+	cmd := fmt.Sprintf("oci compute instance terminate --force --instance-id %s\nnohup rm -f %s\nmv %s /var/log\n", id, name, gc)
+
 	_ = os.WriteFile(name, []byte(cmd), 0700)
+
+	cmd = "sleep %d && " + cmd
+	_ = os.WriteFile(gc, []byte(cmd), 0700)
 
 	go func() {
-		fmt.Println("cleanup", name, host, cmd)
-		_ = exec.Command("bash", name).Start()
+		fmt.Println("cleanup", gc, host, cmd)
+		_ = exec.Command("bash", gc).Start()
 	}()
 }

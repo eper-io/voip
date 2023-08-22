@@ -62,6 +62,26 @@ func SetupNameServer() {
 			}
 
 		}
+		if request.Method == http.MethodDelete {
+			if strings.HasPrefix(request.RemoteAddr, "127.0.0.1") {
+				host := request.URL.Query().Get("a")
+				if host == "" {
+					buffered := bufio.NewWriter(writer)
+					for k, v := range Nodes {
+						_, _ = buffered.WriteString(fmt.Sprintf("%s %s\n", k, v))
+					}
+					_ = buffered.Flush()
+					return
+				}
+				_, ok := Nodes[host]
+				if ok {
+					delete(Nodes, host)
+					return
+				}
+				writer.WriteHeader(http.StatusBadRequest)
+				return
+			}
+		}
 	})
 
 	go func() {
