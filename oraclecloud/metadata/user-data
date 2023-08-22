@@ -2,7 +2,7 @@
 
 # The output can be grabbed at /var/log/cloud-init-output.log
 
-echo "Hello World.  The time is now $(date -R)!" | tee /root/output.txt
+echo "Hello World.  The time is now $(date -R)!" | tee /var/log/output.txt
 
 sudo yum install -y golang
 
