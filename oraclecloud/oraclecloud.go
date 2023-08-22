@@ -142,13 +142,13 @@ func CleanupInstance(id string, host string, duration time.Duration) {
 	serial := line.GenerateUniqueKey()
 
 	// Cleanup if needed before garbage collection
-	name := fmt.Sprintf("/var/lib/voip_cleanup_%s_%s", id[0:16], serial)
+	name := fmt.Sprintf("/var/lib/voip_cleanup_%s_%s", id[len(id)-8:8], serial)
 	cmd := fmt.Sprintf("oci compute instance terminate --force --instance-id %s\nnohup rm -f %s\n", id, name)
 
 	_ = os.WriteFile(name, []byte(cmd), 0700)
 
 	// Garbage collect instances
-	name = fmt.Sprintf("/var/lib/voip_gc_%s_%s", id[0:16], serial)
+	name = fmt.Sprintf("/var/lib/voip_gc_%s_%s", id[len(id)-8:8], serial)
 	cmd = "sleep %d && " + cmd
 	_ = os.WriteFile(name, []byte(cmd), 0700)
 
