@@ -37,16 +37,17 @@ func Setup() {
 	port := os.Getenv("PORT")
 	if port != "" && !strings.HasSuffix(metadata.SiteUrl, "ondigitalocean.app") {
 		metadata.SiteUrl = metadata.SiteUrl + ":" + port
-		fmt.Printf("Try wired on DigitalOcean App %s\n", metadata.SiteUrl+"/line.html?apikey="+metadata.ActivationKey+"#generate_leaf")
-		fmt.Printf("Try mobile on DigitalOcean App %s\n", metadata.SiteUrl+"/line.html?apikey="+metadata.ActivationKey+"&mobile=1#generate_leaf")
-	} else {
+	}
+	if !strings.HasSuffix(metadata.SiteUrl, "ondigitalocean.app") {
 		if strings.Contains(metadata.SiteUrl, "example.com") {
 			fmt.Printf("Set SITEURL In DigitalOcean App Spec like")
 			fmt.Printf("- key: SITEURL")
 			fmt.Printf("  scope: RUN_AND_BUILD_TIME")
 			fmt.Printf("  value: https://voip-2-g9p9u.ondigitalocean.app")
 		}
-
+		fmt.Printf("Try wired on DigitalOcean App %s\n", metadata.SiteUrl+"/line.html?apikey="+metadata.ActivationKey+"#generate_leaf")
+		fmt.Printf("Try mobile on DigitalOcean App %s\n", metadata.SiteUrl+"/line.html?apikey="+metadata.ActivationKey+"&mobile=1#generate_leaf")
+	} else {
 		fmt.Printf("Try wired %s\n", metadata.SiteUrl+"/line.html?apikey="+metadata.ActivationKey+"#generate_leaf")
 		fmt.Printf("Try mobile %s\n", metadata.SiteUrl+"/line.html?apikey="+metadata.ActivationKey+"&mobile=1#generate_leaf")
 	}
@@ -73,7 +74,7 @@ func Setup() {
 		if "" == request.URL.Query().Get("apikey") {
 			if strings.Contains(metadata.SiteUrl, "example.com") {
 				// Just a test example
-				http.Redirect(writer, request, fmt.Sprintf("/line.html?apikey="+metadata.ActivationKey), http.StatusTemporaryRedirect)
+				http.Redirect(writer, request, fmt.Sprintf("/line.html?apikey=%s%s#generate_leaf", metadata.ActivationKey, mobile), http.StatusTemporaryRedirect)
 			} else {
 				http.Redirect(writer, request, fmt.Sprintf("/documentation.html"), http.StatusTemporaryRedirect)
 			}
