@@ -40,10 +40,10 @@ func Setup() {
 	}
 	if !strings.HasSuffix(metadata.SiteUrl, "ondigitalocean.app") {
 		if strings.Contains(metadata.SiteUrl, "example.com") {
-			fmt.Printf("Set SITEURL In DigitalOcean App Spec like")
-			fmt.Printf("- key: SITEURL")
-			fmt.Printf("  scope: RUN_AND_BUILD_TIME")
-			fmt.Printf("  value: https://voip-2-g9p9u.ondigitalocean.app")
+			fmt.Println("Set SITEURL In DigitalOcean App Spec like")
+			fmt.Println("- key: SITEURL")
+			fmt.Println("  scope: RUN_AND_BUILD_TIME")
+			fmt.Println("  value: https://voip-2-g9p9u.ondigitalocean.app")
 		}
 		fmt.Printf("Try wired on DigitalOcean App %s\n", metadata.SiteUrl+"/line.html?apikey="+metadata.ActivationKey+"#generate_leaf")
 		fmt.Printf("Try mobile on DigitalOcean App %s\n", metadata.SiteUrl+"/line.html?apikey="+metadata.ActivationKey+"&mobile=1#generate_leaf")
