@@ -124,10 +124,6 @@ func Mitosis() {
 			for i := int64(1); i <= 4; i++ {
 				if current > maxSessions || time.Now().Sub(start) > maxRuntime {
 					Terminate(id, host)
-					singleton := len(launches) == 1
-					if singleton {
-						go Mitosis()
-					}
 					return
 				}
 				if last < maxSessions*i/4 && current >= maxSessions*i/4 {
@@ -147,6 +143,10 @@ func Mitosis() {
 
 // Terminate terminates the instance.
 func Terminate(id string, host string) {
+	singleton := len(launches) <= 1
+	if singleton {
+		go Mitosis()
+	}
 	oraclecloud.TerminateInstance(id, host)
 	delete(launches, id)
 }
