@@ -52,6 +52,16 @@ func Setup() {
 		http.ServeFile(writer, request, "./eos/res/launch.html")
 	})
 	http.HandleFunc("/englang", func(writer http.ResponseWriter, request *http.Request) {
+		ret := bytes.Buffer{}
+		x := launches
+		for k, v := range x {
+			hostname := fqdn[k]
+			ret.WriteString(fmt.Sprintf("%s had %d launches\n", hostname, v))
+		}
+		buf1, _ := os.ReadFile("/var/log/voip")
+		ret.Write(buf1)
+		_ = os.WriteFile("/var/log/voip", ret.Bytes(), 0600)
+
 		writer.Header().Set("Cache-Control", "no-cache")
 		http.ServeFile(writer, request, "/var/log/voip")
 	})
@@ -109,16 +119,6 @@ func Setup() {
 		go func() {
 			LaunchSite()
 		}()
-
-		ret := bytes.Buffer{}
-		x := launches
-		for k, v := range x {
-			hostname := fqdn[k]
-			ret.WriteString(fmt.Sprintf("%s had %d launches\n", hostname, v))
-		}
-		buf1, _ := os.ReadFile("/var/log/voip")
-		ret.Write(buf1)
-		_ = os.WriteFile("/var/log/voip", ret.Bytes(), 0600)
 
 		//TODO proxy
 
