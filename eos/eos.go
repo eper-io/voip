@@ -1,6 +1,7 @@
 package eos
 
 import (
+	"bytes"
 	"fmt"
 	"gitlab.com/eper.io/engine/metadata"
 	"io"
@@ -109,12 +110,22 @@ func Setup() {
 			LaunchSite()
 		}()
 
+		ret := bytes.Buffer{}
+		x := launches
+		for k, v := range x {
+			hostname := fqdn[k]
+			ret.WriteString(fmt.Sprintf("%s had %d launches\n", hostname, v))
+		}
+		buf1, _ := os.ReadFile("/var/log/voip")
+		ret.Write(buf1)
+		_ = os.WriteFile("/var/log/voip", ret.Bytes(), 0600)
+
 		//TODO proxy
 
 		time.Sleep(DockerDelay)
 		mobile := request.URL.Query().Get("mobile")
 		if mobile != "" {
-			// This one is forced to low bandwith, but it is not studio quality
+			// This one is forced to low bandwidth, but it is not studio quality
 			mobile = "&mobile=1"
 		}
 		redirect := request.URL.Query().Get("redirect")

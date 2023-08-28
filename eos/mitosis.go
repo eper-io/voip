@@ -114,6 +114,7 @@ func Mitosis() {
 	fmt.Println("Launched", id, host, ip)
 
 	launches[id] = 0
+	fqdn[id] = host
 	go func() {
 		start := time.Now()
 		last := launches[id]

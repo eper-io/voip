@@ -12,7 +12,9 @@ import (
 // You should have received a copy of the CC0 Public Domain Dedication along wi
 // If not, see <https:#creativecommons.org/publicdomain/zero/1.0/legalcode>.
 
+// Host name to session counter.
 var launches = map[string]int64{}
+var fqdn = map[string]string{}
 
 // maxSessions is the maximum number of sessions during the lifetime of the node.
 // See Mitosis() for explanation.
