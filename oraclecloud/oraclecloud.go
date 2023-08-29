@@ -180,7 +180,8 @@ func LaunchInstance(maxRuntime time.Duration) (instanceId string, host string, i
 							}
 
 							for time.Now().Sub(start).Minutes() < 9 {
-								pingUrl := fmt.Sprintf("http://%s:80/", string(host))
+								// See user-data for port number
+								pingUrl := fmt.Sprintf("http://%s:7777/", string(host))
 								fmt.Println("Final pinging...", pingUrl)
 								retx, err := http.Get(pingUrl)
 								if err != nil {
