@@ -115,6 +115,7 @@ func Setup() {
 					newLine := string(container)
 					if newLine != "" {
 						fmt.Println("proxy to", hostFqdn, pickedUrl)
+						launches[pick]++
 						// Proxy
 						if redirect != "1" {
 							_, _ = io.WriteString(writer, newLine)
@@ -123,11 +124,15 @@ func Setup() {
 							writer.WriteHeader(http.StatusTemporaryRedirect)
 						}
 						return
+					} else {
+						fmt.Println("cannot proxy connect to", hostFqdn, pickedUrl)
 					}
-					fmt.Println("cannot proxy to", hostFqdn, pickedUrl)
+				} else {
+					fmt.Println("cannot proxy address to", hostFqdn)
 				}
+			} else {
+				fmt.Println("proxy list error. local fallback")
 			}
-			fmt.Println("proxy error. local fallback")
 		} else {
 			fmt.Println("cannot proxy. local fallback")
 		}

@@ -72,7 +72,6 @@ func LaunchSite() string {
 	}
 	if len(x) > 0 {
 		pick := x[rand.Intn(len(x))]
-		launches[pick]++
 		return pick
 	}
 	return ""
