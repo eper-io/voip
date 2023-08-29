@@ -128,7 +128,7 @@ func Setup() {
 				}
 			}
 		}
-		fmt.Println("cannot proxy local fallback")
+		fmt.Println("cannot proxy. local fallback")
 		// Local fallback
 
 		fmt.Println("line creation")
