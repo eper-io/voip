@@ -20,7 +20,6 @@ git pull -r > /var/log/voip
 
 # Save some logs
 TZ='America/Los_Angeles' date >> /var/log/voip
-sleep 30;
 echo Next update check is in thirty seconds >> /var/log/voip
 git status >> /var/log/voip
 git log --format=oneline >> /var/log/voip
@@ -32,7 +31,7 @@ cat /var/log/voip
 
 # We may want to run a privileged container in the future. It is difficult to mix podman and golang
 cd /tmp/voip
-go build -o /opt/voipbroker ./eos/main/main.go
+go build -o /opt/voipbroker ./eos/main/main.go || true
 
 # All the worker containers keep running for their respective customers until they shut down themselves. (~1-2 hours)
 
@@ -45,4 +44,6 @@ go build -o /opt/voipbroker ./eos/main/main.go
 
 # Run the broker if needed. It launches containers that do the call lines
 #pgrep voipbroker || (DOCKERIMAGE=line.eper.io/line SITEURL=https://l.eper.io APIKEY=JVPSVWUIUTSXGPTWOVEWMHBUFJMVIALPQDMXQZROKZLYPYQGMBRQZMRWSQZIACQDKIFVWYQBWGGHQLGALYBQTAQNLHDR nohup /opt/voipbroker >>/var/log/voipbroker &)
-pgrep voipbroker || (nohup /opt/voipbroker proxy >>/var/log/voipbroker &)
+pgrep voipbroker || (nohup /opt/voipbroker proxy >>/var/log/voipbroker &) || true
+
+sleep 30;
