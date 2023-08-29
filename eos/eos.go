@@ -99,7 +99,7 @@ func Setup() {
 			}
 		}
 		if proxy {
-			hostid, hostFqdn := LaunchSite()
+			cloudId, hostFqdn := LaunchSite()
 			if hostFqdn != "" {
 				mobile1 := ""
 				if mobile == "1" {
@@ -108,24 +108,24 @@ func Setup() {
 				}
 
 				pickedUrl := fmt.Sprintf("https://%s%s?apikey=%s&redirect=0%s", hostFqdn, request.URL.Path, apiKey, mobile1)
+
 				fmt.Println("trying", pickedUrl)
 				retx, _ := http.Get(pickedUrl)
 				container, _ := io.ReadAll(retx.Body)
 				newLine := string(container)
 				if newLine != "" {
-					fmt.Println("proxy to", hostFqdn, pickedUrl)
-					launches[hostid]++
-					// Proxy
-					if redirect != "1" {
-						_, _ = io.WriteString(writer, newLine)
-					} else {
-						writer.Header().Set("Location", newLine)
-						writer.WriteHeader(http.StatusTemporaryRedirect)
-					}
-					return
-				} else {
-					fmt.Println("cannot proxy connect to", hostFqdn, pickedUrl)
+					fmt.Println("proxy ok to", hostFqdn, pickedUrl)
 				}
+
+				launches[cloudId]++
+				// Proxy
+				if redirect != "1" {
+					_, _ = io.WriteString(writer, newLine)
+				} else {
+					writer.Header().Set("Location", newLine)
+					writer.WriteHeader(http.StatusTemporaryRedirect)
+				}
+				return
 			} else {
 				fmt.Println("cannot proxy address to", hostFqdn)
 			}

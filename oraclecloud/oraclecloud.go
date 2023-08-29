@@ -195,6 +195,7 @@ func LaunchInstance(maxRuntime time.Duration) (instanceId string, host string, i
 								}
 								newLine := string(container)
 								if newLine != "" {
+									fmt.Println(time.Now().Sub(start).Seconds(), " seconds to launch")
 									return id, host, ipv4
 								}
 								time.Sleep(10 * time.Second)
