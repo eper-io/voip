@@ -45,6 +45,6 @@ go build -o /opt/voipbroker ./eos/main/main.go || true
 
 # Run the broker if needed. It launches containers that do the call lines
 #pgrep voipbroker || (DOCKERIMAGE=line.eper.io/line SITEURL=https://l.eper.io APIKEY=JVPSVWUIUTSXGPTWOVEWMHBUFJMVIALPQDMXQZROKZLYPYQGMBRQZMRWSQZIACQDKIFVWYQBWGGHQLGALYBQTAQNLHDR nohup /opt/voipbroker >>/var/log/voipbroker &)
-pgrep voipbroker || (nohup /opt/voipbroker proxy >>/var/log/voipbroker &) || true
+pgrep voipbroker || (nohup /opt/voipbroker no-proxy >>/var/log/voipbroker &) || true
 
 sleep 30;
