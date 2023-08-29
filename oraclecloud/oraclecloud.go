@@ -6,6 +6,8 @@ import (
 	"gitlab.com/eper.io/engine/line"
 	"gitlab.com/eper.io/engine/ns"
 	"gitlab.com/eper.io/engine/oraclecloud/metadata"
+	"io"
+	"net/http"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -174,7 +176,18 @@ func LaunchInstance(maxRuntime time.Duration) (instanceId string, host string, i
 							CleanupInstance(id, host, maxRuntime)
 							if id == "" {
 								fmt.Println("failed mitosis")
+								return "", "", ""
 							}
+
+							pingUrl := fmt.Sprintf("https://%s:7777/", string(final))
+							fmt.Println("Final pinging...", pingUrl)
+							retx, _ := http.Get(pingUrl)
+							container, _ := io.ReadAll(retx.Body)
+							newLine := string(container)
+							if newLine == "" {
+								return "", "", ""
+							}
+
 							return id, host, ipv4
 						}
 					}
