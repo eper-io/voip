@@ -92,39 +92,40 @@ func Setup() {
 		mobile := request.URL.Query().Get("mobile")
 		redirect := request.URL.Query().Get("redirect")
 
-		//for _, x := range os.Args {
-		//	if x == "proxy" {
-		//		pick := LaunchSite()
-		//		if pick != "" {
-		//			host := fqdn[pick]
-		//			if host != "" {
-		//				mobile1 := ""
-		//				if mobile != "" {
-		//					// This one is forced to low bandwidth, but it is not studio quality
-		//					mobile1 = "&mobile=1"
-		//				}
-		//
-		//				pickedUrl := fmt.Sprintf("https://%s%s?apikey=%s&redirect=0%s", fqdn, request.URL.Path, apiKey, mobile1)
-		//				fmt.Println("proxy to", pick, pickedUrl)
-		//				retx, _ := http.Get(pickedUrl)
-		//				container, _ := io.ReadAll(retx.Body)
-		//				newLine := string(container)
-		//				if newLine != "" {
-		//					// Proxy
-		//					if redirect != "1" {
-		//						_, _ = io.WriteString(writer, newLine)
-		//					} else {
-		//						writer.Header().Set("Location", newLine)
-		//						writer.WriteHeader(http.StatusTemporaryRedirect)
-		//					}
-		//					return
-		//				}
-		//			}
-		//		}
-		//		fmt.Println("cannot proxy")
-		//		break
-		//	}
-		//}
+		for _, x := range os.Args {
+			if x == "proxy" {
+				pick := LaunchSite()
+				if pick != "" {
+					hostFqdn := fqdn[pick]
+					if hostFqdn != "" {
+						mobile1 := ""
+						if mobile == "1" {
+							// This one is forced to low bandwidth, but it is not studio quality
+							mobile1 = "&mobile=1"
+						}
+
+						pickedUrl := fmt.Sprintf("https://%s%s?apikey=%s&redirect=0%s", hostFqdn, request.URL.Path, apiKey, mobile1)
+						fmt.Println("proxy to", pick, pickedUrl)
+						retx, _ := http.Get(pickedUrl)
+						container, _ := io.ReadAll(retx.Body)
+						newLine := string(container)
+						if newLine != "" {
+							// Proxy
+							if redirect != "1" {
+								_, _ = io.WriteString(writer, newLine)
+							} else {
+								writer.Header().Set("Location", newLine)
+								writer.WriteHeader(http.StatusTemporaryRedirect)
+							}
+							return
+						}
+						fmt.Println("ignored", pick, pickedUrl)
+					}
+				}
+				fmt.Println("cannot proxy")
+				break
+			}
+		}
 		// Local fallback
 
 		fmt.Println("line creation")
