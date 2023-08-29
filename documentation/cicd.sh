@@ -45,6 +45,6 @@ go build -o /opt/voipbroker ./eos/main/main.go || true
 #pgrep voipbroker || (DOCKERIMAGE=line.eper.io/line SITEURL=https://l.eper.io APIKEY=JVPSVWUIUTSXGPTWOVEWMHBUFJMVIALPQDMXQZROKZLYPYQGMBRQZMRWSQZIACQDKIFVWYQBWGGHQLGALYBQTAQNLHDR nohup /opt/voipbroker >>/var/log/voipbroker &)
 (cat /var/log/voip | grep 'up to date') || kill -9 `pgrep voipbroker`
 sleep 2
-pgrep voipbroker || (nohup /opt/voipbroker proxy >>/var/log/voipbroker &) || true
+pgrep voipbroker || (nohup /opt/voipbroker no-proxy >>/var/log/voipbroker &) || true
 
 sleep 30;
