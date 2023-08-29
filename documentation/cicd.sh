@@ -24,13 +24,13 @@ git status >> /var/log/voip
 git log --format=oneline >> /var/log/voip
 
 # Build voip broker
-docker build -t line.eper.io/line /tmp/voip
+(cat /var/log/voip | grep 'up to date') || docker build -t line.eper.io/line /tmp/voip
 echo "build result $?" >> /var/log/voip
-cat /var/log/voip
 
 # We may want to run a privileged container in the future. It is difficult to mix podman and golang
 cd /tmp/voip
-go build -o /opt/voipbroker ./eos/main/main.go || true
+(cat /var/log/voip | grep 'up to date') || go build -o /opt/voipbroker ./eos/main/main.go >> /var/log/voip || true
+cat /var/log/voip
 
 # All the worker containers keep running for their respective customers until they shut down themselves. (~1-2 hours)
 
