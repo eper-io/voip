@@ -99,39 +99,34 @@ func Setup() {
 			}
 		}
 		if proxy {
-			pick := LaunchSite()
-			if pick != "" {
-				hostFqdn := fqdn[pick]
-				if hostFqdn != "" {
-					mobile1 := ""
-					if mobile == "1" {
-						// This one is forced to low bandwidth, but it is not studio quality
-						mobile1 = "&mobile=1"
-					}
+			hostid, hostFqdn := LaunchSite()
+			if hostFqdn != "" {
+				mobile1 := ""
+				if mobile == "1" {
+					// This one is forced to low bandwidth, but it is not studio quality
+					mobile1 = "&mobile=1"
+				}
 
-					pickedUrl := fmt.Sprintf("https://%s%s?apikey=%s&redirect=0%s", hostFqdn, request.URL.Path, apiKey, mobile1)
-					retx, _ := http.Get(pickedUrl)
-					container, _ := io.ReadAll(retx.Body)
-					newLine := string(container)
-					if newLine != "" {
-						fmt.Println("proxy to", hostFqdn, pickedUrl)
-						launches[pick]++
-						// Proxy
-						if redirect != "1" {
-							_, _ = io.WriteString(writer, newLine)
-						} else {
-							writer.Header().Set("Location", newLine)
-							writer.WriteHeader(http.StatusTemporaryRedirect)
-						}
-						return
+				pickedUrl := fmt.Sprintf("https://%s%s?apikey=%s&redirect=0%s", hostFqdn, request.URL.Path, apiKey, mobile1)
+				retx, _ := http.Get(pickedUrl)
+				container, _ := io.ReadAll(retx.Body)
+				newLine := string(container)
+				if newLine != "" {
+					fmt.Println("proxy to", hostFqdn, pickedUrl)
+					launches[hostid]++
+					// Proxy
+					if redirect != "1" {
+						_, _ = io.WriteString(writer, newLine)
 					} else {
-						fmt.Println("cannot proxy connect to", hostFqdn, pickedUrl)
+						writer.Header().Set("Location", newLine)
+						writer.WriteHeader(http.StatusTemporaryRedirect)
 					}
+					return
 				} else {
-					fmt.Println("cannot proxy address to", hostFqdn)
+					fmt.Println("cannot proxy connect to", hostFqdn, pickedUrl)
 				}
 			} else {
-				fmt.Println("proxy list error. local fallback")
+				fmt.Println("cannot proxy address to", hostFqdn)
 			}
 		} else {
 			fmt.Println("cannot proxy. local fallback")
