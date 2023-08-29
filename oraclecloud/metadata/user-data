@@ -22,7 +22,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
     http.HandleFunc("/", handler)
-    port := ":7777"
+    port := ":80"
 
     err := http.ListenAndServe(port, nil)
     if err != nil {
