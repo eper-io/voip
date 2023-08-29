@@ -199,7 +199,7 @@ func LaunchInstance(maxRuntime time.Duration) (instanceId string, host string, i
 								time.Sleep(10 * time.Second)
 							}
 
-							fmt.Println("failed mitosis no ping on :7777")
+							fmt.Println("failed mitosis no  ping on :7777")
 							return "", "", ""
 						}
 					}
