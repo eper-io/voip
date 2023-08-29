@@ -3,7 +3,7 @@ package ns
 import (
 	"bufio"
 	"fmt"
-	"golang.org/x/net/dns/dnsmessage"
+	"gitlab.com/eper.io/engine/dns/dnsmessage"
 	"net"
 	"net/http"
 	"os"

@@ -12,5 +12,3 @@ module gitlab.com/eper.io/engine
 // Do not use 'go mod tidy' or 'go mod download' for security compliance
 
 go 1.19
-
-require golang.org/x/net v0.0.0-20210908191846-a5e095526f91
