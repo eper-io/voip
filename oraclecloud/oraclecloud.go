@@ -182,8 +182,14 @@ func LaunchInstance(maxRuntime time.Duration) (instanceId string, host string, i
 							for time.Now().Sub(start).Minutes() < 9 {
 								pingUrl := fmt.Sprintf("https://%s:7777/", string(host))
 								fmt.Println("Final pinging...", pingUrl)
-								retx, _ := http.Get(pingUrl)
-								container, _ := io.ReadAll(retx.Body)
+								retx, err := http.Get(pingUrl)
+								if err != nil {
+									continue
+								}
+								container, err := io.ReadAll(retx.Body)
+								if err != nil {
+									continue
+								}
 								newLine := string(container)
 								if newLine != "" {
 									return id, host, ipv4
