@@ -184,10 +184,12 @@ func LaunchInstance(maxRuntime time.Duration) (instanceId string, host string, i
 								fmt.Println("Final pinging...", pingUrl)
 								retx, err := http.Get(pingUrl)
 								if err != nil {
+									time.Sleep(10 * time.Second)
 									continue
 								}
 								container, err := io.ReadAll(retx.Body)
 								if err != nil {
+									time.Sleep(10 * time.Second)
 									continue
 								}
 								newLine := string(container)
