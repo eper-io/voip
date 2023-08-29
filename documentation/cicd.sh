@@ -23,14 +23,20 @@ echo Next update check is in thirty seconds >> /var/log/voip
 git status >> /var/log/voip
 git log --format=oneline >> /var/log/voip
 
-# Build voip broker
-(cat /var/log/voip | grep 'up to date') || docker build -t line.eper.io/line /tmp/voip
-echo "build result $?" >> /var/log/voip
-
 # We may want to run a privileged container in the future. It is difficult to mix podman and golang
 cd /tmp/voip
 (cat /var/log/voip | grep 'up to date') || go build -o /opt/voipbroker ./eos/main/main.go >> /var/log/voip || true
-cat /var/log/voip
+
+# Running as root on the network is dangerous so we need to be very lean with the codebase in /eos
+# Run the broker if needed. It launches containers that do the call lines
+#pgrep voipbroker || (DOCKERIMAGE=line.eper.io/line SITEURL=https://l.eper.io APIKEY=JVPSVWUIUTSXGPTWOVEWMHBUFJMVIALPQDMXQZROKZLYPYQGMBRQZMRWSQZIACQDKIFVWYQBWGGHQLGALYBQTAQNLHDR nohup /opt/voipbroker >>/var/log/voipbroker &)
+(cat /var/log/voip | grep 'up to date') || kill -9 `pgrep voipbroker`
+sleep 2
+pgrep voipbroker || (nohup /opt/voipbroker no-proxy >>/var/log/voipbroker &) || true
+
+# Build voip broker line containers
+(cat /var/log/voip | grep 'up to date') || docker build -t line.eper.io/line /tmp/voip
+echo "build result $?" >> /var/log/voip
 
 # All the worker containers keep running for their respective customers until they shut down themselves. (~1-2 hours)
 
@@ -39,12 +45,6 @@ cat /var/log/voip
 # sleep 6
 # docker run -d --rm --name voiptest -e SITEURL=https://l.eper.io -e PORT=7777 -p 7777:443 -v /etc/letsencrypt/live/l.eper.io/fullchain.pem:/tmp/fullchain.pem:ro -v /etc/letsencrypt/live/l.eper.io/privkey.pem:/tmp/privkey.pem:ro line.eper.io/line
 
-# Running as root on the network is dangerous so we need to be very lean with the codebase in /eos
-
-# Run the broker if needed. It launches containers that do the call lines
-#pgrep voipbroker || (DOCKERIMAGE=line.eper.io/line SITEURL=https://l.eper.io APIKEY=JVPSVWUIUTSXGPTWOVEWMHBUFJMVIALPQDMXQZROKZLYPYQGMBRQZMRWSQZIACQDKIFVWYQBWGGHQLGALYBQTAQNLHDR nohup /opt/voipbroker >>/var/log/voipbroker &)
-(cat /var/log/voip | grep 'up to date') || kill -9 `pgrep voipbroker`
-sleep 2
-pgrep voipbroker || (nohup /opt/voipbroker no-proxy >>/var/log/voipbroker &) || true
+cat /var/log/voip
 
 sleep 30;
