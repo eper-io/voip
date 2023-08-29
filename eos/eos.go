@@ -127,8 +127,10 @@ func Setup() {
 					fmt.Println("cannot proxy to", hostFqdn, pickedUrl)
 				}
 			}
+			fmt.Println("proxy error. local fallback")
+		} else {
+			fmt.Println("cannot proxy. local fallback")
 		}
-		fmt.Println("cannot proxy. local fallback")
 		// Local fallback
 
 		fmt.Println("line creation")
@@ -159,7 +161,7 @@ func Setup() {
 		fmt.Println(string(returned))
 
 		time.Sleep(DockerDelay)
-		if mobile != "" {
+		if mobile == "1" {
 			// This one is forced to low bandwidth, but it is not studio quality
 			mobile = "&mobile=1"
 		}
