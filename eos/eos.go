@@ -105,11 +105,11 @@ func Setup() {
 						}
 
 						pickedUrl := fmt.Sprintf("https://%s%s?apikey=%s&redirect=0%s", hostFqdn, request.URL.Path, apiKey, mobile1)
-						fmt.Println("proxy to", pick, pickedUrl)
 						retx, _ := http.Get(pickedUrl)
 						container, _ := io.ReadAll(retx.Body)
 						newLine := string(container)
 						if newLine != "" {
+							fmt.Println("proxy to", hostFqdn, pickedUrl)
 							// Proxy
 							if redirect != "1" {
 								_, _ = io.WriteString(writer, newLine)
@@ -119,7 +119,7 @@ func Setup() {
 							}
 							return
 						}
-						fmt.Println("ignored", pick, pickedUrl)
+						fmt.Println("cannot proxy to", hostFqdn, pickedUrl)
 					}
 				}
 				fmt.Println("cannot proxy")
