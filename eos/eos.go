@@ -110,6 +110,7 @@ func Setup() {
 				pickedUrl := fmt.Sprintf("https://%s%s?apikey=%s&redirect=0%s", hostFqdn, request.URL.Path, apiKey, mobile1)
 
 				fmt.Println("trying", pickedUrl)
+				//NewClient
 				retx, _ := http.Get(pickedUrl)
 				container, _ := io.ReadAll(retx.Body)
 				newLine := string(container)
