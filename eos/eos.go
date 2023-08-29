@@ -122,10 +122,10 @@ func Setup() {
 						fmt.Println("cannot proxy to", hostFqdn, pickedUrl)
 					}
 				}
-				fmt.Println("cannot proxy")
 				break
 			}
 		}
+		fmt.Println("cannot proxy local fallback")
 		// Local fallback
 
 		fmt.Println("line creation")
