@@ -16,14 +16,12 @@
 # Short glitch in the service only when updated. Acceptable.
 cd /tmp/voip
 git pull -r > /var/log/voip
-(cat /var/log/voip | grep 'up to date') || kill -9 `pgrep voipbroker`
 
 # Save some logs
 TZ='America/Los_Angeles' date >> /var/log/voip
 echo Next update check is in thirty seconds >> /var/log/voip
 git status >> /var/log/voip
 git log --format=oneline >> /var/log/voip
-sleep 3
 
 # Build voip broker
 docker build -t line.eper.io/line /tmp/voip
@@ -45,6 +43,8 @@ go build -o /opt/voipbroker ./eos/main/main.go || true
 
 # Run the broker if needed. It launches containers that do the call lines
 #pgrep voipbroker || (DOCKERIMAGE=line.eper.io/line SITEURL=https://l.eper.io APIKEY=JVPSVWUIUTSXGPTWOVEWMHBUFJMVIALPQDMXQZROKZLYPYQGMBRQZMRWSQZIACQDKIFVWYQBWGGHQLGALYBQTAQNLHDR nohup /opt/voipbroker >>/var/log/voipbroker &)
+(cat /var/log/voip | grep 'up to date') || kill -9 `pgrep voipbroker`
+sleep 2
 pgrep voipbroker || (nohup /opt/voipbroker no-proxy >>/var/log/voipbroker &) || true
 
 sleep 30;
