@@ -127,7 +127,7 @@ func Setup() {
 				}
 				return
 			} else {
-				fmt.Println("cannot proxy address to", hostFqdn)
+				fmt.Println("cannot proxy  address to", hostFqdn)
 			}
 		} else {
 			fmt.Println("cannot proxy. local fallback")
