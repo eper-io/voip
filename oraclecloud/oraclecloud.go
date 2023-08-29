@@ -171,7 +171,7 @@ func LaunchInstance(maxRuntime time.Duration) (instanceId string, host string, i
 							_, _ = exec.Command("curl", "-X", "PUT", fmt.Sprintf("http://127.0.0.1:5377/dns?a=%s&ipv4=%s", host, ipv4)).Output()
 							fmt.Println("Updated NS host", host, ipv4)
 							final, _ := exec.Command("curl", "-X", "GET", fmt.Sprintf("http://127.0.0.1:5377/dns?a=%s", host)).Output()
-							fmt.Println("Final NS host", string(final))
+							fmt.Println("Final NS ip", string(final))
 							//ns.Nodes[host] = ipv4d
 							CleanupInstance(id, host, maxRuntime)
 							if id == "" {
@@ -201,7 +201,7 @@ func LaunchInstance(maxRuntime time.Duration) (instanceId string, host string, i
 	}
 
 	CleanupInstance(instanceId, host, 2*time.Second)
-	return id, "", ""
+	return "", "", ""
 }
 
 func GetInstancePublicIp(instance string) string {
