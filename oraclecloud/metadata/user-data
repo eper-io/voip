@@ -32,3 +32,5 @@ func main() {
 EOF
 
 sudo nohup go run /tmp/main.go &
+
+curl -L https://gitlab.com/eper.io/voip/-/raw/main/documentation/almalinux.sh | bash
