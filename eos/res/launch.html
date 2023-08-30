@@ -29,7 +29,9 @@ If not, see <https:#creativecommons.org/publicdomain/zero/1.0/legalcode>.
     <script>
         function call() {
             if (document.getElementById("diagnostics").innerHTML !== "Launching...") {
-                document.getElementById("diagnostics").innerHTML = "Launching..."
+                setTimeout(function () {
+                    document.getElementById("diagnostics").innerHTML = "Launching..."
+                }, 100)
                 let action = document.getElementById("button").innerText
                 setTimeout(function () {
                     if (action === "Try to call") {
@@ -62,7 +64,7 @@ If not, see <https:#creativecommons.org/publicdomain/zero/1.0/legalcode>.
                             }
                         }
                     }
-                }, 10)
+                }, 100)
             }
         }
     </script>
