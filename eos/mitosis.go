@@ -121,6 +121,7 @@ func Mitosis() {
 		fmt.Println("cannot proxy. local fallback")
 		return
 	}
+	fmt.Println("running mistosis as /tmp/voipautoscale is set")
 	// Local fallback
 
 	id, host, ip := oraclecloud.LaunchInstance(maxRuntime)
