@@ -9,7 +9,7 @@ package metadata
 // If not, see <https:#creativecommons.org/publicdomain/zero/1.0/legalcode>.
 
 // Domain of the cluster.
-var Domain = "oracle.eper.io"
+var Domain = "l.eper.io"
 
 // DomainNS is the main entrypoint and name service
 var DomainNS = "l.eper.io"
