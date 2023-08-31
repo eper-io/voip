@@ -55,7 +55,7 @@ ln -s /snap/bin/certbot /usr/bin/certbot
 
 if ! [ -d /etc/letsencrypt/live/l.eper.io/ ]; then
   echo *** SETUP NEEDED *** Replace all occurrences of l.eper.io in this file to your domain.
-  certbot --nginx -m hq@schmied.us --cert-name l.eper.io -d l.eper.io --https-port 4443 --http-01-port 4444 certonly
+  certbot --nginx -m hq@opensource.eper.io --cert-name l.eper.io -d l.eper.io --https-port 4443 --http-01-port 4444 certonly
 fi
 
 if ! [ -d /tmp/voip ]; then

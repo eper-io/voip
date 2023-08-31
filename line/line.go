@@ -126,6 +126,10 @@ func Setup() {
 		}
 	})
 
+	http.HandleFunc("/default.png", func(writer http.ResponseWriter, request *http.Request) {
+		dynamicContentPart(writer, request, path.Join("./line/res/default.png"))
+	})
+
 	http.HandleFunc("/moose.png", func(writer http.ResponseWriter, request *http.Request) {
 		dynamicContentPart(writer, request, path.Join("./line/res/moose.png"))
 	})
