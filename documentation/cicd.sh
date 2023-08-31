@@ -18,14 +18,13 @@ export TZ='America/Los_Angeles'
 cd /tmp/voip
 
 # Save some logs
-date > /var/log/voip
+git pull -r > /var/log/voip
+date >> /var/log/voip
 export AUTOSCALE=no-proxy
-ls /tmp/voipautoscale
+ls /tmp/voipautoscale >> /var/log/voip
 if [ -f /tmp/voipautoscale ]; then
   export AUTOSCALE=autoscale
 fi
-echo runnig /opt/voipbroker $AUTOSCALE >> /var/log/voip
-git pull -r >> /var/log/voip
 echo Next update check is in thirty seconds >> /var/log/voip
 git status >> /var/log/voip
 git log --format=oneline >> /var/log/voip
