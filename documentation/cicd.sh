@@ -34,10 +34,10 @@ cd /tmp/voip
 sleep 2
 
 export AUTOSCALE=no-proxy
-if -f [ -f /var/lib/voipautoscale ]; then
+if -f [ -f /tmp/voipautoscale ]; then
   export AUTOSCALE=allproxy
 fi
-pgrep voipbroker || (nohup /opt/voipbroker allproxy >>/var/log/voipbroker &) || true
+pgrep voipbroker || (nohup /opt/voipbroker $AUTOSCALE >>/var/log/voipbroker &) || true
 
 # Build voip broker line containers
 (cat /var/log/voip | grep 'up to date') || docker build -t line.eper.io/line /tmp/voip
