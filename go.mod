@@ -10,5 +10,8 @@ module gitlab.com/eper.io/engine
 
 // The project is designed to use 'go mod vendor'
 // Do not use 'go mod tidy' or 'go mod download' for security compliance
+// We also avoid using modules altogether to minimize the risk of third party vulnerabilites.
+// The codebase is few thousand lines so that it can be security reviewed easily.
+// TODO Do we want to stick to the latest 1.19?
 
 go 1.19
