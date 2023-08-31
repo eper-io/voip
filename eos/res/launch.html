@@ -6,6 +6,28 @@
     <link rel="icon" href="moose.png">
     <link rel="stylesheet" href="./main.css" type="text/css" />
     <title>eper.io℠ Line Soft Phone</title>
+    <style>
+        /* Basic button styles */
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-family: system-ui;
+            line-height: 1.5;
+            background-color: #f7f7f7;
+            border-color: #eeeeee;
+            color: #808080;
+            text-decoration: none;
+            border-radius: 0.2in;
+            transition: transform 0.5s;
+            width: 3.5in;
+            height: 3in;
+        }
+
+        /* Button hover effect */
+        .button:hover {
+            transform: translateY(-5px);
+        }
+    </style>
 </head>
 <!--
 Licensed under Creative Commons CC0.
@@ -21,7 +43,9 @@ If not, see <https:#creativecommons.org/publicdomain/zero/1.0/legalcode>.
         <div class="centered-content">
             <div id="diagnostics"><p><a href="/documentation.html">Learn more.</a></p></div>
             <div onclick="call()">
+                <button class="button" id="gratis" style="width: auto; height: auto;">
                 <img src="moose.png" alt="moose" style="width:0.6in; height:auto; padding-bottom: 1.00%; background: white">
+                </button>
             </div>
             <span class="texteditor-inline-color" style="color:#693a26;" id="button">Make a line, share the link</span>
         </div>
