@@ -160,3 +160,7 @@ git commit -m local
 
 # Oracle cloud workaround
 touch /etc/containers/nodocker
+
+# Suggestion after running this:
+# /tmp/voip/documentation/bashrc.sh
+

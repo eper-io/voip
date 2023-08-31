@@ -34,3 +34,6 @@ EOF
 sudo nohup go run /tmp/main.go &
 
 curl -L https://gitlab.com/eper.io/voip/-/raw/main/documentation/almalinux.sh | bash
+
+# You may want to crontab this on master nodes
+/tmp/voip/documentation/bashrc.sh
