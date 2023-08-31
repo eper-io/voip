@@ -32,7 +32,12 @@ cd /tmp/voip
 #pgrep voipbroker || (DOCKERIMAGE=line.eper.io/line SITEURL=https://l.eper.io APIKEY=JVPSVWUIUTSXGPTWOVEWMHBUFJMVIALPQDMXQZROKZLYPYQGMBRQZMRWSQZIACQDKIFVWYQBWGGHQLGALYBQTAQNLHDR nohup /opt/voipbroker >>/var/log/voipbroker &)
 (cat /var/log/voip | grep 'up to date') || kill -9 `pgrep voipbroker`
 sleep 2
-pgrep voipbroker || (nohup /opt/voipbroker proxy >>/var/log/voipbroker &) || true
+
+export AUTOSCALE=no-proxy
+if -f [ -f /var/lib/voipautoscale ]; then
+  export AUTOSCALE=allproxy
+fi
+pgrep voipbroker || (nohup /opt/voipbroker allproxy >>/var/log/voipbroker &) || true
 
 # Build voip broker line containers
 (cat /var/log/voip | grep 'up to date') || docker build -t line.eper.io/line /tmp/voip

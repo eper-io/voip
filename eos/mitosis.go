@@ -126,13 +126,13 @@ func Mitosis() {
 		for {
 			time.Sleep(10 * time.Minute)
 			current := launches[id]
-			fmt.Println("Mitosis from", last, "to", current, "at", int64(time.Now().Sub(start).Seconds()), "seconds")
 			for i := int64(1); i <= 4; i++ {
+				fmt.Println("Mitosis check from", last, "to", current, "testing", maxSessions*i/4, "at", int64(time.Now().Sub(start).Seconds()), "seconds")
 				if current > maxSessions || time.Now().Sub(start) > maxRuntime {
 					Terminate(id, host)
 					return
 				}
-				if last < maxSessions*i/4 && current >= maxSessions*i/4 {
+				if last <= maxSessions*i/4 && current > maxSessions*i/4 {
 					if int64(time.Now().Sub(start).Seconds()) < int64(maxRuntime.Seconds())*i/4 {
 						// We used the quota too fast: need more
 						fmt.Println("Mitosis needed from", last, "to", current, "at", int64(time.Now().Sub(start).Seconds())*i/4, "seconds", i, "/4")

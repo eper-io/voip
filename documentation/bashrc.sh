@@ -13,6 +13,9 @@
 
 systemctl disable nginx.service
 systemctl stop nginx.service
+
+# This can do an entire cleanup on boot
+# cat /var/lib/voip_gc_* | sed --expression='s/3600/1/g' | bash
 # rm -f /var/lib/voip_*
 
 nohup bash -c 'while true; do timeout 600 /tmp/voip/documentation/cicd.sh; done' &

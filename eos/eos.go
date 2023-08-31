@@ -94,7 +94,7 @@ func Setup() {
 
 		proxy := false
 		for _, x := range os.Args {
-			if x == "proxy" {
+			if x == "allproxy" {
 				proxy = true
 			}
 		}
