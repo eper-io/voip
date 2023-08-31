@@ -23,7 +23,7 @@ If not, see <https:#creativecommons.org/publicdomain/zero/1.0/legalcode>.
             <div onclick="call()">
                 <img src="moose.png" alt="moose" style="width:0.6in; height:auto; padding-bottom: 1.00%; background: white">
             </div>
-            <span class="texteditor-inline-color" style="color:#693a26;" id="button">Try to call</span>
+            <span class="texteditor-inline-color" style="color:#693a26;" id="button">Make a line, share the link</span>
         </div>
     </div>
     <script>
@@ -34,12 +34,12 @@ If not, see <https:#creativecommons.org/publicdomain/zero/1.0/legalcode>.
                 }, 10)
                 let action = document.getElementById("button").innerText
                 setTimeout(function () {
-                    if (action === "Try to call") {
+                    if (action === "Make a line, share the link") {
                         document.getElementById("button").innerText = 'Please wait'
                         setTimeout(function () {
                             if (document.getElementById("diagnostics").innerHTML === "Launching...") {
                                 document.getElementById("diagnostics").innerHTML = "Launch timed out."
-                                document.getElementById("button").innerText = "Try to call"
+                                document.getElementById("button").innerText = "Make a line, share the link"
                                 setTimeout(function () {
                                     document.getElementById("diagnostics").innerHTML = "Click on documentation to learn more."
                                 }, 30000)
