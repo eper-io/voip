@@ -38,6 +38,7 @@ ls /tmp/voipautoscale
 if [ -f /tmp/voipautoscale ]; then
   export AUTOSCALE=autoscale
 fi
+echo runnig /opt/voipbroker $AUTOSCALE
 pgrep voipbroker || (nohup /opt/voipbroker $AUTOSCALE >>/var/log/voipbroker &) || true
 
 # Build voip broker line containers
