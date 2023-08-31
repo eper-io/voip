@@ -20,7 +20,8 @@ cd /tmp/voip
 
 # Save some logs
 git pull -r > /var/log/voippull
-date > /var/log/voip
+
+TZ='America/Los_Angeles' date > /var/log/voip
 export AUTOSCALE=no-proxy
 ls /tmp/voipautoscale >> /var/log/voip
 if [ -f /tmp/voipautoscale ]; then
