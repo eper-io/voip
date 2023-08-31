@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"gitlab.com/eper.io/engine/oraclecloud"
 	"math/rand"
+	"os"
 	"time"
 )
 
@@ -110,6 +111,18 @@ func LaunchSite() (string, string) {
 // If we get a thousand sudden requests we scale up quickly.
 // TODO Ideally the nodes should terminate themselves and remove from the cloud in the future to be super reliable.
 func Mitosis() {
+	proxy := false
+	for _, x := range os.Args {
+		if x == "autoscale" {
+			proxy = true
+		}
+	}
+	if !proxy {
+		fmt.Println("cannot proxy. local fallback")
+		return
+	}
+	// Local fallback
+
 	id, host, ip := oraclecloud.LaunchInstance(maxRuntime)
 	if id == "" {
 		fmt.Println("Failed Launch")

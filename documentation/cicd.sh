@@ -35,7 +35,7 @@ sleep 2
 
 export AUTOSCALE=no-proxy
 if -f [ -f /tmp/voipautoscale ]; then
-  export AUTOSCALE=allproxy
+  export AUTOSCALE=autoscale
 fi
 pgrep voipbroker || (nohup /opt/voipbroker $AUTOSCALE >>/var/log/voipbroker &) || true
 
