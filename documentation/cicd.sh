@@ -19,8 +19,8 @@ export TZ='America/Los_Angeles'
 cd /tmp/voip
 
 # Save some logs
-git pull -r > /var/log/voip
-date >> /var/log/voip
+git pull -r > /var/log/voippull
+date > /var/log/voip
 export AUTOSCALE=no-proxy
 ls /tmp/voipautoscale >> /var/log/voip
 if [ -f /tmp/voipautoscale ]; then
@@ -32,12 +32,12 @@ git log --format=oneline >> /var/log/voip
 
 # We may want to run a privileged container in the future. It is difficult to mix podman and golang
 cd /tmp/voip
-(cat /var/log/voip | grep 'Current branch main is up to date.') || go build -o /opt/voipbroker ./eos/main/main.go >> /var/log/voip || true
+(cat /var/log/voippull | grep 'Current branch main is up to date.') || go build -o /opt/voipbroker ./eos/main/main.go >> /var/log/voip || true
 
 # Running as root on the network is dangerous so we need to be very lean with the codebase in /eos
 # Run the broker if needed. It launches containers that do the call lines
 #pgrep voipbroker || (DOCKERIMAGE=line.eper.io/line SITEURL=https://l.eper.io APIKEY=JVPSVWUIUTSXGPTWOVEWMHBUFJMVIALPQDMXQZROKZLYPYQGMBRQZMRWSQZIACQDKIFVWYQBWGGHQLGALYBQTAQNLHDR nohup /opt/voipbroker >>/var/log/voipbroker &)
-(cat /var/log/voip | grep 'Current branch main is up to date.') || kill -9 `pgrep voipbroker`
+(cat /var/log/voippull | grep 'Current branch main is up to date.') || kill -9 `pgrep voipbroker`
 sleep 2
 
 pgrep voipbroker || (nohup /opt/voipbroker $AUTOSCALE >>/var/log/voipbroker &) || true
