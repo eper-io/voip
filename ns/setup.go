@@ -86,7 +86,7 @@ func SetupComputeCluster() {
 	list = list + fmt.Sprintf(" --https-port 4443 --http-01-port 4444 certonly")
 	fmt.Println(list)
 
-	time.Sleep(3 * time.Second)
+	time.Sleep(4 * time.Second)
 	_, err = os.Stat(fmt.Sprintf("/etc/letsencrypt/live/%s", metadata.Domain))
 	if err != nil {
 		ret, _ := exec.Command("certbot", strings.Split(list, " ")[1:]...).CombinedOutput()
