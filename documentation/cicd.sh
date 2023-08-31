@@ -15,6 +15,7 @@
 
 # Short glitch in the service only when updated. Acceptable.
 export TZ='America/Los_Angeles'
+
 cd /tmp/voip
 
 # Save some logs
