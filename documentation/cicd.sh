@@ -25,12 +25,12 @@ git log --format=oneline >> /var/log/voip
 
 # We may want to run a privileged container in the future. It is difficult to mix podman and golang
 cd /tmp/voip
-(cat /var/log/voip | grep 'up to date') || go build -o /opt/voipbroker ./eos/main/main.go >> /var/log/voip || true
+(cat /var/log/voip | grep 'Your branch is ahead of') || go build -o /opt/voipbroker ./eos/main/main.go >> /var/log/voip || true
 
 # Running as root on the network is dangerous so we need to be very lean with the codebase in /eos
 # Run the broker if needed. It launches containers that do the call lines
 #pgrep voipbroker || (DOCKERIMAGE=line.eper.io/line SITEURL=https://l.eper.io APIKEY=JVPSVWUIUTSXGPTWOVEWMHBUFJMVIALPQDMXQZROKZLYPYQGMBRQZMRWSQZIACQDKIFVWYQBWGGHQLGALYBQTAQNLHDR nohup /opt/voipbroker >>/var/log/voipbroker &)
-(cat /var/log/voip | grep 'up to date') || kill -9 `pgrep voipbroker`
+(cat /var/log/voip | grep 'Your branch is ahead of') || kill -9 `pgrep voipbroker`
 sleep 2
 
 export AUTOSCALE=no-proxy
