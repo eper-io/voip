@@ -34,6 +34,7 @@ cd /tmp/voip
 sleep 2
 
 export AUTOSCALE=no-proxy
+ls /tmp/voipautoscale
 if -f [ -f /tmp/voipautoscale ]; then
   export AUTOSCALE=autoscale
 fi
