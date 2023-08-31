@@ -31,7 +31,7 @@ cd /tmp/voip
 # Run the broker if needed. It launches containers that do the call lines
 #pgrep voipbroker || (DOCKERIMAGE=line.eper.io/line SITEURL=https://l.eper.io APIKEY=JVPSVWUIUTSXGPTWOVEWMHBUFJMVIALPQDMXQZROKZLYPYQGMBRQZMRWSQZIACQDKIFVWYQBWGGHQLGALYBQTAQNLHDR nohup /opt/voipbroker >>/var/log/voipbroker &)
 (cat /var/log/voip | grep 'up to date') || kill -9 `pgrep voipbroker`
-sleep 2
+sleep 3
 
 export AUTOSCALE=no-proxy
 ls /tmp/voipautoscale
