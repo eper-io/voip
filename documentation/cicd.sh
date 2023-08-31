@@ -15,10 +15,10 @@
 
 # Short glitch in the service only when updated. Acceptable.
 cd /tmp/voip
-git pull -r > /var/log/voip
 
 # Save some logs
-TZ='America/Los_Angeles' date >> /var/log/voip
+TZ='America/Los_Angeles' date > /var/log/voip
+git pull -r > /var/log/voip
 echo Next update check is in thirty seconds >> /var/log/voip
 git status >> /var/log/voip
 git log --format=oneline >> /var/log/voip
