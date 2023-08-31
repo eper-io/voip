@@ -94,5 +94,7 @@ func SetupComputeCluster() {
 		if strings.Contains(string(ret), "too many failed authorizations recently") {
 			_ = os.MkdirAll(fmt.Sprintf("/etc/letsencrypt/live/%s", metadata.Domain), 0700)
 		}
+	} else {
+		fmt.Println("certbot skipped due to existing ", fmt.Sprintf("/etc/letsencrypt/live/%s", metadata.Domain))
 	}
 }
