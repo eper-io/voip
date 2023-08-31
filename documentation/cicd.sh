@@ -14,11 +14,18 @@
 # 26881f8f71cf2e7e1ec37c1552cfeb9142be86fa security hardening
 
 # Short glitch in the service only when updated. Acceptable.
+export TZ='America/Los_Angeles'
 cd /tmp/voip
 
 # Save some logs
-TZ='America/Los_Angeles' date > /var/log/voip
-git pull -r > /var/log/voip
+date > /var/log/voip
+export AUTOSCALE=no-proxy
+ls /tmp/voipautoscale
+if [ -f /tmp/voipautoscale ]; then
+  export AUTOSCALE=autoscale
+fi
+echo runnig /opt/voipbroker $AUTOSCALE >> /var/log/voip
+git pull -r >> /var/log/voip
 echo Next update check is in thirty seconds >> /var/log/voip
 git status >> /var/log/voip
 git log --format=oneline >> /var/log/voip
@@ -33,12 +40,6 @@ cd /tmp/voip
 (cat /var/log/voip | grep 'Current branch main is up to date.') || kill -9 `pgrep voipbroker`
 sleep 2
 
-export AUTOSCALE=no-proxy
-ls /tmp/voipautoscale
-if [ -f /tmp/voipautoscale ]; then
-  export AUTOSCALE=autoscale
-fi
-echo runnig /opt/voipbroker $AUTOSCALE
 pgrep voipbroker || (nohup /opt/voipbroker $AUTOSCALE >>/var/log/voipbroker &) || true
 
 # Build voip broker line containers
